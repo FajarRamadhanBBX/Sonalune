@@ -1,4 +1,4 @@
-package com.example.a8_uts.view;
+package com.example.a8_uts.view.activities;
 
 import android.os.Bundle;
 
