@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.a8_uts"
+    namespace = "com.sonalune.pbp"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.a8_uts"
+        applicationId = "com.sonalune.pbp"
         minSdk = 21
         targetSdk = 35
         versionCode = 1

@@ -1,4 +1,4 @@
-package com.example.a8_uts;
+package com.sonalune.pbp;
 
 import org.junit.Test;
 
