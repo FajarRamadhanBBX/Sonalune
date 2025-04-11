@@ -24,3 +24,40 @@ public class ActivityAuth extends AppCompatActivity {
         });
     }
 }
+
+//public class AuthActivity extends AppCompatActivity {
+//
+//    LinearLayout layoutSignUp, layoutSignIn;
+//    Button btnTabSignUp, btnTabSignIn;
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_auth);
+//
+//        layoutSignUp = findViewById(R.id.layoutSignUp);
+//        layoutSignIn = findViewById(R.id.layoutSignIn);
+//        btnTabSignUp = findViewById(R.id.btnTabSignUp);
+//        btnTabSignIn = findViewById(R.id.btnTabSignIn);
+//
+//        btnTabSignUp.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                layoutSignUp.setVisibility(View.VISIBLE);
+//                layoutSignIn.setVisibility(View.GONE);
+//                btnTabSignUp.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#D14F72")));
+//                btnTabSignIn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FDD1D9")));
+//            }
+//        });
+//
+//        btnTabSignIn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                layoutSignUp.setVisibility(View.GONE);
+//                layoutSignIn.setVisibility(View.VISIBLE);
+//                btnTabSignUp.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FDD1D9")));
+//                btnTabSignIn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#D14F72")));
+//            }
+//        });
+//    }
+//}

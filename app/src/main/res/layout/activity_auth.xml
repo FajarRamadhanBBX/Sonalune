@@ -1,10 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activities.ActivityAuth">
+    tools:context=".view.activities.ActivityAuth"
+    android:background="@color/secondary1">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginHorizontal="24dp"
+        >
+
+        <ImageView
+            android:id="@+id/logoSignUp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/logo"/>
+
+        <LinearLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btnTabSignUp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SIGN UP"
+                android:backgroundTint="@color/primary1"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btnTabSignIn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SIGN UP"
+                android:backgroundTint="@color/primary2"
+                android:textColor="@color/primary1" />
+
+<!--            <Button-->
+<!--                android:id="@+id/btnTabSignUp"-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:background="@drawable/button_square_active"-->
+<!--                android:text="SIGN UP"-->
+<!--                android:textSize="16sp"/>-->
+
+<!--            <Button-->
+<!--                android:id="@+id/btnTabSignIn"-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:background="@drawable/button_square_inactive"-->
+<!--                android:text="LOGIN"-->
+<!--                android:textSize="16sp"/>-->
+        </LinearLayout>
+
+        <!-- SIGN UP Form -->
+        <LinearLayout
+            android:id="@+id/layoutSignUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+
+            <!-- Nama -->
+            <!-- Email -->
+            <!-- Password -->
+            <!-- Tombol Sign Up -->
+
+        </LinearLayout>
+
+        <!-- SIGN IN Form -->
+        <LinearLayout
+            android:id="@+id/layoutSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:visibility="gone">
+
+            <!-- Email -->
+            <!-- Password -->
+            <!-- Tombol Sign In -->
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
