@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">8_uts</string>
+    <string name="auth_name">Name</string>
+    <string name="auth_email">Email</string>
+    <string name="auth_password">Password</string>
+    <string name="auth_sign_up">SIGN UP</string>
+    <string name="auth_sign_in">SIGN IN</string>
 </resources>

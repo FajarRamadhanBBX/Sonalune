@@ -1,15 +1,57 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+# Gradle files
+.gradle/
+build/
+**/build/
+
+# Local configuration files
 local.properties
+.idea/
+.DS_Store
+
+# Log files
+*.log
+
+# Android Studio specific
+*.iml
+.idea/workspace.xml
+.idea/libraries/
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/assetWizardSettings.xml
+.idea/dictionaries/
+.idea/vcs.xml
+
+# Keystore files
+*.jks
+*.keystore
+
+# Proguard
+proguard/
+proguard-rules.pro
+
+# Miscellaneous
+*.class
+*.jar
+*.war
+*.ear
+*.apk
+*.ap_
+*.dex
+*.so
+*.obj
+*.o
+*.a
+*.lib
+*.hprof
+
+# IntelliJ IDEA
+out/
+
+# Generated files
+captures/
+output.json
+
+# Crashlytics
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties

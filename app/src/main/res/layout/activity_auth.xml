@@ -1,66 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/auth"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.activities.ActivityAuth"
-    android:background="@color/secondary1">
+    android:background="@color/secondary1"
+    android:gravity="center_horizontal"
+    android:paddingTop="80dp"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:layout_marginHorizontal="24dp"
+        android:layout_marginHorizontal="32dp"
         >
 
         <ImageView
             android:id="@+id/logoSignUp"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/logo"/>
+            android:src="@drawable/im_logo"/>
 
         <LinearLayout
             android:id="@+id/tabLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="2">
 
-            <Button
-                android:id="@+id/btnTabSignUp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SIGN UP"
-                android:backgroundTint="@color/primary1"
-                android:textColor="@color/white" />
-
-            <Button
-                android:id="@+id/btnTabSignIn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SIGN UP"
-                android:backgroundTint="@color/primary2"
-                android:textColor="@color/primary1" />
-
 <!--            <Button-->
 <!--                android:id="@+id/btnTabSignUp"-->
-<!--                android:layout_width="150dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:background="@drawable/button_square_active"-->
-<!--                android:text="SIGN UP"-->
-<!--                android:textSize="16sp"/>-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="@string/auth_sign_up"-->
+<!--                android:backgroundTint="@color/primary1"-->
+<!--                android:textColor="@color/white" />-->
 
 <!--            <Button-->
 <!--                android:id="@+id/btnTabSignIn"-->
-<!--                android:layout_width="150dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:background="@drawable/button_square_inactive"-->
-<!--                android:text="LOGIN"-->
-<!--                android:textSize="16sp"/>-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="@string/auth_sign_in"-->
+<!--                android:backgroundTint="@color/primary2"-->
+<!--                android:textColor="@color/primary1" />-->
+
+            <Button
+                android:id="@+id/btnTabSignUp"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:background="@drawable/btn_active"
+                android:text="@string/auth_sign_up"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+
+            <Button
+                android:id="@+id/btnTabSignIn"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:background="@drawable/btn_inactive"
+                android:text="@string/auth_sign_in"
+                android:textSize="16sp"/>
         </LinearLayout>
 
         <!-- SIGN UP Form -->
@@ -69,13 +74,97 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:visibility="visible">
 
             <!-- Nama -->
-            <!-- Email -->
-            <!-- Password -->
-            <!-- Tombol Sign Up -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_name"
+                    android:layout_marginEnd="@dimen/margin_small"/>
+
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/auth_name"
+                    android:textSize="@dimen/text_normal"
+                    android:textColorHint="@color/primary1"
+                    android:textColor="@color/primary1"
+                    android:textStyle="bold"
+                    android:background="@drawable/et_auth"
+                    android:inputType="text"
+                    android:padding="@dimen/margin_medium"/>
+            </LinearLayout>
+
+            <!-- Email -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/margin_large">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_email"
+                    android:layout_marginEnd="@dimen/margin_small"/>
+
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/auth_email"
+                    android:textSize="@dimen/text_normal"
+                    android:textColorHint="@color/primary1"
+                    android:textColor="@color/primary1"
+                    android:textStyle="bold"
+                    android:background="@drawable/et_auth"
+                    android:inputType="textEmailAddress"
+                    android:padding="@dimen/margin_medium"/>
+            </LinearLayout>
+
+            <!-- Password -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/margin_large">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_lock"
+                    android:layout_marginEnd="@dimen/margin_small"/>
+
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/auth_password"
+                    android:textSize="@dimen/text_normal"
+                    android:textColorHint="@color/primary1"
+                    android:textColor="@color/primary1"
+                    android:textStyle="bold"
+                    android:background="@drawable/et_auth"
+                    android:inputType="textPassword"
+                    android:padding="@dimen/margin_medium"/>
+            </LinearLayout>
+
+            <!-- Tombol Sign Up -->
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/auth_sign_up"
+                android:backgroundTint="@color/primary1"
+                android:layout_marginTop="@dimen/margin_large"
+                />
         </LinearLayout>
 
         <!-- SIGN IN Form -->
@@ -88,10 +177,69 @@
             android:visibility="gone">
 
             <!-- Email -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_email"
+                    android:layout_marginEnd="@dimen/margin_small"/>
+
+                <EditText
+                    android:id="@+id/et_email_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/auth_email"
+                    android:textSize="@dimen/text_normal"
+                    android:textColorHint="@color/primary1"
+                    android:textColor="@color/primary1"
+                    android:textStyle="bold"
+                    android:background="@drawable/et_auth"
+                    android:inputType="textEmailAddress"
+                    android:padding="@dimen/margin_medium"/>
+            </LinearLayout>
+
             <!-- Password -->
-            <!-- Tombol Sign In -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/margin_large">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_lock"
+                    android:layout_marginEnd="@dimen/margin_small"/>
+
+                <EditText
+                    android:id="@+id/et_password_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/auth_password"
+                    android:textSize="@dimen/text_normal"
+                    android:textColorHint="@color/primary1"
+                    android:textColor="@color/primary1"
+                    android:textStyle="bold"
+                    android:background="@drawable/et_auth"
+                    android:inputType="textPassword"
+                    android:padding="@dimen/margin_medium"/>
+            </LinearLayout>
+
+            <!-- Tombol Sign Up -->
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/auth_sign_in"
+                android:backgroundTint="@color/primary1"
+                android:layout_marginTop="@dimen/margin_large"
+                />
+
 
         </LinearLayout>
 
     </LinearLayout>
-</ScrollView>
+</LinearLayout>
