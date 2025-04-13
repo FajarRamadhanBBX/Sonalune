@@ -5,7 +5,6 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary1</item>
-
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondary1</item>
     </style>
