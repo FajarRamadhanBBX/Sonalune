@@ -49,19 +49,6 @@ public class ActivityAuth extends AppCompatActivity {
         btnTabSignUp = findViewById(R.id.btnTabSignUp);
         btnTabSignIn = findViewById(R.id.btnTabSignIn);
 
-        btnTabSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layoutSignUp.setVisibility(View.VISIBLE);
-                layoutSignIn.setVisibility(View.GONE);
-                Color Color = null;
-                btnTabSignUp.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#D14D72")));
-                btnTabSignUp.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
-                btnTabSignIn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FCC8D1")));
-                btnTabSignIn.setTextColor(ColorStateList.valueOf(Color.parseColor("#D14D72")));
-            }
-        });
-
         btnTabSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,5 +60,18 @@ public class ActivityAuth extends AppCompatActivity {
                 btnTabSignUp.setTextColor(ColorStateList.valueOf(Color.parseColor("#D14D72")));
             }
         });
-    }
-}
+
+        // Handle Sign In button click
+        Button btnSignIn = findViewById(R.id.btn_sign_in);
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Add your login validation logic here (e.g., check credentials)
+
+                // Navigate to MainActivity after successful login
+                Intent intent = new Intent(ActivityAuth.this, MainActivity.class);
+                startActivity(intent);
+                finish(); // Close the current activity
+            }
+        });
+    }}
