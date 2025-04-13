@@ -312,8 +312,8 @@
 
                             <!-- Add Playlist Icon -->
                             <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
                                 android:src="@drawable/ic_add_playlist"
                                 android:tint="@color/primary1" />
 
@@ -326,7 +326,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="New Playlist"
+                                android:text="Add More Playlist"
                                 android:textSize="14sp"
                                 android:gravity="center_vertical" />
                         </LinearLayout>
@@ -336,106 +336,118 @@
             </FrameLayout>
         </LinearLayout>
 
-        <!-- Pick for You -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pick for You"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginTop="24dp"/>
-
+        <!--  Pick for you section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="16dp">
 
-            <!-- Playlist Container -->
-            <FrameLayout
+            <!-- Pick for You Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pick for You"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Pick for You Grid -->
+            <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp">
+                android:columnCount="3"
+                android:rowCount="2"
+                android:layout_gravity="center">
 
-                <GridLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:columnCount="2"
-                    android:rowCount="3"
-                    android:layout_gravity="center">
+                <!-- Card 1 -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="115dp"
+                    android:layout_height="115dp"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="4dp">
 
-                    <!-- Playlist Card 1 -->
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="4dp">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_playlist_cover"
+                        android:scaleType="centerCrop" />
+                </androidx.cardview.widget.CardView>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:padding="8dp">
+                <!-- Repeat for other cards -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="115dp"
+                    android:layout_height="115dp"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="4dp">
 
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="100dp"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/ic_playlist_cover" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_playlist_cover"
+                        android:scaleType="centerCrop" />
+                </androidx.cardview.widget.CardView>
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Playlist Name"
-                                android:textSize="14sp"
-                                android:gravity="center"
-                                android:layout_marginTop="4dp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
+                <!-- Add more cards as needed -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="115dp"
+                    android:layout_height="115dp"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="4dp">
 
-                    <!-- Repeat for other playlist cards -->
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_playlist_cover"
+                        android:scaleType="centerCrop" />
+                </androidx.cardview.widget.CardView>
 
-                    <!-- New Playlist Button -->
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="4dp"
-                        android:foreground="?attr/selectableItemBackground">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="115dp"
+                    android:layout_height="115dp"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="4dp">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:padding="8dp">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_playlist_cover"
+                        android:scaleType="centerCrop" />
+                </androidx.cardview.widget.CardView>
 
-                            <ImageView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:src="@drawable/ic_add_playlist"
-                                android:tint="@color/primary1" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="115dp"
+                    android:layout_height="115dp"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="4dp">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="New Playlist"
-                                android:textSize="14sp"
-                                android:gravity="center"
-                                android:layout_marginTop="4dp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_playlist_cover"
+                        android:scaleType="centerCrop" />
+                </androidx.cardview.widget.CardView>
 
-                </GridLayout>
-            </FrameLayout>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="115dp"
+                    android:layout_height="115dp"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="4dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_playlist_cover"
+                        android:scaleType="centerCrop" />
+                </androidx.cardview.widget.CardView>
+            </GridLayout>
         </LinearLayout>
-
 
         <!-- Add static cards or album covers here -->
         </GridLayout>
