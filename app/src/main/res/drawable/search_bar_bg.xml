@@ -1,11 +1,11 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <solid android:color="@android:color/white" />
+    <solid android:color="@color/secondary1" />
 
     <corners android:radius="12dp" />
 
     <stroke
         android:width="1dp"
-        android:color="#FFB6C1" /> <!-- ganti sesuai warna desain kamu -->
+        android:color="@color/primary1" /> <!-- ganti sesuai warna desain kamu -->
 </shape>
