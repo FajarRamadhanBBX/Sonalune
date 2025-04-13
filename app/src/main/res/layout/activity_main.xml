@@ -13,36 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp" />
 
-    <!-- Music status bar (fake Spotify style, can be extracted later to a layout file) -->
-    <LinearLayout
-        android:id="@+id/music_status_bar"
+    <!-- Music Player (PlayerCardView) -->
+    <com.sonalune.pbp.view.ui_components.PlayerCardView
+        android:id="@+id/player_card"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="#222"
-        android:orientation="horizontal"
-        android:padding="12dp">
+        android:layout_height="wrap_content" />
 
-        <!-- Fake status info -->
-        <TextView
-            android:id="@+id/tv_song_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Now Playing: Lo-Fi Chill"
-            android:textColor="#fff"/>
-
-        <!-- Play/Pause icon -->
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_lock"
-            app:tint="#fff" />
-    </LinearLayout>
-
-    <!-- Bottom Navigation -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
+    <!-- Bottom Navigation (NavBar) -->
+    <com.sonalune.pbp.view.ui_components.NavBar
+        android:id="@+id/navbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:menu="@menu/bottom_nav_menu" />
+        android:layout_height="wrap_content" />
 </LinearLayout>
