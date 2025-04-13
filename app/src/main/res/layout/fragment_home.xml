@@ -448,9 +448,5 @@
                 </androidx.cardview.widget.CardView>
             </GridLayout>
         </LinearLayout>
-
-        <!-- Add static cards or album covers here -->
-        </GridLayout>
-
     </LinearLayout>
 </ScrollView>
