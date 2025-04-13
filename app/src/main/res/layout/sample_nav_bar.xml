@@ -31,7 +31,7 @@
             <View
                 android:layout_width="64dp"
                 android:layout_height="32dp"
-                android:background="" />
+                android:background="@null" />
 
             <ImageView
                 android:layout_width="24dp"
@@ -69,7 +69,7 @@
             <View
                 android:layout_width="64dp"
                 android:layout_height="32dp"
-                android:background="drawa" />
+                android:background="@null" />
 
             <ImageView
                 android:layout_width="24dp"
@@ -108,7 +108,7 @@
             <View
                 android:layout_width="64dp"
                 android:layout_height="32dp"
-                android:background="" />
+                android:background="@null" />
 
             <ImageView
                 android:layout_width="24dp"
