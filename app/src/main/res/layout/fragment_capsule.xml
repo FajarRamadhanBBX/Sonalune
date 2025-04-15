@@ -21,160 +21,77 @@
         />
 
         <!-- ALL TIME TITLE -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ALL TIME"
-            style="@style/TextAppearance.MaterialComponents.Headline5"
-            android:textStyle="bold"
-            android:textColor="@color/primary1"
-            android:paddingTop="16dp"
-            android:paddingBottom="8dp"
-            android:layout_marginBottom="16dp" />
-        />
-
-        <!-- Music Minutes Card -->
-        <include
-            layout="@layout/card_music_minutes"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
-        />
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
 
-        <include
-            layout="@layout/card_most_played_songs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
-        />
-
-        <!-- Artists Circle Row -->
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            >
-
-            <LinearLayout
+            <!-- ALL TIME TITLE -->
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
+                android:text="ALL TIME"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textStyle="bold"
+                android:textColor="@color/primary1"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp"
+                android:layout_marginBottom="16dp" />
 
-                <!-- Each artist mock -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:layout_marginEnd="16dp">
+            <!-- Music Minutes Card -->
+            <include
+                layout="@layout/card_music_minutes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:src="@drawable/ic_profile"
-                        android:layout_gravity="center" />
+            <!-- Most Played Songs Card -->
+            <include
+                layout="@layout/card_most_played_songs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Artist Name"
-                        android:textSize="12sp"
-                        android:gravity="center"
-                        android:layout_marginTop="4dp" />
-                </LinearLayout>
-
-                <!-- Repeat for other artists -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:layout_marginEnd="16dp">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:src="@drawable/ic_profile"
-                        android:layout_gravity="center" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Artist Name"
-                        android:textSize="12sp"
-                        android:gravity="center"
-                        android:layout_marginTop="4dp" />
-                </LinearLayout>
+            <!-- Artists Circle Row -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:layout_marginEnd="16dp">
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:src="@drawable/ic_profile"
-                        android:layout_gravity="center" />
-
-                    <TextView
+                    <!-- Artist Items -->
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Artist Name"
-                        android:textSize="12sp"
-                        android:gravity="center"
-                        android:layout_marginTop="4dp" />
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginEnd="16dp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/ic_profile"
+                            android:layout_gravity="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Artist Name"
+                            android:textSize="12sp"
+                            android:gravity="center"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+
+                    <!-- Repeat for other artists -->
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:layout_marginEnd="16dp">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:src="@drawable/ic_profile"
-                        android:layout_gravity="center" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Artist Name"
-                        android:textSize="12sp"
-                        android:gravity="center"
-                        android:layout_marginTop="4dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:layout_marginEnd="16dp">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:src="@drawable/ic_profile"
-                        android:layout_gravity="center" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Artist Name"
-                        android:textSize="12sp"
-                        android:gravity="center"
-                        android:layout_marginTop="4dp" />
-                </LinearLayout>
-
-            </LinearLayout>
-        </HorizontalScrollView>
+            </HorizontalScrollView>
+        </LinearLayout>
         <!-- Spacer -->
         <View
             android:layout_width="match_parent"
@@ -182,5 +99,79 @@
 
         <!-- MARET SECTION... replicate layout structure -->
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
+
+            <!-- ALL TIME TITLE -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ALL TIME"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textStyle="bold"
+                android:textColor="@color/primary1"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Music Minutes Card -->
+            <include
+                layout="@layout/card_music_minutes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Most Played Songs Card -->
+            <include
+                layout="@layout/card_most_played_songs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Artists Circle Row -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+                    <!-- Artist Items -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginEnd="16dp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/ic_profile"
+                            android:layout_gravity="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Artist Name"
+                            android:textSize="12sp"
+                            android:gravity="center"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+
+                    <!-- Repeat for other artists -->
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+
     </LinearLayout>
+
 </ScrollView>

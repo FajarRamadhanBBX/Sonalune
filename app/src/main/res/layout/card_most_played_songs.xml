@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@color/primary1"
         android:padding="16dp">
 
         <!-- Title -->
@@ -20,7 +21,7 @@
             android:text="Most Played Songs"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/primary1"
+            android:textColor="@color/secondary1"
             android:layout_marginBottom="8dp" />
 
         <!-- Song List -->
@@ -54,13 +55,14 @@
                     android:textSize="14sp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="@color/primary2" />
+                    android:textColor="@color/secondary1" />
 
                 <!-- Three Dots Menu -->
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_more_vert"
+                    android:scaleType="centerInside"
                     android:background="@null"
                     android:contentDescription="More options" />
             </LinearLayout>
@@ -90,13 +92,14 @@
                     android:textSize="14sp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="@color/primary2" />
+                    android:textColor="@color/secondary1" />
 
                 <!-- Three Dots Menu -->
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_more_vert"
+                    android:scaleType="centerInside"
                     android:background="@null"
                     android:contentDescription="More options" />
             </LinearLayout>
@@ -125,13 +128,86 @@
                     android:textSize="14sp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="@color/primary2" />
+                    android:textColor="@color/secondary1" />
 
                 <!-- Three Dots Menu -->
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_more_vert"
+                    android:scaleType="centerInside"
+                    android:background="@null"
+                    android:contentDescription="More options" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="8dp">
+
+                <!-- Song Cover -->
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_playlist_cover"
+                    android:scaleType="centerCrop"
+                    android:layout_marginEnd="8dp" />
+
+                <!-- Song Name -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Song Name"
+                    android:textSize="14sp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/secondary1" />
+
+                <!-- Three Dots Menu -->
+                <ImageButton
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_more_vert"
+                    android:scaleType="centerInside"
+                    android:background="@null"
+                    android:contentDescription="More options" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="8dp">
+
+                <!-- Song Cover -->
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_playlist_cover"
+                    android:scaleType="centerCrop"
+                    android:layout_marginEnd="8dp" />
+
+                <!-- Song Name -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Song Name"
+                    android:textSize="14sp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/secondary1" />
+
+                <!-- Three Dots Menu -->
+                <ImageButton
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_more_vert"
+                    android:scaleType="centerInside"
                     android:background="@null"
                     android:contentDescription="More options" />
             </LinearLayout>
