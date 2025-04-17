@@ -12,14 +12,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- TopBar with Back Button -->
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_back"
-            android:layout_marginBottom="16dp" />
-        />
-
         <!-- ALL TIME TITLE -->
         <LinearLayout
             android:layout_width="match_parent"
