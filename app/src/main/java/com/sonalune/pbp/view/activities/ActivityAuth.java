@@ -51,19 +51,6 @@ public class ActivityAuth extends AppCompatActivity {
         btnSignUp = findViewById(R.id.btnSignUp);
         btnSignIn = findViewById(R.id.btnSignIn);
 
-        btnTabSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layoutSignUp.setVisibility(View.VISIBLE);
-                layoutSignIn.setVisibility(View.GONE);
-                Color Color = null;
-                btnTabSignUp.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#D14D72")));
-                btnTabSignUp.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
-                btnTabSignIn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FCC8D1")));
-                btnTabSignIn.setTextColor(ColorStateList.valueOf(Color.parseColor("#D14D72")));
-            }
-        });
-
         btnTabSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

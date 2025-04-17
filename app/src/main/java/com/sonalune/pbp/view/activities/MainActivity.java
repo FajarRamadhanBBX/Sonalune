@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.sonalune.pbp.R;
 import com.sonalune.pbp.view.fragments.HomeFragment;
+import com.sonalune.pbp.view.fragments.PlaylistContent;
+import com.sonalune.pbp.view.ui_components.NavBar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,41 +24,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomNav = findViewById(R.id.bottom_nav);
+        // Find NavBar
+        NavBar navBar = findViewById(R.id.navbar);
 
         // Load default fragment
         loadFragment(new HomeFragment());
 
-        // Set nav listener
-        bottomNav.setOnItemSelectedListener(item -> {
+        // Set NavBar listener
+        navBar.setNavBarListener(tab -> {
             Fragment selectedFragment = null;
 
-            if (item.getItemId() == R.id.nav_home) {
-                selectedFragment = new HomeFragment();
-                //                case R.id.nav_playlist:
-//                    selectedFragment = new PlaylistFragment();
-//                    break;
-//                case R.id.nav_capsule:
-//                    selectedFragment = new CapsuleFragment();
-//                    break;
+            switch (tab) {
+                case "home":
+                    selectedFragment = new HomeFragment();
+                    break;
+                case "capsuled":
+                    selectedFragment = new PlaylistContent(); // Replace with CapsuleFragment if needed
+                    break;
+                case "profile":
+                    // Add logic for profile tab
+                    break;
             }
-// ubah nanti
-//            switch (item.getItemId()) {
-//                case R.id.nav_home:
-//                    selectedFragment = new HomeFragment();
-//                    break;
-////                case R.id.nav_playlist:
-////                    selectedFragment = new PlaylistFragment();
-////                    break;
-////                case R.id.nav_capsule:
-////                    selectedFragment = new CapsuleFragment();
-////                    break;
-//            }
 
-            return loadFragment(selectedFragment);
+            loadFragment(selectedFragment);
         });
     }
-
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {
             getSupportFragmentManager()

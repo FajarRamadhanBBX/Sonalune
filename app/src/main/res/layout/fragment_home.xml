@@ -2,7 +2,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/secondary1"
+    >
 
     <LinearLayout
         android:orientation="vertical"
@@ -107,6 +109,7 @@
                         android:layout_width="172dp"
                         android:layout_height="50dp"
                         android:layout_margin="8dp"
+                        android:background="@color/white"
                         app:cardCornerRadius="8dp"
                         app:cardElevation="4dp">
 
@@ -448,9 +451,5 @@
                 </androidx.cardview.widget.CardView>
             </GridLayout>
         </LinearLayout>
-
-        <!-- Add static cards or album covers here -->
-        </GridLayout>
-
     </LinearLayout>
 </ScrollView>
