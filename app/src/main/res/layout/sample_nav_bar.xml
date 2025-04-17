@@ -18,20 +18,16 @@
         android:layout_weight="1"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true">
 
         <FrameLayout
             android:id="@+id/nav_home_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:focusable="true">
-
-            <View
-                android:layout_width="64dp"
-                android:layout_height="32dp"
-                android:background="@null" />
+            android:clickable="false"
+            android:focusable="false">
 
             <ImageView
                 android:layout_width="24dp"
@@ -40,6 +36,7 @@
                 android:layout_gravity="center"
                 app:tint="@color/primary1" />
         </FrameLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,15 +53,16 @@
         android:layout_weight="1"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true">
 
         <FrameLayout
             android:id="@+id/nav_capsuled_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:focusable="true">
+            android:clickable="false"
+            android:focusable="false">
 
             <View
                 android:layout_width="64dp"
@@ -95,15 +93,16 @@
         android:layout_weight="1"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true">
 
         <FrameLayout
             android:id="@+id/nav_profile_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:focusable="true">
+            android:clickable="false"
+            android:focusable="false">
 
             <View
                 android:layout_width="64dp"
