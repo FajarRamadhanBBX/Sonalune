@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.sonalune.pbp.R;
+import com.sonalune.pbp.view.fragments.CapsuleFragment;
 import com.sonalune.pbp.view.fragments.HomeFragment;
 import com.sonalune.pbp.view.fragments.PlaylistContent;
 import com.sonalune.pbp.view.ui_components.NavBar;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new HomeFragment();
                     break;
                 case "capsuled":
-                    selectedFragment = new PlaylistContent(); // Replace with CapsuleFragment if needed
+                    selectedFragment = new CapsuleFragment(); // Replace with CapsuleFragment if needed
                     break;
                 case "profile":
                     // Add logic for profile tab
