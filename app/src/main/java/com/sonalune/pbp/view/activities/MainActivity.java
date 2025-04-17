@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
         // Load default fragment
         loadFragment(new HomeFragment());
 
+        // default tab after entering home
+        navBar.selectTab("home");
+
         // Set NavBar listener
         navBar.setNavBarListener(tab -> {
             Fragment selectedFragment = null;
