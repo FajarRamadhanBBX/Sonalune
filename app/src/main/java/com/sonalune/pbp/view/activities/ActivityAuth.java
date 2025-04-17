@@ -37,7 +37,7 @@ import com.sonalune.pbp.R;
 
 public class ActivityAuth extends AppCompatActivity {
     LinearLayout layoutSignUp, layoutSignIn;
-    Button btnTabSignUp, btnTabSignIn;
+    Button btnTabSignUp, btnTabSignIn, btnSignUp, btnSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +46,10 @@ public class ActivityAuth extends AppCompatActivity {
 
         layoutSignUp = findViewById(R.id.layoutSignUp);
         layoutSignIn = findViewById(R.id.layoutSignIn);
-        btnTabSignUp = findViewById(R.id.btnTabSignUp);
         btnTabSignIn = findViewById(R.id.btnTabSignIn);
+        btnTabSignUp = findViewById(R.id.btnTabSignUp);
+        btnSignUp = findViewById(R.id.btnSignUp);
+        btnSignIn = findViewById(R.id.btnSignIn);
 
         btnTabSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,17 +63,20 @@ public class ActivityAuth extends AppCompatActivity {
             }
         });
 
-        // Handle Sign In button click
-        Button btnSignIn = findViewById(R.id.btn_sign_in);
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v){
+               Intent home = new Intent(ActivityAuth.this, MainActivity.class);
+               startActivity(home);
+           }
+        });
+
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // Add your login validation logic here (e.g., check credentials)
-
-                // Navigate to MainActivity after successful login
-                Intent intent = new Intent(ActivityAuth.this, MainActivity.class);
-                startActivity(intent);
-                finish(); // Close the current activity
+            public void onClick(View v){
+                Intent home = new Intent(ActivityAuth.this, MainActivity.class);
+                startActivity(home);
             }
         });
-    }}
+    }
+}
