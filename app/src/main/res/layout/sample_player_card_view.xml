@@ -89,6 +89,6 @@
             android:max="100"
             android:progress="40"
             android:progressTint="@color/primary1"
-            android:backgroundTint="@color/secondary2" />
+            android:progressBackgroundTint="@color/secondary1" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

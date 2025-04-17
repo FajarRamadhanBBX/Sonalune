@@ -162,8 +162,8 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.sonalune.pbp.view.ui_components.ProgressBarComponent
-                android:layout_width="match_parent"
+            <com.sonalune.pbp.view.ui_components.ProgressBarPlayerScreen
+                android:layout_width="360dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="28dp"
                 />

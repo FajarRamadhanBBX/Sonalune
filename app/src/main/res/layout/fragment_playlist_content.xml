@@ -82,7 +82,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/im_bernadya2" />
+                    android:src="@drawable/im_bernadya1" />
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -208,7 +208,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/im_bernadya2" />
+                    android:src="@drawable/im_bernadya1" />
 
                 <LinearLayout
                     android:orientation="vertical"
