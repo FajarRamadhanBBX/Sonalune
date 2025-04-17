@@ -39,10 +39,8 @@
             app:tint="#fff" />
     </LinearLayout>
 
-    <!-- Bottom Navigation -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
+    <com.sonalune.pbp.view.ui_components.NavBar
+        android:id="@+id/navbar_component"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:menu="@menu/bottom_nav_menu" />
+        android:layout_height="wrap_content" />
 </LinearLayout>

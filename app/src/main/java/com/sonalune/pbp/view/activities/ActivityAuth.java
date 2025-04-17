@@ -37,7 +37,7 @@ import com.sonalune.pbp.R;
 
 public class ActivityAuth extends AppCompatActivity {
     LinearLayout layoutSignUp, layoutSignIn;
-    Button btnTabSignUp, btnTabSignIn;
+    Button btnTabSignUp, btnTabSignIn, btnSignUp, btnSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +46,10 @@ public class ActivityAuth extends AppCompatActivity {
 
         layoutSignUp = findViewById(R.id.layoutSignUp);
         layoutSignIn = findViewById(R.id.layoutSignIn);
-        btnTabSignUp = findViewById(R.id.btnTabSignUp);
         btnTabSignIn = findViewById(R.id.btnTabSignIn);
+        btnTabSignUp = findViewById(R.id.btnTabSignUp);
+        btnSignUp = findViewById(R.id.btnSignUp);
+        btnSignIn = findViewById(R.id.btnSignIn);
 
         btnTabSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +73,22 @@ public class ActivityAuth extends AppCompatActivity {
                 btnTabSignIn.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
                 btnTabSignUp.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FCC8D1")));
                 btnTabSignUp.setTextColor(ColorStateList.valueOf(Color.parseColor("#D14D72")));
+            }
+        });
+
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v){
+               Intent home = new Intent(ActivityAuth.this, MainActivity.class);
+               startActivity(home);
+           }
+        });
+
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                Intent home = new Intent(ActivityAuth.this, MainActivity.class);
+                startActivity(home);
             }
         });
     }

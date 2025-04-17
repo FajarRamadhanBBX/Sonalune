@@ -4,4 +4,13 @@
         <item name="android:background">@color/gray_400</item>
         <item name="exampleColor">@color/light_blue_400</item>
     </style>
+
+    <style name="CustomSeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressDrawable">@drawable/bg_progressbar</item>
+        <item name="android:progressTint">@color/primary1</item>
+        <item name="android:thumb">@drawable/thumb_progressbar</item>
+        <item name="android:thumbOffset">0dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+    </style>
 </resources>
