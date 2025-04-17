@@ -106,6 +106,7 @@
 
                     <!-- Playlist Card 1 -->
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/cardPlaylist1"
                         android:layout_width="172dp"
                         android:layout_height="50dp"
                         android:layout_margin="8dp"
