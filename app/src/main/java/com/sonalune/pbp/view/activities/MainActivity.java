@@ -14,6 +14,7 @@ import com.sonalune.pbp.R;
 import com.sonalune.pbp.view.fragments.CapsuleFragment;
 import com.sonalune.pbp.view.fragments.HomeFragment;
 import com.sonalune.pbp.view.fragments.PlaylistContent;
+import com.sonalune.pbp.view.fragments.Profile;
 import com.sonalune.pbp.view.ui_components.NavBar;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new CapsuleFragment(); // Replace with CapsuleFragment if needed
                     break;
                 case "profile":
-                    // Add logic for profile tab
+                    selectedFragment = new Profile();
                     break;
             }
 
