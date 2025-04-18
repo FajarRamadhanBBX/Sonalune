@@ -61,6 +61,22 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // Find the playlist card in the layout
+        View playlistCard = view.findViewById(R.id.cardPlaylist1);
+
+        // Set an OnClickListener
+        playlistCard.setOnClickListener(v -> {
+            // Navigate to PlaylistContent fragment
+            Fragment playlistContent = new PlaylistContent();
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, playlistContent)
+                    .addToBackStack(null) // Add to back stack for navigation
+                    .commit();
+        });
+
+        return view;
     }
 }

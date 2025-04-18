@@ -31,7 +31,7 @@ public class NavBar extends LinearLayout {
         profile.setOnClickListener(v -> selectTab("profile"));
     }
 
-    private void selectTab(String tab) {
+    public void selectTab(String tab) {
         clearSelection();
 
         LinearLayout selected;

@@ -16,9 +16,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.sonalune.pbp.R;
 import com.sonalune.pbp.view.fragments.CapsuleFragment;
 import com.sonalune.pbp.view.fragments.HomeFragment;
+import com.sonalune.pbp.view.fragments.PlayingScreen;
 import com.sonalune.pbp.view.fragments.PlaylistContent;
 import com.sonalune.pbp.view.fragments.Profile;
 import com.sonalune.pbp.view.ui_components.NavBar;
+import com.sonalune.pbp.view.ui_components.PlayerCardView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +32,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // PlayerCard configuration
+        //Find the PlayerCardView
+        PlayerCardView playerCardView = findViewById(R.id.player_card);
+
+        // Set a click listener
+        playerCardView.setOnClickListener(v -> {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new PlayingScreen())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        // Navbar configuration
         // Find NavBar
         NavBar navBar = findViewById(R.id.navbar);
 
@@ -37,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Load default fragment
         loadFragment(new HomeFragment());
+
+        // default tab after entering home
+        navBar.selectTab("home");
 
         // Set NavBar listener
         navBar.setNavBarListener(tab -> {
