@@ -5,6 +5,7 @@
     <string name="auth_password">Password</string>
     <string name="auth_sign_up">SIGN UP</string>
     <string name="auth_sign_in">SIGN IN</string>
+    <string name="profile_name">Mas Bro</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

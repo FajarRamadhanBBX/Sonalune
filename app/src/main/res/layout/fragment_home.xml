@@ -56,8 +56,8 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_search"
-                android:tint="@color/primary1"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                app:tint="@color/primary1" />
 
             <!-- Spacer -->
             <View

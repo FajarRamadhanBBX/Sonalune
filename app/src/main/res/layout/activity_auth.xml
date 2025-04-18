@@ -31,7 +31,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:background="@drawable/btn_inactive">
 
             <Button
                 android:id="@+id/btnTabSignUp"
