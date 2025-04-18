@@ -55,6 +55,7 @@ package com.sonalune.pbp.view.ui_components;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -70,7 +71,8 @@ public class PlayerCardView extends CardView {
     private TextView songTitle;
     private TextView artistName;
     private ProgressBar progressBar;
-    private ImageButton btnPause, btnNext;
+    private ImageButton btnPause, btnNext, btnPlay;
+    boolean isPlaying;
 
     public PlayerCardView(Context context) {
         super(context);
@@ -96,6 +98,23 @@ public class PlayerCardView extends CardView {
         progressBar = findViewById(R.id.progress);
         btnPause = findViewById(R.id.btn_pause);
         btnNext = findViewById(R.id.btn_next);
+        btnPlay = findViewById(R.id.btn_play);
+
+        btnPlay.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnPlay.setVisibility(GONE);
+                btnPause.setVisibility(VISIBLE);
+            }
+        });
+
+        btnPause.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnPause.setVisibility(GONE);
+                btnPlay.setVisibility(VISIBLE);
+            }
+        });
     }
 
     // ====== Public Methods to Update UI ======

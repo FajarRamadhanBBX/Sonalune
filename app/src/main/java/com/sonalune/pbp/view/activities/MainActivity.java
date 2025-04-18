@@ -1,6 +1,9 @@
 package com.sonalune.pbp.view.activities;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNav;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Find NavBar
         NavBar navBar = findViewById(R.id.navbar);
+
+        View bgIconNavbar = findViewById(R.id.nav_home_icon);
 
         // Load default fragment
         loadFragment(new HomeFragment());
