@@ -36,7 +36,7 @@ import com.sonalune.pbp.R;
 //}
 
 public class ActivityAuth extends AppCompatActivity {
-    LinearLayout layoutSignUp, layoutSignIn;
+    LinearLayout layoutSignUp, layoutSignIn, tabLayout;
     Button btnTabSignUp, btnTabSignIn, btnSignUp, btnSignIn;
 
     @Override
@@ -50,6 +50,7 @@ public class ActivityAuth extends AppCompatActivity {
         btnTabSignUp = findViewById(R.id.btnTabSignUp);
         btnSignUp = findViewById(R.id.btnSignUp);
         btnSignIn = findViewById(R.id.btnSignIn);
+        tabLayout = findViewById(R.id.tabLayout);
 
         btnTabSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +61,18 @@ public class ActivityAuth extends AppCompatActivity {
                 btnTabSignIn.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
                 btnTabSignUp.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FCC8D1")));
                 btnTabSignUp.setTextColor(ColorStateList.valueOf(Color.parseColor("#D14D72")));
+            }
+        });
+
+        btnTabSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layoutSignUp.setVisibility(View.VISIBLE);
+                layoutSignIn.setVisibility(View.GONE);
+                btnTabSignIn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FCC8D1")));
+                btnTabSignIn.setTextColor(ColorStateList.valueOf(Color.parseColor("#D14D72")));
+                btnTabSignUp.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#D14D72")));
+                btnTabSignUp.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
             }
         });
 

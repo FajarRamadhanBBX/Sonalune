@@ -64,15 +64,30 @@
                     android:id="@+id/btn_pause"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
+                    android:scaleType="fitXY"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_pause"
-                    app:tint="@color/primary1" />
+                    app:tint="@color/primary1"
+                    android:visibility="visible"/>
+
+                <ImageButton
+                    android:id="@+id/btn_play"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:scaleType="fitXY"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_play_pink"
+                    android:visibility="gone"/>
+
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="12dp" />
 
                 <ImageButton
                     android:id="@+id/btn_next"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:layout_marginLeft="12dp"
+                    android:scaleType="fitXY"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_next"
                     app:tint="@color/primary1" />

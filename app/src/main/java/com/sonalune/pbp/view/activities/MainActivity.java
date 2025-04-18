@@ -1,6 +1,9 @@
 package com.sonalune.pbp.view.activities;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,11 +17,13 @@ import com.sonalune.pbp.R;
 import com.sonalune.pbp.view.fragments.CapsuleFragment;
 import com.sonalune.pbp.view.fragments.HomeFragment;
 import com.sonalune.pbp.view.fragments.PlaylistContent;
+import com.sonalune.pbp.view.fragments.Profile;
 import com.sonalune.pbp.view.ui_components.NavBar;
 
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNav;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Find NavBar
         NavBar navBar = findViewById(R.id.navbar);
+
+        View bgIconNavbar = findViewById(R.id.nav_home_icon);
 
         // Load default fragment
         loadFragment(new HomeFragment());
@@ -43,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new CapsuleFragment(); // Replace with CapsuleFragment if needed
                     break;
                 case "profile":
-                    // Add logic for profile tab
+                    selectedFragment = new Profile();
                     break;
             }
 

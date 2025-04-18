@@ -35,29 +35,33 @@ public class NavBar extends LinearLayout {
         clearSelection();
 
         LinearLayout selected;
+        View bg_selected;
         switch (tab) {
             case "home":
                 selected = findViewById(R.id.nav_home);
+                bg_selected = findViewById(R.id.nav_home_icon);
                 break;
             case "capsuled":
                 selected = findViewById(R.id.nav_capsuled);
+                bg_selected = findViewById(R.id.nav_capsuled_icon);
                 break;
             case "profile":
                 selected = findViewById(R.id.nav_profile);
+                bg_selected = findViewById(R.id.nav_profile_icon);
                 break;
             default:
                 return;
         }
 
-        selected.setBackgroundResource(R.drawable.bg_navbar_selected);
+        bg_selected.setBackgroundResource(R.drawable.bg_navbar_selected);
         // trigger callback kalau perlu
         if (listener != null) listener.onTabSelected(tab);
     }
 
     private void clearSelection() {
-        findViewById(R.id.nav_home).setBackground(null);
-        findViewById(R.id.nav_capsuled).setBackground(null);
-        findViewById(R.id.nav_profile).setBackground(null);
+        findViewById(R.id.nav_home_icon).setBackground(null);
+        findViewById(R.id.nav_capsuled_icon).setBackground(null);
+        findViewById(R.id.nav_profile_icon).setBackground(null);
     }
 
     private NavBarListener listener;
