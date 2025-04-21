@@ -34,8 +34,8 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="ProfileName">
-        <item name="android:fontFamily">@font/Poppins</item>
+    <style name="RoundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
     </style>
-
 </resources>

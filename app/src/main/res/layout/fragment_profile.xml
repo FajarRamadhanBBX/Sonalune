@@ -56,8 +56,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/ProfileName"
-            android:text="Muhammad Dwi"
+            android:text="Mas Bro"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_bold"
             android:layout_marginTop="8dp"
             android:textSize="20sp"
             android:textColor="@color/primary1"

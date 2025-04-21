@@ -39,23 +39,42 @@
                 android:paddingVertical="8dp">
 
                 <!-- Song Cover -->
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
+                    app:shapeAppearanceOverlay="@style/RoundedImageView"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/ic_playlist_cover"
+                    android:src="@drawable/im_bernadya2"
                     android:scaleType="centerCrop"
                     android:layout_marginEnd="8dp" />
 
-                <!-- Song Name -->
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Song Name"
-                    android:textSize="14sp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="@color/secondary1" />
+                    android:orientation="vertical">
+
+                    <!-- Song Name -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:textStyle="bold"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Satu bulan"
+                        android:textSize="14sp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/secondary1" />
+
+                    <!--Artist Name-->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Bernadya"
+                        android:textSize="14sp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/secondary1" />
+                </LinearLayout>
 
                 <!-- Three Dots Menu -->
                 <ImageButton
@@ -76,23 +95,43 @@
                 android:paddingVertical="8dp">
 
                 <!-- Song Cover -->
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
+                    app:shapeAppearanceOverlay="@style/RoundedImageView"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/ic_playlist_cover"
+                    android:src="@drawable/im_album_playlist2"
                     android:scaleType="centerCrop"
                     android:layout_marginEnd="8dp" />
 
-                <!-- Song Name -->
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Song Name"
-                    android:textSize="14sp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="@color/secondary1" />
+                    android:orientation="vertical">
+
+                    <!-- Song Name -->
+
+                    <!--Artist Name-->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="Mine"
+                        android:textColor="@color/secondary1"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Taylor Swift"
+                        android:textSize="14sp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/secondary1" />
+                </LinearLayout>
 
                 <!-- Three Dots Menu -->
                 <ImageButton
@@ -112,23 +151,42 @@
                 android:paddingVertical="8dp">
 
                 <!-- Song Cover -->
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
+                    app:shapeAppearanceOverlay="@style/RoundedImageView"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/ic_playlist_cover"
+                    android:src="@drawable/im_album_pfy2"
                     android:scaleType="centerCrop"
                     android:layout_marginEnd="8dp" />
 
-                <!-- Song Name -->
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Song Name"
-                    android:textSize="14sp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="@color/secondary1" />
+                    android:orientation="vertical">
+
+                    <!-- Song Name -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:textStyle="bold"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Everything You Are"
+                        android:textSize="14sp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/secondary1" />
+
+                    <!--Artist Name-->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Hindia"
+                        android:textSize="14sp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/secondary1" />
+                </LinearLayout>
 
                 <!-- Three Dots Menu -->
                 <ImageButton
@@ -148,23 +206,42 @@
                 android:paddingVertical="8dp">
 
                 <!-- Song Cover -->
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
+                    app:shapeAppearanceOverlay="@style/RoundedImageView"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/ic_playlist_cover"
+                    android:src="@drawable/im_bernadya3"
                     android:scaleType="centerCrop"
                     android:layout_marginEnd="8dp" />
 
-                <!-- Song Name -->
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Song Name"
-                    android:textSize="14sp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="@color/secondary1" />
+                    android:orientation="vertical">
+
+                    <!-- Song Name -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:textStyle="bold"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Kini Mereka Tahu"
+                        android:textSize="14sp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/secondary1" />
+
+                    <!--Artist Name-->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Bernadya"
+                        android:textSize="14sp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/secondary1" />
+                </LinearLayout>
 
                 <!-- Three Dots Menu -->
                 <ImageButton
@@ -184,23 +261,42 @@
                 android:paddingVertical="8dp">
 
                 <!-- Song Cover -->
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
+                    app:shapeAppearanceOverlay="@style/RoundedImageView"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/ic_playlist_cover"
+                    android:src="@drawable/im_bernadya2"
                     android:scaleType="centerCrop"
                     android:layout_marginEnd="8dp" />
 
-                <!-- Song Name -->
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Song Name"
-                    android:textSize="14sp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="@color/secondary1" />
+                    android:orientation="vertical">
+
+                    <!-- Song Name -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:textStyle="bold"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Kata Mereka Berlebihan"
+                        android:textSize="14sp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/secondary1" />
+
+                    <!--Artist Name-->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Bernadya"
+                        android:textSize="14sp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/secondary1" />
+                </LinearLayout>
 
                 <!-- Three Dots Menu -->
                 <ImageButton

@@ -24,7 +24,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/im_cover_album" />
+                android:src="@drawable/im_bernadya2" />
 
             <!-- Song Info -->
             <LinearLayout
