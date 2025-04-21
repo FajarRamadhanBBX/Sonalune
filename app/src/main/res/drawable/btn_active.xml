@@ -4,17 +4,3 @@
     <solid android:color="@color/primary1"/>
     <corners android:radius="12dp"/>
 </shape>
-
-<!--<selector xmlns:android="http://schemas.android.com/apk/res/android">-->
-<!--    <item>-->
-
-<!--        <shape android:shape="rectangle">-->
-<!--            <corners android:radius="4dp"/>-->
-
-<!--            <stroke-->
-<!--                android:width="1dp"-->
-<!--                android:color="@color/primary1"/>-->
-<!--        </shape>-->
-
-<!--    </item>-->
-<!--</selector>-->

@@ -24,7 +24,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/im_cover_album" />
+                android:src="@drawable/im_bernadya2" />
 
             <!-- Song Info -->
             <LinearLayout
@@ -104,6 +104,6 @@
             android:max="100"
             android:progress="69"
             android:progressTint="@color/primary1"
-            android:progressBackgroundTint="@color/secondary1" />
+            android:progressBackgroundTint="#E8DEF8" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
