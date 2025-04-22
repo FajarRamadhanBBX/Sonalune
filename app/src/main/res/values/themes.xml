@@ -7,6 +7,8 @@
         <item name="colorPrimary">@color/primary1</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondary1</item>
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="Theme._8_uts" parent="Base.Theme._8_uts" />

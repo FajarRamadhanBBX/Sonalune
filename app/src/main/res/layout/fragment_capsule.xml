@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/secondary1"
-    tools:context=".view.fragments.CapsuleFragment">
+    tools:context=".view.fragments.CapsuleFragment"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,23 +14,24 @@
         android:padding="16dp">
 
         <!-- ALL TIME TITLE -->
+        <!-- Spacer -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical">
 
             <!-- ALL TIME TITLE -->
             <TextView
+                style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ALL TIME"
-                style="@style/TextAppearance.MaterialComponents.Headline5"
-                android:textStyle="bold"
-                android:textColor="@color/primary1"
+                android:layout_marginBottom="16dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="8dp"
-                android:layout_marginBottom="16dp" />
+                android:text="ALL TIME"
+                android:textColor="@color/primary1"
+                android:textStyle="bold" />
 
             <!-- Music Minutes Card -->
             <include
@@ -61,30 +63,118 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
+                        android:layout_marginEnd="16dp"
                         android:gravity="center_horizontal"
-                        android:layout_marginEnd="16dp">
+                        android:orientation="vertical">
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:src="@drawable/ic_profile"
-                            android:layout_gravity="center" />
+                            android:layout_gravity="center"
+                            android:src="@drawable/im_bernadya2" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Artist Name"
-                            android:textSize="12sp"
+                            android:layout_marginTop="4dp"
                             android:gravity="center"
-                            android:layout_marginTop="4dp" />
+                            android:text="Bernadya"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/im_hindia" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center"
+                            android:text="Hindia"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/im_juicyluicy" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center"
+                            android:text="Juicy Luicy"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/im_hivi" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center"
+                            android:text="Hivi!"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/im_lany" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center"
+                            android:text="LANY"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <!-- Repeat for other artists -->
                 </LinearLayout>
             </HorizontalScrollView>
         </LinearLayout>
-        <!-- Spacer -->
+
         <View
             android:layout_width="match_parent"
             android:layout_height="24dp" />
@@ -146,13 +236,101 @@
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:src="@drawable/ic_profile"
+                            android:src="@drawable/im_bernadya2"
                             android:layout_gravity="center" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Artist Name"
+                            android:text="Bernadya"
+                            android:textSize="12sp"
+                            android:gravity="center"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginEnd="16dp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/im_hindia"
+                            android:layout_gravity="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hindia"
+                            android:textSize="12sp"
+                            android:gravity="center"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginEnd="16dp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/im_juicyluicy"
+                            android:layout_gravity="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Juicy Luicy"
+                            android:textSize="12sp"
+                            android:gravity="center"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginEnd="16dp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/im_hivi"
+                            android:layout_gravity="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hivi!"
+                            android:textSize="12sp"
+                            android:gravity="center"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginEnd="16dp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/im_lany"
+                            android:layout_gravity="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="LANY"
                             android:textSize="12sp"
                             android:gravity="center"
                             android:layout_marginTop="4dp" />
