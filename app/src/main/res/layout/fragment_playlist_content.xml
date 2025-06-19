@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,12 +22,15 @@
             android:src="@drawable/ic_back"
             />
 
-        <include
-            layout="@layout/sample_playlist_header_view"
-            android:id="@+id/header"
-            android:layout_marginTop="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_playlist_content"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/RoundedImageView"
+            tools:src="@tools:sample/avatars"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,294 +66,14 @@
                 android:layout_marginLeft="24dp"/>
         </LinearLayout>
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-        </LinearLayout>
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewSong"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <wcom.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/img_song"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:scaleType="centerCrop"
-                    app:shapeAppearanceOverlay="@style/RoundedImageView"
-                    android:src="@drawable/im_bernadya3" />
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:paddingStart="8dp">
-
-                    <TextView
-                        android:id="@+id/txt_title"
-                        android:text="Kata mereka aku berlebihan"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        />
-
-                    <TextView
-                        android:id="@+id/txt_artist"
-                        android:textColor="@color/white"
-                        android:layout_marginTop="8dp"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:text="Bernadya"
-                        android:textSize="12sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center">
-
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_added_playlist"
-                        />
-
-                    <ImageView
-                        android:id="@+id/img_more"
-                        android:layout_gravity="center"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginLeft="8dp"
-                        android:src="@drawable/ic_three_point"
-                        android:visibility="visible"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    app:shapeAppearanceOverlay="@style/RoundedImageView"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/im_bernadya2" />
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:paddingStart="8dp">
-
-                    <TextView
-                        android:text="Satu bulan"
-                        android:textColor="@color/primary1"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        />
-
-                    <TextView
-                        android:textColor="@color/white"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:layout_marginTop="8dp"
-                        android:text="Bernadya"
-                        android:textSize="12sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center">
-
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_added_playlist"
-                        android:visibility="gone"
-                        />
-
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginLeft="8dp"
-                        android:src="@drawable/ic_three_point"
-                        android:visibility="visible"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    app:shapeAppearanceOverlay="@style/RoundedImageView"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/im_bernadya3" />
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:paddingStart="8dp">
-
-                    <TextView
-                        android:text="Asumsi"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        />
-
-                    <TextView
-                        android:textColor="@color/white"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:layout_marginTop="8dp"
-                        android:text="Bernadya"
-                        android:textSize="12sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center">
-
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_added_playlist"
-                        android:visibility="gone"
-                        />
-
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginLeft="8dp"
-                        android:src="@drawable/ic_three_point"
-                        android:visibility="visible"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    app:shapeAppearanceOverlay="@style/RoundedImageView"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/im_bernadya2" />
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:paddingStart="8dp">
-
-                    <TextView
-                        android:text="Apa mungkin"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        />
-
-                    <TextView
-                        android:textColor="@color/white"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:layout_marginTop="8dp"
-                        android:text="Bernadya"
-                        android:textSize="12sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center">
-
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_added_playlist"
-                        android:visibility="gone"
-                        />
-
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginLeft="8dp"
-                        android:src="@drawable/ic_three_point"
-                        android:visibility="visible"/>
-                </LinearLayout>
-            </LinearLayout>
-
-        </LinearLayout>
+                android:layout_height="match_parent"/>
+        </ScrollView>
     </LinearLayout>
-
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="vertical"-->
-<!--        android:layout_gravity="bottom"-->
-<!--        >-->
-
-<!--        <com.sonalune.pbp.view.ui_components.PlayerCardView-->
-<!--            android:id="@+id/player_card"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content" />-->
-
-
-<!--        &lt;!&ndash; Navbar di bawah &ndash;&gt;-->
-<!--        <com.sonalune.pbp.view.ui_components.NavBar-->
-<!--            android:id="@+id/navbar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="bottom" />-->
-<!--    </LinearLayout>-->
-
 </ScrollView>
