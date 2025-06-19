@@ -10,7 +10,6 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
-
 import com.sonalune.pbp.R;
 
 public class NavBar extends LinearLayout {

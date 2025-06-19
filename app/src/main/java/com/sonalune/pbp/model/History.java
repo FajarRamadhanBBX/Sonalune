@@ -4,65 +4,53 @@ import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
 
-public class Playlist {
+public class History {
     private String id;
+    private String songId;
     private String userId;
-    private String name;
-    private Boolean isPublic;
-    private String imageUrl;
+    @ServerTimestamp
+    private Date playTime;
     @ServerTimestamp
     private Date createdAt;
     @ServerTimestamp
     private Date updatedAt;
 
-    public Playlist() {}
+    public History() {}
 
-    public Playlist(String id, String userId, String name, Boolean isPublic, String imageUrl) {
+    public History(String id, String songId, String userId) {
         this.id = id;
+        this.songId = songId;
         this.userId = userId;
-        this.isPublic = isPublic;
-        this.name = name;
-        this.imageUrl = imageUrl;
     }
 
     // --- Method Stubs ---
-    public void addPlaylist() {
+    public void addHistory() {
         // TODO: Implementasi logika method
     }
 
-    public void updatePlaylist() {
+    public void getCapsule() {
         // TODO: Implementasi logika method
     }
 
-    public void deletePlaylist() {
+    public void deleteHistory() {
         // TODO: Implementasi logika method
     }
-
-    public void addSongToPlaylist() {
-        // TODO: Implementasi logika method
-    }
-
-    public void deleteSongFromPlaylist() {
-        // TODO: Implementasi logika method
-    }
-
 
     // --- Getters and Setters ---
-
-    public Boolean getIsPublic() {
-        return isPublic;
-    }
-
-    public void setIsPublic(Boolean aPublic) {
-        isPublic = aPublic;
-    }
-
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getSongId() {
+        return songId;
+    }
+
+    public void setSongId(String songId) {
+        this.songId = songId;
     }
 
     public String getUserId() {
@@ -73,20 +61,14 @@ public class Playlist {
         this.userId = userId;
     }
 
-    public String getName() {
-        return name;
+    public Date getPlayTime() {
+        return playTime;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setPlayTime(Date playTime) {
+        this.playTime = playTime;
     }
 
     public Date getCreatedAt() {

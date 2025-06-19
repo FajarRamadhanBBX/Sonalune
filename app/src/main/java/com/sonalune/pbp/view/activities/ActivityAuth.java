@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 
 import androidx.activity.EdgeToEdge;
@@ -16,7 +18,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.sonalune.pbp.R;
+import com.sonalune.pbp.controller.ManagementUser;
 
 //public class ActivityAuth extends AppCompatActivity {
 //    
@@ -35,15 +39,26 @@ import com.sonalune.pbp.R;
 //    }
 //}
 
-public class ActivityAuth extends AppCompatActivity {
+public class ActivityAuth extends AppCompatActivity implements ManagementUser.AuthListener {
+    private ManagementUser managementUser;
     LinearLayout layoutSignUp, layoutSignIn, tabLayout;
     Button btnTabSignUp, btnTabSignIn, btnSignUp, btnSignIn;
+    EditText fullNameSignUp, emailSignUp, passwordSignUp, emailSignIn, passwordSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
 
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            Intent home = new Intent(ActivityAuth.this, MainActivity.class);
+            home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(home);
+            finish();
+            return;
+        }
+
+        managementUser = new ManagementUser(this);
         layoutSignUp = findViewById(R.id.layoutSignUp);
         layoutSignIn = findViewById(R.id.layoutSignIn);
         btnTabSignIn = findViewById(R.id.btnTabSignIn);
@@ -51,6 +66,11 @@ public class ActivityAuth extends AppCompatActivity {
         btnSignUp = findViewById(R.id.btnSignUp);
         btnSignIn = findViewById(R.id.btnSignIn);
         tabLayout = findViewById(R.id.tabLayout);
+        fullNameSignUp = findViewById(R.id.nameSignUp);
+        emailSignUp = findViewById(R.id.emailSignUp);
+        passwordSignUp = findViewById(R.id.passwordSignUp);
+        emailSignIn = findViewById(R.id.emailSignIn);
+        passwordSignIn = findViewById(R.id.passwordSignIn);
 
         btnTabSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,20 +96,45 @@ public class ActivityAuth extends AppCompatActivity {
             }
         });
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-           @Override
-            public void onClick(View v){
-               Intent home = new Intent(ActivityAuth.this, MainActivity.class);
-               startActivity(home);
-           }
+        btnSignUp.setOnClickListener(v -> {
+            String fullName = fullNameSignUp.getText().toString().trim();
+            String email = emailSignUp.getText().toString().trim();
+            String password = passwordSignUp.getText().toString().trim();
+
+            if (fullName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Semua kolom harus diisi", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            managementUser.signUp(fullName, email, password, this);
         });
 
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                Intent home = new Intent(ActivityAuth.this, MainActivity.class);
-                startActivity(home);
+        btnSignIn.setOnClickListener(v -> {
+            String email = emailSignIn.getText().toString().trim();
+            String password = passwordSignIn.getText().toString().trim();
+
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Email dan password harus diisi", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            managementUser.signIn(email, password, this);
         });
+    }
+
+    @Override
+    public void onSuccess(String message) {
+        // Jika sign up atau sign in berhasil
+        Toast.makeText(this, "Proses berhasil!", Toast.LENGTH_SHORT).show();
+        // Pindah ke halaman utama
+        Intent home = new Intent(ActivityAuth.this, MainActivity.class);
+        home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(home);
+        finish();
+    }
+
+    @Override
+    public void onFailure(String message) {
+        // Jika gagal, tampilkan pesan error dari controller
+        Toast.makeText(this, "Error: " + message, Toast.LENGTH_LONG).show();
     }
 }

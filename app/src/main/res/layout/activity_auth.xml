@@ -81,7 +81,7 @@
                     android:layout_marginEnd="@dimen/margin_small"/>
 
                 <EditText
-                    android:id="@+id/et_name"
+                    android:id="@+id/nameSignUp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/auth_name"
@@ -107,7 +107,7 @@
                     android:layout_marginEnd="@dimen/margin_small"/>
 
                 <EditText
-                    android:id="@+id/et_email"
+                    android:id="@+id/emailSignUp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/auth_email"
@@ -133,7 +133,7 @@
                     android:layout_marginEnd="@dimen/margin_small"/>
 
                 <EditText
-                    android:id="@+id/et_password"
+                    android:id="@+id/passwordSignUp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/auth_password"
@@ -181,7 +181,7 @@
                     android:layout_marginEnd="@dimen/margin_small"/>
 
                 <EditText
-                    android:id="@+id/et_email_login"
+                    android:id="@+id/emailSignIn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/auth_email"
@@ -207,7 +207,7 @@
                     android:layout_marginEnd="@dimen/margin_small"/>
 
                 <EditText
-                    android:id="@+id/et_password_login"
+                    android:id="@+id/passwordSignIn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/auth_password"
