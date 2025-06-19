@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.google.android.material.imageview.ShapeableImageView
+                <wcom.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/img_song"
                     android:layout_width="60dp"
                     android:layout_height="60dp"

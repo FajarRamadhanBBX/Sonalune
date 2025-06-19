@@ -4,59 +4,26 @@ import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
 
-public class Playlist {
+public class Singer {
     private String id;
-    private String userId;
     private String name;
-    private Boolean isPublic;
+    private int monthlyListener;
     private String imageUrl;
     @ServerTimestamp
     private Date createdAt;
     @ServerTimestamp
     private Date updatedAt;
 
-    public Playlist() {}
+    public Singer() {}
 
-    public Playlist(String id, String userId, String name, Boolean isPublic, String imageUrl) {
+    public Singer(String id, String name, int monthlyListener, String imageUrl) {
         this.id = id;
-        this.userId = userId;
-        this.isPublic = isPublic;
         this.name = name;
+        this.monthlyListener = monthlyListener;
         this.imageUrl = imageUrl;
     }
 
-    // --- Method Stubs ---
-    public void addPlaylist() {
-        // TODO: Implementasi logika method
-    }
-
-    public void updatePlaylist() {
-        // TODO: Implementasi logika method
-    }
-
-    public void deletePlaylist() {
-        // TODO: Implementasi logika method
-    }
-
-    public void addSongToPlaylist() {
-        // TODO: Implementasi logika method
-    }
-
-    public void deleteSongFromPlaylist() {
-        // TODO: Implementasi logika method
-    }
-
-
     // --- Getters and Setters ---
-
-    public Boolean getIsPublic() {
-        return isPublic;
-    }
-
-    public void setIsPublic(Boolean aPublic) {
-        isPublic = aPublic;
-    }
-
     public String getId() {
         return id;
     }
@@ -65,20 +32,20 @@ public class Playlist {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getMonthlyListener() {
+        return monthlyListener;
+    }
+
+    public void setMonthlyListener(int monthlyListener) {
+        this.monthlyListener = monthlyListener;
     }
 
     public String getImageUrl() {
