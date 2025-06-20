@@ -80,7 +80,7 @@ public class HomeFragment extends Fragment {
 
         // Buat daftar lagu
         List<Song> allSong = new ArrayList<Song>();
-        allSong.add(new Song("id", "title", "singerId", 0 ,"https://bzvdoaouvekmijrdgmbz.supabase.co/storage/v1/object/sign/uasplatform/playlist/doves.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81ZTA4YWYzYy1kNDg0LTQyMDYtOTJmYy0zZWI2ZDVjMGEzNDQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1YXNwbGF0Zm9ybS9wbGF5bGlzdC9kb3Zlcy5qcGVnIiwiaWF0IjoxNzQ5NzAxMDYxLCJleHAiOjE3NTIyOTMwNjF9.zwXbsNONVaicH1uLb5aOcpGeBFOHSo4CE0C4lt7po-0","https://bzvdoaouvekmijrdgmbz.supabase.co/storage/v1/object/sign/uasplatform/music/Hindia%20-%20everything%20u%20are.mp3?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81ZTA4YWYzYy1kNDg0LTQyMDYtOTJmYy0zZWI2ZDVjMGEzNDQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1YXNwbGF0Zm9ybS9tdXNpYy9IaW5kaWEgLSBldmVyeXRoaW5nIHUgYXJlLm1wMyIsImlhdCI6MTc0OTcwMDk3NywiZXhwIjoxNzUyMjkyOTc3fQ.IyEJxdGl0DfsodHmZuVMM9ct9BLt0BFkr08D9e75xSg"));
+//        allSong.add(new Song("id", "title", "singerId", 0 ,"https://bzvdoaouvekmijrdgmbz.supabase.co/storage/v1/object/sign/uasplatform/playlist/doves.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYTNiMGUwZS0wZTMxLTQyOTEtOWJmYS0zNjk5MmQ0ZGM5ZDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1YXNwbGF0Zm9ybS9wbGF5bGlzdC9kb3Zlcy5qcGVnIiwiaWF0IjoxNzUwNDI0NjY1LCJleHAiOjE3ODE5NjA2NjV9.jEQjzz9aSJDIE5Aql8jkYbUQdhZwoyvW29DHPFlQFwE"));
 
         // Pasang adapter
         PickForYouAdapter adapterPickForYou = new PickForYouAdapter(allSong);

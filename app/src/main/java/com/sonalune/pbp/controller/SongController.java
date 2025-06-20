@@ -43,6 +43,13 @@ public class SongController {
         }
     }
 
+    public void resumeSong() {
+        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+            Toast.makeText(context, "Resumed", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public void stopSong() {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
