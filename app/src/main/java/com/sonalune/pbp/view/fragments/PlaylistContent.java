@@ -1,8 +1,8 @@
 package com.sonalune.pbp.view.fragments;
 
-import android.content.Context; // DITAMBAHKAN
+import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull; // DITAMBAHKAN
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,11 +17,9 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sonalune.pbp.R;
-// import com.sonalune.pbp.controller.SongController; // DIHAPUS: Fragment tidak perlu tahu tentang Controller
 import com.sonalune.pbp.model.Singer;
 import com.sonalune.pbp.model.Song;
 import com.sonalune.pbp.view.adapters.SongAdapter;
-// import com.sonalune.pbp.view.ui_components.PlayerCardView; // DIHAPUS: Fragment tidak perlu tahu tentang View di Activity lain
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,17 +31,14 @@ public class PlaylistContent extends Fragment {
     private RecyclerView recyclerViewSong;
     private FirebaseFirestore db;
     private ImageView imagePlaylistContent;
-    // private SongController songController; // DIHAPUS
-    // private PlayerCardView playerCardView; // DIHAPUS
-
     private OnSongSelectedListener songSelectedListener;
+    private List<Song> playlistSong = new ArrayList<>();
+    private List<Singer> singerList = new ArrayList<>();
 
-    // Interface untuk berkomunikasi dengan Activity, sudah benar.
     public interface OnSongSelectedListener {
-        void onSongSelected(Song song, Singer singer);
+        void onSongSelected(List<Song> songList, int position, List<Singer> singerList);
     }
 
-    // newInstance factory method, sudah benar.
     public static PlaylistContent newInstance(String playlistId, String imageUrl) {
         PlaylistContent fragment = new PlaylistContent();
         Bundle args = new Bundle();
@@ -57,8 +52,6 @@ public class PlaylistContent extends Fragment {
         // Required empty public constructor
     }
 
-    // DITAMBAHKAN: Metode onAttach() adalah cara standar dan paling aman
-    // untuk memastikan Activity telah mengimplementasikan interface callback.
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -81,18 +74,11 @@ public class PlaylistContent extends Fragment {
         recyclerViewSong = view.findViewById(R.id.recyclerViewSong);
         recyclerViewSong.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // DIHAPUS: Inisialisasi tidak lagi diperlukan di sini
-        // playerCardView = view.findViewById(R.id.playerCardView);
-        // songController = new SongController(requireContext());
-
         backButton.setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager().popBackStack();
         });
 
-        // Bagian kode untuk mengambil data dari Firestore tidak perlu diubah.
-        // ... (kode Firestore Anda tetap di sini) ...
-        List<Song> playlistSong = new ArrayList<>();
-        List<Singer> singerList = new ArrayList<>();
+
         SongAdapter songAdapter = new SongAdapter(playlistSong, singerList);
         recyclerViewSong.setAdapter(songAdapter);
 
@@ -147,30 +133,15 @@ public class PlaylistContent extends Fragment {
                     }
                 });
 
-        // Logika di dalam listener item click sekarang disederhanakan.
-        songAdapter.setOnItemClickListener(song -> {
-            Singer singer = null;
-            for (Singer s : singerList) {
-                if (s.getId() != null && s.getId().equals(song.getSingerId())) {
-                    singer = s;
-                    break;
-                }
-            }
-
-            if (song != null){
-                if (songSelectedListener != null) {
-                    songSelectedListener.onSongSelected(song, singer);
-                }
-            } else {
-                Toast.makeText(getContext(), "URL tidak tersedia", Toast.LENGTH_SHORT).show();
+        songAdapter.setOnItemClickListener(position -> {
+            if (songSelectedListener != null) {
+                songSelectedListener.onSongSelected(playlistSong, position, singerList);
             }
         });
 
         return view;
     }
 
-    // DITAMBAHKAN: Best practice untuk membersihkan referensi listener
-    // ketika fragment dilepaskan dari activity untuk menghindari memory leak.
     @Override
     public void onDetach() {
         super.onDetach();

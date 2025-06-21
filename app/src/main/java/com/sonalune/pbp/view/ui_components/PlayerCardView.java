@@ -20,8 +20,6 @@ public class PlayerCardView extends CardView {
     private TextView singerName;
     private ProgressBar progressBar;
     private ImageButton btnPause, btnNext, btnPlay;
-
-    // DITAMBAHKAN: Listener internal untuk meneruskan event klik
     private OnClickListener playClickListener, pauseClickListener, nextClickListener;
 
     public PlayerCardView(Context context) {
@@ -50,7 +48,6 @@ public class PlayerCardView extends CardView {
         btnNext = findViewById(R.id.btnNextCardView);
         btnPlay = findViewById(R.id.btnPlayCardView);
 
-        // DIUBAH: Hapus logika internal. Sekarang hanya meneruskan klik ke listener yang diatur dari luar.
         btnPlay.setOnClickListener(v -> {
             if (playClickListener != null) {
                 playClickListener.onClick(v);
@@ -70,8 +67,6 @@ public class PlayerCardView extends CardView {
         });
     }
 
-    // DITAMBAHKAN: Metode publik untuk mengontrol visibilitas tombol dari luar (dari MainActivity).
-    // Ini memastikan UI selalu sinkron dengan state pemutar musik.
     public void showAsPlaying(boolean isPlaying) {
         if (isPlaying) {
             btnPlay.setVisibility(View.GONE);
@@ -95,11 +90,15 @@ public class PlayerCardView extends CardView {
         singerName.setText(name);
     }
 
-    public void setProgress(int progress) {
-        progressBar.setProgress(progress);
+    public void setProgress(int currentMillis) {
+        progressBar.setProgress(currentMillis);
     }
 
-    // Metode listener diubah agar lebih konsisten
+    public void setMaxProgress(int maxMillis) {
+        progressBar.setMax(maxMillis);
+    }
+
+
     public void setOnPlayClickListener(OnClickListener listener) {
         this.playClickListener = listener;
     }

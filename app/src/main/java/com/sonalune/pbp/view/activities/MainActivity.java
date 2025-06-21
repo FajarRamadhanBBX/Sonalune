@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
 import com.sonalune.pbp.R;
 import com.sonalune.pbp.controller.SongController;
 import com.sonalune.pbp.model.Singer;
@@ -16,80 +17,86 @@ import com.sonalune.pbp.view.fragments.Profile;
 import com.sonalune.pbp.view.ui_components.NavBar;
 import com.sonalune.pbp.view.ui_components.PlayerCardView;
 
-// DITAMBAHKAN: Implementasikan interface dari fragment
-public class MainActivity extends AppCompatActivity implements PlaylistContent.OnSongSelectedListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements
+        PlaylistContent.OnSongSelectedListener,
+        SongController.SongStateListener {
 
     private SongController songController;
     private PlayerCardView playerCardView;
     private NavBar navBar;
+
+    private List<Singer> currentSingers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Inisialisasi Controller dan Views
         songController = new SongController(this);
+        songController.setSongStateListener(this);
+
         navBar = findViewById(R.id.navbar);
         playerCardView = findViewById(R.id.playerCard);
 
-        // DIHAPUS: Blok kode ini salah secara konseptual karena membuat instance fragment
-        // yang tidak pernah digunakan. Logika ini akan dipindahkan ke metode onSongSelected().
-        /*
-        PlaylistContent playlistContent = new PlaylistContent();
-        playlistContent.setOnSongSelectedListener((song, singer, songUrl) -> { ... });
-        */
-
-        // Atur listener untuk komponen UI
         setupPlayerCardListeners();
         setupNavBar();
 
-        // Load fragment awal
         if (savedInstanceState == null) {
-            loadFragment(new HomeFragment(), false); // Jangan tambahkan fragment awal ke back stack
+            loadFragment(new HomeFragment(), false);
         }
     }
 
-    // DITAMBAHKAN: Implementasi dari metode interface.
-    // Metode ini akan dipanggil oleh PlaylistContentFragment ketika lagu dipilih.
     @Override
-    public void onSongSelected(Song song, Singer singer) {
+    public void onSongSelected(List<Song> songList, int position, List<Singer> singerList) {
+        this.currentSingers = singerList;
+        songController.setPlaylist(songList, position);
+    }
+
+    @Override
+    public void onSongChanged(Song newSong) {
         playerCardView.setVisibility(View.VISIBLE);
-        playerCardView.setSongTitle(song.getTitle());
-        if (singer != null) {
-            playerCardView.setSingerName(singer.getName());
-        } else {
-            playerCardView.setSingerName("Unknown Artist");
+        playerCardView.setSongTitle(newSong.getTitle());
+        playerCardView.setAlbumImage(newSong.getImageUrl());
+
+        String singerName = "Unknown Artist";
+        for (Singer s : currentSingers) {
+            if (s.getId() != null && s.getId().equals(newSong.getSingerId())) {
+                singerName = s.getName();
+                break;
+            }
         }
+        playerCardView.setSingerName(singerName);
+    }
 
-        playerCardView.setAlbumImage(song.getImageUrl());
+    @Override
+    public void onPlaybackStateChanged(boolean isPlaying) {
+        playerCardView.showAsPlaying(isPlaying);
+    }
 
-        // Perintahkan controller untuk memutar lagu
-        songController.playSong(song.getSongUrl());
-        // Perintahkan view untuk menampilkan state "sedang bermain"
-        playerCardView.showAsPlaying(true);
+    @Override
+    public void onProgressUpdate(int currentPosition, int maxDuration) {
+        playerCardView.setMaxProgress(maxDuration);
+        playerCardView.setProgress(currentPosition);
     }
 
     private void setupPlayerCardListeners() {
-        // Listener untuk membuka layar penuh (PlayingScreen)
         playerCardView.setOnClickListener(v -> {
             loadFragment(new PlayingScreen(), true);
         });
 
-        // Listener untuk tombol pause
         playerCardView.setOnPauseClickListener(v -> {
             songController.pauseSong();
-            playerCardView.showAsPlaying(false); // Update UI ke state "dijeda"
         });
 
-        // Listener untuk tombol play
         playerCardView.setOnPlayClickListener(v -> {
-            songController.resumeSong(); // Anda perlu membuat method ini di SongController
-            playerCardView.showAsPlaying(true); // Update UI ke state "bermain"
+            songController.resumeSong();
         });
 
         playerCardView.setOnNextClickListener(v -> {
-            // TODO: Implementasikan logika untuk lagu selanjutnya
+            songController.playNextSong();
         });
     }
 
@@ -109,19 +116,17 @@ public class MainActivity extends AppCompatActivity implements PlaylistContent.O
                     break;
             }
             if (selectedFragment != null) {
-                // Jangan tambahkan fragment utama ke back stack
                 loadFragment(selectedFragment, false);
             }
         });
     }
 
-    // DIUBAH: Menjadi public dan ditambahkan parameter untuk mengontrol back stack
     public void loadFragment(Fragment fragment, boolean addToBackStack) {
         if (fragment != null) {
             var transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, fragment);
             if (addToBackStack) {
-                transaction.addToBackStack(null); // Agar tombol back berfungsi
+                transaction.addToBackStack(null);
             }
             transaction.commit();
         }
@@ -130,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements PlaylistContent.O
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Selalu lepaskan resource untuk mencegah memory leak
         songController.release();
     }
 }

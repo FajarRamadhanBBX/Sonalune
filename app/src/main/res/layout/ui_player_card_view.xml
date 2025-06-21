@@ -105,7 +105,7 @@
             android:layout_height="4dp"
             android:layout_alignParentTop="true"
             android:max="100"
-            android:progress="69"
+            android:progress="0"
             android:progressTint="@color/primary1"
             android:progressBackgroundTint="#E8DEF8" />
     </RelativeLayout>
