@@ -1,6 +1,8 @@
 package com.sonalune.pbp.view.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +17,6 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sonalune.pbp.R;
-import com.sonalune.pbp.controller.SongController;
 import com.sonalune.pbp.model.Singer;
 import com.sonalune.pbp.model.Song;
 import com.sonalune.pbp.view.adapters.SongAdapter;
@@ -25,18 +26,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PlaylistContent#newInstance} factory method to
- * create an instance of this fragment.
- *
- */
 public class PlaylistContent extends Fragment {
 
     private RecyclerView recyclerViewSong;
     private FirebaseFirestore db;
     private ImageView imagePlaylistContent;
-    private SongController songController;
+    private OnSongSelectedListener songSelectedListener;
+    private List<Song> playlistSong = new ArrayList<>();
+    private List<Singer> singerList = new ArrayList<>();
+
+    public interface OnSongSelectedListener {
+        void onSongSelected(List<Song> songList, int position, List<Singer> singerList);
+    }
+
     public static PlaylistContent newInstance(String playlistId, String imageUrl) {
         PlaylistContent fragment = new PlaylistContent();
         Bundle args = new Bundle();
@@ -51,6 +53,18 @@ public class PlaylistContent extends Fragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnSongSelectedListener) {
+            songSelectedListener = (OnSongSelectedListener) context;
+        } else {
+            // Melempar error jika Activity lupa mengimplementasikan listener, ini mencegah bug
+            throw new RuntimeException(context.toString()
+                    + " must implement OnSongSelectedListener");
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_playlist_content, container, false);
@@ -60,14 +74,11 @@ public class PlaylistContent extends Fragment {
         recyclerViewSong = view.findViewById(R.id.recyclerViewSong);
         recyclerViewSong.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Set an OnClickListener for the back button
         backButton.setOnClickListener(v -> {
-            // Navigate back to the previous fragment
             requireActivity().getSupportFragmentManager().popBackStack();
         });
 
-        List<Song> playlistSong = new ArrayList<>();
-        List<Singer> singerList = new ArrayList<>();
+
         SongAdapter songAdapter = new SongAdapter(playlistSong, singerList);
         recyclerViewSong.setAdapter(songAdapter);
 
@@ -122,26 +133,18 @@ public class PlaylistContent extends Fragment {
                     }
                 });
 
-        songController = new SongController(requireContext());
-//        playerCard = new PlayerCard(requireContext(), null);
-
-        songAdapter.setOnItemClickListener(song -> {
-            String songUrl = song.getSongUrl();
-            Singer singer = null;
-            for (Singer s : singerList) {
-                if (s.getId() != null && s.getId().equals(song.getSingerId())) {
-                    singer = s;
-                    break;
-                }
-            }
-            if (songUrl != null && !songUrl.isEmpty()){
-                songController.playSong(songUrl);
-//                playerCard.setVisibility(View.VISIBLE);
-//                playerCard.setSongInfo(song, singer);
-            } else {
-                Toast.makeText(getContext(), "URL tidak tersedia", Toast.LENGTH_SHORT).show();
+        songAdapter.setOnItemClickListener(position -> {
+            if (songSelectedListener != null) {
+                songSelectedListener.onSongSelected(playlistSong, position, singerList);
             }
         });
 
         return view;
-    }}
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        songSelectedListener = null;
+    }
+}

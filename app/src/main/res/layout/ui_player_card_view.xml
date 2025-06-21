@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/playerCardView"
     android:backgroundTint="@android:color/white">
 
     <RelativeLayout
@@ -20,11 +22,12 @@
 
             <!-- Album Cover -->
             <ImageView
-                android:id="@+id/album_image"
+                android:id="@+id/songImage"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/im_bernadya2" />
+                tools:src="@tools:sample/avatars"
+                />
 
             <!-- Song Info -->
             <LinearLayout
@@ -36,19 +39,19 @@
                 android:paddingEnd="12dp">
 
                 <TextView
-                    android:id="@+id/song_title"
+                    android:id="@+id/songTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Satu Bulan"
+                    android:text="Song name"
                     android:textColor="@color/primary1"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/artist_name"
+                    android:id="@+id/singerName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bernadya"
+                    android:text="Singer name"
                     android:textColor="@color/primary1"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -61,9 +64,9 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/btn_pause"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:id="@+id/btnPauseCardView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:scaleType="fitXY"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_pause"
@@ -71,22 +74,22 @@
                     android:visibility="visible"/>
 
                 <ImageButton
-                    android:id="@+id/btn_play"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:id="@+id/btnPlayCardView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:scaleType="fitXY"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_play_pink"
                     android:visibility="gone"/>
 
-                <View
+                <Space
                     android:layout_width="12dp"
-                    android:layout_height="12dp" />
+                    android:layout_height="match_parent"/>
 
                 <ImageButton
-                    android:id="@+id/btn_next"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:id="@+id/btnNextCardView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:scaleType="fitXY"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_next"
@@ -96,13 +99,13 @@
 
         <!-- ProgressBar di atas (posisi z lebih tinggi) -->
         <ProgressBar
-            android:id="@+id/progress"
+            android:id="@+id/progressBar"
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="4dp"
             android:layout_alignParentTop="true"
             android:max="100"
-            android:progress="69"
+            android:progress="0"
             android:progressTint="@color/primary1"
             android:progressBackgroundTint="#E8DEF8" />
     </RelativeLayout>

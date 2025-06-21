@@ -16,17 +16,15 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder> {
-    private static List<Song> songs;
+    private List<Song> songs;
     private List<Singer> singers;
-
     private static OnItemClickListener listener;
-
 
     public SongAdapter(List<Song> songs) {
         this.songs = songs;
     }
     public interface OnItemClickListener {
-        void onItemClick(Song song);
+        void onItemClick(int position);
 
     }
 
@@ -40,7 +38,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     }
 
     // ViewHolder = class untuk mengelola tampilan 1 item
-    public static class SongViewHolder extends RecyclerView.ViewHolder {
+    public class SongViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle, tvArtist;
         ImageView imageSong;
 
@@ -51,9 +49,9 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
             imageSong = itemView.findViewById(R.id.img_song);
 
             itemView.setOnClickListener(v -> {
-            int position = getAdapterPosition();
-            if (listener != null && position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(songs.get(position));
+                int position = getAdapterPosition();
+                if (listener != null && position != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(position);
             }
         });
         }

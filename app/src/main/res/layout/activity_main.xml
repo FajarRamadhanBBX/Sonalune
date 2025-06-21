@@ -15,9 +15,10 @@
 
     <!-- Music Player (PlayerCardView) -->
     <com.sonalune.pbp.view.ui_components.PlayerCardView
-        android:id="@+id/player_card"
+        android:id="@+id/playerCard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
     <!-- Bottom Navigation (NavBar) -->
     <com.sonalune.pbp.view.ui_components.NavBar

@@ -1,19 +1,14 @@
 package com.sonalune.pbp.view.activities;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.sonalune.pbp.R;
+import com.sonalune.pbp.controller.SongController;
+import com.sonalune.pbp.model.Singer;
+import com.sonalune.pbp.model.Song;
 import com.sonalune.pbp.view.fragments.CapsuleFragment;
 import com.sonalune.pbp.view.fragments.HomeFragment;
 import com.sonalune.pbp.view.fragments.PlayingScreen;
@@ -22,68 +17,124 @@ import com.sonalune.pbp.view.fragments.Profile;
 import com.sonalune.pbp.view.ui_components.NavBar;
 import com.sonalune.pbp.view.ui_components.PlayerCardView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
 
-    private BottomNavigationView bottomNav;
+public class MainActivity extends AppCompatActivity implements
+        PlaylistContent.OnSongSelectedListener,
+        SongController.SongStateListener {
 
+    private SongController songController;
+    private PlayerCardView playerCardView;
+    private NavBar navBar;
+
+    private List<Singer> currentSingers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // PlayerCard configuration
-        //Find the PlayerCardView
-        PlayerCardView playerCardView = findViewById(R.id.player_card);
+        songController = new SongController(this);
+        songController.setSongStateListener(this);
 
-        // Set a click listener
+        navBar = findViewById(R.id.navbar);
+        playerCardView = findViewById(R.id.playerCard);
+
+        setupPlayerCardListeners();
+        setupNavBar();
+
+        if (savedInstanceState == null) {
+            loadFragment(new HomeFragment(), false);
+        }
+    }
+
+    @Override
+    public void onSongSelected(List<Song> songList, int position, List<Singer> singerList) {
+        this.currentSingers = singerList;
+        songController.setPlaylist(songList, position);
+    }
+
+    @Override
+    public void onSongChanged(Song newSong) {
+        playerCardView.setVisibility(View.VISIBLE);
+        playerCardView.setSongTitle(newSong.getTitle());
+        playerCardView.setAlbumImage(newSong.getImageUrl());
+
+        String singerName = "Unknown Artist";
+        for (Singer s : currentSingers) {
+            if (s.getId() != null && s.getId().equals(newSong.getSingerId())) {
+                singerName = s.getName();
+                break;
+            }
+        }
+        playerCardView.setSingerName(singerName);
+    }
+
+    @Override
+    public void onPlaybackStateChanged(boolean isPlaying) {
+        playerCardView.showAsPlaying(isPlaying);
+    }
+
+    @Override
+    public void onProgressUpdate(int currentPosition, int maxDuration) {
+        playerCardView.setMaxProgress(maxDuration);
+        playerCardView.setProgress(currentPosition);
+    }
+
+    private void setupPlayerCardListeners() {
         playerCardView.setOnClickListener(v -> {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new PlayingScreen())
-                    .addToBackStack(null)
-                    .commit();
+            loadFragment(new PlayingScreen(), true);
         });
 
-        // Navbar configuration
-        // Find NavBar
-        NavBar navBar = findViewById(R.id.navbar);
+        playerCardView.setOnPauseClickListener(v -> {
+            songController.pauseSong();
+        });
 
-        View bgIconNavbar = findViewById(R.id.nav_home_icon);
+        playerCardView.setOnPlayClickListener(v -> {
+            songController.resumeSong();
+        });
 
-        // Load default fragment
-        loadFragment(new HomeFragment());
+        playerCardView.setOnNextClickListener(v -> {
+            songController.playNextSong();
+        });
+    }
 
-        // default tab after entering home
+    private void setupNavBar() {
         navBar.selectTab("home");
-
-        // Set NavBar listener
         navBar.setNavBarListener(tab -> {
             Fragment selectedFragment = null;
-
             switch (tab) {
                 case "home":
                     selectedFragment = new HomeFragment();
                     break;
                 case "capsuled":
-                    selectedFragment = new CapsuleFragment(); // Replace with CapsuleFragment if needed
+                    selectedFragment = new CapsuleFragment();
                     break;
                 case "profile":
                     selectedFragment = new Profile();
                     break;
             }
-
-            loadFragment(selectedFragment);
+            if (selectedFragment != null) {
+                loadFragment(selectedFragment, false);
+            }
         });
     }
-    private boolean loadFragment(Fragment fragment) {
+
+    public void loadFragment(Fragment fragment, boolean addToBackStack) {
         if (fragment != null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit();
-            return true;
+            var transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, fragment);
+            if (addToBackStack) {
+                transaction.addToBackStack(null);
+            }
+            transaction.commit();
         }
-        return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        songController.release();
     }
 }

@@ -11,11 +11,6 @@ import android.widget.ImageView;
 
 import com.sonalune.pbp.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PlayingScreen#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class PlayingScreen extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -63,10 +58,8 @@ public class PlayingScreen extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_playing_screen, container, false);
 
-        // Find the back button
         ImageView backButton = view.findViewById(R.id.btn_back);
 
-        // Set an OnClickListener for the back button
         backButton.setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager().popBackStack();
         });
