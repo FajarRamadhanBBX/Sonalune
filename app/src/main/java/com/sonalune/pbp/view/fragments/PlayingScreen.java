@@ -1,69 +1,172 @@
 package com.sonalune.pbp.view.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-
+import android.widget.SeekBar;
+import android.widget.TextView;
+import com.bumptech.glide.Glide;
 import com.sonalune.pbp.R;
+import com.sonalune.pbp.controller.SongController;
+import com.sonalune.pbp.model.Singer;
+import com.sonalune.pbp.model.Song;
+import com.sonalune.pbp.view.activities.MainActivity;
 
-public class PlayingScreen extends Fragment {
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class PlayingScreen extends Fragment implements SongController.SongStateListener {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private MainActivity mainActivity;
+    private SongController songController;
 
-    public PlayingScreen() {
-        // Required empty public constructor
+    private ImageView imageAlbumArt, imageSmallAlbumArt, btnBack;
+    private TextView textSongTitle, textSingerName, textCurrentTime, textRemainingTime;
+    private SeekBar seekBar;
+    private ImageButton btnPlay, btnPause, btnNext, btnPrev;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof MainActivity) {
+            mainActivity = (MainActivity) context;
+            // Dapatkan controller dari activity
+            songController = mainActivity.getSongController();
+        }
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PlayingScreen.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static PlayingScreen newInstance(String param1, String param2) {
-        PlayingScreen fragment = new PlayingScreen();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // Gunakan layout XML yang Anda berikan
+        return inflater.inflate(R.layout.fragment_playing_screen, container, false);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Inisialisasi semua view
+        btnBack = view.findViewById(R.id.btn_back);
+        imageAlbumArt = view.findViewById(R.id.largeImagePlayingScreen);
+        imageSmallAlbumArt = view.findViewById(R.id.smallImagePlayingScreen);
+        textSongTitle = view.findViewById(R.id.songTitlePlayingScreem);
+        textSingerName = view.findViewById(R.id.singerNamePlayingScreem);
+        textCurrentTime = view.findViewById(R.id.currentDuration);
+        textRemainingTime = view.findViewById(R.id.remainingDuration);
+        seekBar = view.findViewById(R.id.seekBarPlayingScreen);
+        btnPlay = view.findViewById(R.id.btnPlayPlayingScreen);
+        btnPause = view.findViewById(R.id.btnPausePlayingScreen);
+        btnNext = view.findViewById(R.id.btnNextPlayingScreen);
+        btnPrev = view.findViewById(R.id.btnPrevPlayingScreen);
+
+        setupListeners();
+    }
+
+    private void setupListeners() {
+        btnBack.setOnClickListener(v -> mainActivity.onBackPressed());
+        btnPlay.setOnClickListener(v -> songController.resumeSong());
+        btnPause.setOnClickListener(v -> songController.pauseSong());
+        btnNext.setOnClickListener(v -> songController.playNextSong());
+        btnPrev.setOnClickListener(v -> songController.playPreviousSong());
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int userProgress;
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    userProgress = progress;
+                }
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                songController.seekTo(userProgress);
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Saat fragment ini aktif, jadikan fragment ini sebagai listener utama
+        if (songController != null) {
+            songController.setSongStateListener(this);
+            // Minta update state terkini
+            songController.requestUpdate(); // Anda perlu tambah metode ini di SongController
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_playing_screen, container, false);
+    public void onPause() {
+        super.onPause();
+        // Saat fragment ini tidak aktif, kembalikan listener ke MainActivity
+        if (songController != null) {
+            songController.setSongStateListener(mainActivity);
+        }
+    }
 
-        ImageView backButton = view.findViewById(R.id.btn_back);
+    // Implementasi SongStateListener
+    @Override
+    public void onSongChanged(Song newSong) {
+        if (isAdded()) { // Pastikan fragment masih ter-attach
+            String singerName = "Unknown Singer";
+            textSongTitle.setText(newSong.getTitle());
+            List<Singer> currentSingers = mainActivity.getCurrentSingers();
 
-        backButton.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager().popBackStack();
-        });
+            if (currentSingers != null) {
+                for (Singer s : currentSingers) {
+                    if (s.getId() != null && s.getId().equals(newSong.getSingerId())) {
+                        singerName = s.getName();
+                        break;
+                    }
+                }
+            }
 
-        return view;
+            textSingerName.setText(singerName);
+            Glide.with(this).load(newSong.getImageUrl()).into(imageAlbumArt);
+            Glide.with(this).load(newSong.getImageUrl()).into(imageSmallAlbumArt);
+        }
+    }
+
+    @Override
+    public void onPlaybackStateChanged(boolean isPlaying) {
+        if (isAdded()) {
+            if (isPlaying) {
+                btnPlay.setVisibility(View.GONE);
+                btnPause.setVisibility(View.VISIBLE);
+            } else {
+                btnPlay.setVisibility(View.VISIBLE);
+                btnPause.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @Override
+    public void onProgressUpdate(int currentPosition, int maxDuration) {
+        if (isAdded()) {
+            seekBar.setMax(maxDuration);
+            seekBar.setProgress(currentPosition);
+
+            String currentTimeStr = String.format(Locale.getDefault(), "%02d:%02d",
+                    TimeUnit.MILLISECONDS.toMinutes(currentPosition),
+                    TimeUnit.MILLISECONDS.toSeconds(currentPosition) % 60);
+            long remainingTime = maxDuration - currentPosition;
+            String remainingTimeStr = String.format(Locale.getDefault(), "-%02d:%02d",
+                    TimeUnit.MILLISECONDS.toMinutes(remainingTime),
+                    TimeUnit.MILLISECONDS.toSeconds(remainingTime) % 60);
+
+            textCurrentTime.setText(currentTimeStr);
+            textRemainingTime.setText(remainingTimeStr);
+        }
     }
 }

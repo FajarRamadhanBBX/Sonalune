@@ -58,7 +58,6 @@ public class PlaylistContent extends Fragment {
         if (context instanceof OnSongSelectedListener) {
             songSelectedListener = (OnSongSelectedListener) context;
         } else {
-            // Melempar error jika Activity lupa mengimplementasikan listener, ini mencegah bug
             throw new RuntimeException(context.toString()
                     + " must implement OnSongSelectedListener");
         }
