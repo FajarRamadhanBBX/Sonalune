@@ -46,7 +46,6 @@ public class PlayingScreen extends Fragment implements SongController.SongStateL
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Gunakan layout XML yang Anda berikan
         return inflater.inflate(R.layout.fragment_playing_screen, container, false);
     }
 
@@ -54,7 +53,6 @@ public class PlayingScreen extends Fragment implements SongController.SongStateL
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Inisialisasi semua view
         btnBack = view.findViewById(R.id.btn_back);
         imageAlbumArt = view.findViewById(R.id.largeImagePlayingScreen);
         imageSmallAlbumArt = view.findViewById(R.id.smallImagePlayingScreen);
@@ -98,27 +96,24 @@ public class PlayingScreen extends Fragment implements SongController.SongStateL
     @Override
     public void onResume() {
         super.onResume();
-        // Saat fragment ini aktif, jadikan fragment ini sebagai listener utama
         if (songController != null) {
             songController.setSongStateListener(this);
-            // Minta update state terkini
-            songController.requestUpdate(); // Anda perlu tambah metode ini di SongController
+            songController.requestUpdate();
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        // Saat fragment ini tidak aktif, kembalikan listener ke MainActivity
         if (songController != null) {
             songController.setSongStateListener(mainActivity);
+            songController.requestUpdate();
         }
     }
 
-    // Implementasi SongStateListener
     @Override
     public void onSongChanged(Song newSong) {
-        if (isAdded()) { // Pastikan fragment masih ter-attach
+        if (isAdded()) {
             String singerName = "Unknown Singer";
             textSongTitle.setText(newSong.getTitle());
             List<Singer> currentSingers = mainActivity.getCurrentSingers();

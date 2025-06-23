@@ -9,7 +9,7 @@ public class User {
     private String fullname;
     private String email;
     private String password;
-
+    private String photo;
     @ServerTimestamp
     private Date createdAt;
     @ServerTimestamp
@@ -21,6 +21,7 @@ public class User {
         this.id = id;
         this.fullname = fullname;
         this.email = email;
+        this.photo = "https://bzvdoaouvekmijrdgmbz.supabase.co/storage/v1/object/sign/uasplatform/image_song/semoga.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYTNiMGUwZS0wZTMxLTQyOTEtOWJmYS0zNjk5MmQ0ZGM5ZDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1YXNwbGF0Zm9ybS9pbWFnZV9zb25nL3NlbW9nYS5qcGVnIiwiaWF0IjoxNzUwNjQ2MDExLCJleHAiOjE3ODIxODIwMTF9.wX9ZyxdUD8RkHcS5sIt4NTiLLVPeQYT5zyzVhoIf008";
         this.password = password;
     }
 
@@ -60,4 +61,8 @@ public class User {
     public String getPassword() {
         return password;
     }
+
+    public String getPhoto() { return photo; }
+
+    public void setPhoto(String photo) { this.photo = photo; }
 }

@@ -3,9 +3,13 @@ package com.sonalune.pbp.controller;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.sonalune.pbp.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ManagementUser {
     User user;
@@ -19,10 +23,54 @@ public class ManagementUser {
         void onFailure(String message);
     }
 
+    public interface UserListener {
+        void onUserLoaded(User user);
+        void onFailure(String message);
+    }
+
     public ManagementUser(Context context) {
         this.context = context;
         this.db = FirebaseFirestore.getInstance();
         this.auth = FirebaseAuth.getInstance();
+    }
+
+    public void getCurrentUserData(UserListener listener) {
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        if (firebaseUser != null) {
+            String uid = firebaseUser.getUid();
+            db.collection("User").document(uid).get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            User user = documentSnapshot.toObject(User.class);
+                            if (user != null) {
+                                user.setId(documentSnapshot.getId());
+                                listener.onUserLoaded(user);
+                            } else {
+                                listener.onFailure("Failed to parse user data.");
+                            }
+                        } else {
+                            listener.onFailure("User data not found in Firestore.");
+                        }
+                    })
+                    .addOnFailureListener(e -> listener.onFailure(e.getMessage()));
+        } else {
+            listener.onFailure("No user is currently signed in.");
+        }
+    }
+
+    public void updateUserProfile(String newFullName, AuthListener listener) {
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        if (firebaseUser == null) {
+            listener.onFailure("No user logged in.");
+            return;
+        }
+        String uid = firebaseUser.getUid();
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("fullname", newFullName);
+
+        db.collection("User").document(uid).update(updates)
+                .addOnSuccessListener(aVoid -> listener.onSuccess("Profile updated successfully."))
+                .addOnFailureListener(e -> listener.onFailure("Failed to update profile: " + e.getMessage()));
     }
 
     public void signUp(String fullname, String email, String password, AuthListener authListener){

@@ -1,39 +1,49 @@
 package com.sonalune.pbp.view.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sonalune.pbp.R;
 import com.sonalune.pbp.model.Playlist;
+import com.sonalune.pbp.model.Singer;
 import com.sonalune.pbp.model.Song;
+import com.sonalune.pbp.view.activities.MainActivity;
 import com.sonalune.pbp.view.adapters.PickForYouAdapter;
 import com.sonalune.pbp.view.adapters.PlaylistAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerViewPlaylist, recyclerViewPickForYou;
     private FirebaseFirestore db;
-    String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private String currentUserId;
+    private MainActivity mainActivity;
 
-    public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+    public HomeFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof MainActivity) {
+            mainActivity = (MainActivity) context;
+        }
     }
 
     @Override
@@ -41,12 +51,18 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         db = FirebaseFirestore.getInstance();
+        currentUserId = FirebaseAuth.getInstance().getCurrentUser() != null ? FirebaseAuth.getInstance().getCurrentUser().getUid() : "";
 
-        // Playlist
+        setupPlaylistRecyclerView(view);
+        setupPickForYouRecyclerView(view);
+
+        return view;
+    }
+
+    private void setupPlaylistRecyclerView(View view) {
         recyclerViewPlaylist = view.findViewById(R.id.recyclerViewPlaylist);
         recyclerViewPlaylist.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
-        // Buat daftar playlist
         List<Playlist> allPlaylist = new ArrayList<>();
         PlaylistAdapter adapterPlaylist = new PlaylistAdapter(allPlaylist);
         recyclerViewPlaylist.setAdapter(adapterPlaylist);
@@ -55,37 +71,90 @@ public class HomeFragment extends Fragment {
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     allPlaylist.clear();
-                    for (DocumentSnapshot doc: queryDocumentSnapshots) {
+                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
                         Playlist playlist = doc.toObject(Playlist.class);
-                        if (playlist.getIsPublic() || playlist.getUserId().equals(currentUserId))
+                        playlist.setId(doc.getId());
+                        if (playlist.getIsPublic() || playlist.getUserId().equals(currentUserId)) {
                             allPlaylist.add(playlist);
+                        }
                     }
                     adapterPlaylist.notifyDataSetChanged();
                 });
 
         adapterPlaylist.setOnItemClickListener(playlist -> {
-            String playlistId = playlist.getId();
-            String playlistimage = playlist.getImageUrl();
-            Fragment fragment = PlaylistContent.newInstance(playlistId, playlistimage);
-            getParentFragmentManager()
-                    .beginTransaction()
+            PlaylistContent fragment = PlaylistContent.newInstance(playlist.getId(), playlist.getImageUrl());
+            getParentFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit();
         });
+    }
 
-        // Pick For You
+    private void setupPickForYouRecyclerView(View view) {
         recyclerViewPickForYou = view.findViewById(R.id.recyclerViewPickForYou);
         recyclerViewPickForYou.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
-        // Buat daftar lagu
-        List<Song> allSong = new ArrayList<Song>();
-//        allSong.add(new Song("id", "title", "singerId", 0 ,"https://bzvdoaouvekmijrdgmbz.supabase.co/storage/v1/object/sign/uasplatform/playlist/doves.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYTNiMGUwZS0wZTMxLTQyOTEtOWJmYS0zNjk5MmQ0ZGM5ZDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1YXNwbGF0Zm9ybS9wbGF5bGlzdC9kb3Zlcy5qcGVnIiwiaWF0IjoxNzUwNDI0NjY1LCJleHAiOjE3ODE5NjA2NjV9.jEQjzz9aSJDIE5Aql8jkYbUQdhZwoyvW29DHPFlQFwE"));
-
-        // Pasang adapter
-        PickForYouAdapter adapterPickForYou = new PickForYouAdapter(allSong);
+        List<Song> pickForYouSongs = new ArrayList<>();
+        List<Singer> pickForYouSingers = new ArrayList<>();
+        PickForYouAdapter adapterPickForYou = new PickForYouAdapter(pickForYouSongs);
         recyclerViewPickForYou.setAdapter(adapterPickForYou);
 
-        return view;
+        String pickForYouPlaylistId = "DDApc9gdv0JRbBL4Qd97";
+
+        db.collection("Playlist").document(pickForYouPlaylistId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        List<String> allSongIds = (List<String>) documentSnapshot.get("songId");
+                        if (allSongIds != null && !allSongIds.isEmpty()) {
+                            List<String> top6SongIds = allSongIds.subList(0, Math.min(allSongIds.size(), 6));
+                            if (top6SongIds.isEmpty()) return;
+
+                            db.collection("Song").whereIn("__name__", top6SongIds)
+                                    .get()
+                                    .addOnSuccessListener(songQuerySnapshot -> {
+                                        pickForYouSongs.clear();
+                                        Set<String> singerIds = new HashSet<>();
+                                        for (DocumentSnapshot songDoc : songQuerySnapshot) {
+                                            Song song = songDoc.toObject(Song.class);
+                                            song.setId(songDoc.getId());
+                                            pickForYouSongs.add(song);
+                                            if (song.getSingerId() != null && !song.getSingerId().isEmpty()) {
+                                                singerIds.add(song.getSingerId());
+                                            }
+                                        }
+
+                                        if (!singerIds.isEmpty()) {
+                                            db.collection("Singer").whereIn("__name__", new ArrayList<>(singerIds))
+                                                    .get()
+                                                    .addOnSuccessListener(singerQuerySnapshot -> {
+                                                        pickForYouSingers.clear();
+                                                        for(DocumentSnapshot singerDoc : singerQuerySnapshot) {
+                                                            Singer singer = singerDoc.toObject(Singer.class);
+                                                            singer.setId(singerDoc.getId());
+                                                            pickForYouSingers.add(singer);
+                                                        }
+                                                       adapterPickForYou.notifyDataSetChanged();
+                                                    });
+                                        } else {
+                                            adapterPickForYou.notifyDataSetChanged();
+                                        }
+                                    });
+                        }
+                    }
+                });
+
+        adapterPickForYou.setOnItemClickListener(song -> {
+            if (mainActivity != null) {
+                List<Song> singleSongPlaylist = new ArrayList<>(Collections.singletonList(song));
+                mainActivity.onSongSelected(singleSongPlaylist, 0, pickForYouSingers);
+            }
+        });
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mainActivity = null;
     }
 }
