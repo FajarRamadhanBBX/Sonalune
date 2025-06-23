@@ -14,7 +14,16 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class PickForYouAdapter extends RecyclerView.Adapter<PickForYouAdapter.PickForYouViewHolder> {
-    private List<Song> songs;
+    private static List<Song> songs;
+    private static OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(Song song);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     public PickForYouAdapter(List<Song> songs) {
         this.songs = songs;
@@ -26,6 +35,13 @@ public class PickForYouAdapter extends RecyclerView.Adapter<PickForYouAdapter.Pi
         public PickForYouViewHolder (View itemView) {
             super(itemView);
             pickForYouImage = itemView.findViewById(R.id.img_pick_for_you);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (listener != null && position != RecyclerView.NO_POSITION){
+                    listener.onItemClick(songs.get(position));
+                }
+            });
         }
 
         public void bind(Song song) {

@@ -65,6 +65,7 @@
         </FrameLayout>
 
         <TextView
+            android:id="@+id/profileNameHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mas Bro"
@@ -102,6 +103,8 @@
                     android:background="@drawable/et_auth"
                     android:padding="@dimen/margin_medium">
                     <EditText
+                        android:clickable="false"
+                        android:focusable="false"
                         android:id="@+id/user_name"
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -145,6 +148,8 @@
                     android:padding="@dimen/margin_medium">
                     <EditText
                         android:id="@+id/user_email"
+                        android:clickable="false"
+                        android:focusable="false"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
@@ -186,6 +191,8 @@
                     android:padding="@dimen/margin_medium">
                     <EditText
                         android:id="@+id/et_password"
+                        android:clickable="false"
+                        android:focusable="false"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

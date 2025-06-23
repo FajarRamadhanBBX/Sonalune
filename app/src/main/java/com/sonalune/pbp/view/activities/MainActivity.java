@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements
     private SongController songController;
     private PlayerCardView playerCardView;
     private NavBar navBar;
-
     private List<Singer> currentSingers = new ArrayList<>();
 
     @Override
@@ -47,6 +46,14 @@ public class MainActivity extends AppCompatActivity implements
         if (savedInstanceState == null) {
             loadFragment(new HomeFragment(), false);
         }
+    }
+
+    public List<Singer> getCurrentSingers() {
+        return this.currentSingers;
+    }
+
+    public SongController getSongController() {
+        return this.songController;
     }
 
     @Override
@@ -84,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void setupPlayerCardListeners() {
         playerCardView.setOnClickListener(v -> {
+            showFullScreenPlayer(true);
             loadFragment(new PlayingScreen(), true);
         });
 
@@ -119,6 +127,28 @@ public class MainActivity extends AppCompatActivity implements
                 loadFragment(selectedFragment, false);
             }
         });
+    }
+
+    public void showFullScreenPlayer(boolean show) {
+        if (show) {
+            navBar.setVisibility(View.GONE);
+            playerCardView.setVisibility(View.GONE);
+        } else {
+            navBar.setVisibility(View.VISIBLE);
+            // Player card hanya ditampilkan jika ada lagu yang sedang disiapkan
+            if (songController.isPlaylistSet()) { // Anda perlu menambahkan metode isPlaylistSet() di SongController
+                playerCardView.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (currentFragment instanceof PlayingScreen) {
+            showFullScreenPlayer(false);
+        }
+        super.onBackPressed();
     }
 
     public void loadFragment(Fragment fragment, boolean addToBackStack) {

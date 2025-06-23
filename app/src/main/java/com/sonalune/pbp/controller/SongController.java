@@ -109,6 +109,17 @@ public class SongController {
         playCurrentSong();
     }
 
+    public void playPreviousSong() {
+        if (playlistSong == null || playlistSong.isEmpty()) {
+            return;
+        }
+        currentSongIndex--;
+        if (currentSongIndex == -1){
+            currentSongIndex = 0;
+        }
+        playCurrentSong();
+    }
+
     public void pauseSong() {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
@@ -128,6 +139,26 @@ public class SongController {
             }
             Toast.makeText(context, "Resumed", Toast.LENGTH_SHORT).show();
             progressHandler.post(progressUpdater);
+        }
+    }
+
+    public void seekTo(int positionInMillis) {
+        if (mediaPlayer != null) {
+            mediaPlayer.seekTo(positionInMillis);
+        }
+    }
+
+    public boolean isPlaylistSet() {
+        return playlistSong != null && !playlistSong.isEmpty();
+    }
+
+    public void requestUpdate() {
+        if (playlistSong != null && !playlistSong.isEmpty()) {
+            stateListener.onSongChanged(playlistSong.get(currentSongIndex));
+            if (mediaPlayer != null) {
+                stateListener.onPlaybackStateChanged(mediaPlayer.isPlaying());
+                stateListener.onProgressUpdate(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration());
+            }
         }
     }
 
