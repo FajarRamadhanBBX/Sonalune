@@ -71,7 +71,6 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
             });
         }
 
-
         public void bind(Song song, Singer singer) {
             tvTitle.setText(song.getTitle());
             tvArtist.setText(singer != null ? singer.getName() : "-");

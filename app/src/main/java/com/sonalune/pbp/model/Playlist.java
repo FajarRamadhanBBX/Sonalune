@@ -3,6 +3,7 @@ package com.sonalune.pbp.model;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
+import java.util.List;
 
 public class Playlist {
     private String id;
@@ -10,6 +11,7 @@ public class Playlist {
     private String name;
     private Boolean isPublic;
     private String imageUrl;
+    private List<String> songId;
     @ServerTimestamp
     private Date createdAt;
     @ServerTimestamp
@@ -103,5 +105,13 @@ public class Playlist {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public List<String> getSongId() {
+        return songId;
+    }
+
+    public void setSongId(List<String> songId) {
+        this.songId = songId;
     }
 }
