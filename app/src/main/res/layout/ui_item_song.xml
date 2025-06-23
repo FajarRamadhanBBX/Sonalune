@@ -59,7 +59,7 @@
             />
 
         <ImageView
-            android:id="@+id/img_more"
+            android:id="@+id/imageMore"
             android:layout_gravity="center"
             android:layout_width="24dp"
             android:layout_height="24dp"

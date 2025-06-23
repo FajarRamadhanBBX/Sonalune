@@ -16,7 +16,7 @@
         android:layout_marginHorizontal="16dp">
 
         <ImageView
-            android:id="@+id/btn_back"
+            android:id="@+id/backButtonPlaylist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_back"
@@ -24,8 +24,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_playlist_content"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/RoundedImageView"
@@ -36,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:layout_marginVertical="24dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -52,15 +53,17 @@
 
             <ImageButton
                 android:id="@+id/btn_shuffle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:scaleType="fitXY"
                 android:background="@null"
                 android:src="@drawable/ic_shuffle" />
 
             <ImageButton
                 android:id="@+id/btn_play"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:scaleType="fitXY"
                 android:background="@null"
                 android:src="@drawable/ic_play_playlist"
                 android:layout_marginLeft="24dp"/>

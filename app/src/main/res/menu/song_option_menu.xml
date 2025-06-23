@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_remove_from_playlist"
+        android:title="Hapus dari playlist ini" />
+
+    <item
+        android:id="@+id/action_add_to_playlist"
+        android:title="Tambahkan ke playlist lain" />
+
+    <item
+        android:id="@+id/action_create_playlist"
+        android:title="Buat playlist baru dengan lagu ini" />
+
+</menu>

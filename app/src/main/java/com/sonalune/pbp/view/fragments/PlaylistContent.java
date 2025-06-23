@@ -11,10 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sonalune.pbp.R;
 import com.sonalune.pbp.model.Singer;
@@ -30,10 +33,12 @@ public class PlaylistContent extends Fragment {
 
     private RecyclerView recyclerViewSong;
     private FirebaseFirestore db;
-    private ImageView imagePlaylistContent;
+    private ImageView imagePlaylistContent, backButton;
     private OnSongSelectedListener songSelectedListener;
     private List<Song> playlistSong = new ArrayList<>();
     private List<Singer> singerList = new ArrayList<>();
+    private SongAdapter songAdapter;
+    private String playlistId;
 
     public interface OnSongSelectedListener {
         void onSongSelected(List<Song> songList, int position, List<Singer> singerList);
@@ -67,26 +72,98 @@ public class PlaylistContent extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_playlist_content, container, false);
-        ImageView backButton = view.findViewById(R.id.btn_back);
+        initViews(view);
+        initAdapter();
+        setupListeners();
+        loadPlaylistData();
+
+        return view;
+    }
+
+    private void initViews(View view) {
         db = FirebaseFirestore.getInstance();
-        imagePlaylistContent = view.findViewById(R.id.img_playlist_content);
         recyclerViewSong = view.findViewById(R.id.recyclerViewSong);
+        imagePlaylistContent = view.findViewById(R.id.img_playlist_content);
+        backButton = view.findViewById(R.id.backButtonPlaylist);
+
         recyclerViewSong.setLayoutManager(new LinearLayoutManager(getContext()));
 
         backButton.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager().popBackStack();
+            if (isAdded()) requireActivity().getSupportFragmentManager().popBackStack();
+        });
+    }
+
+    private void initAdapter() {
+        // Inisialisasi variabel anggota kelas songAdapter
+        songAdapter = new SongAdapter(playlistSong, singerList);
+        recyclerViewSong.setAdapter(songAdapter);
+    }
+
+    private void setupListeners() {
+        if (songAdapter == null) return;
+
+        songAdapter.setOnItemClickListener(position -> {
+            if (songSelectedListener != null) {
+                songSelectedListener.onSongSelected(playlistSong, position, singerList);
+            }
         });
 
+        songAdapter.setOnMoreOptionsClickListener((view, song) -> {
+            showPopupMenu(view, song);
+        });
+    }
 
-        SongAdapter songAdapter = new SongAdapter(playlistSong, singerList);
-        recyclerViewSong.setAdapter(songAdapter);
+    private void showPopupMenu(View view, Song song) {
+        PopupMenu popup = new PopupMenu(getContext(), view);
+        popup.getMenuInflater().inflate(R.menu.song_option_menu, popup.getMenu());
 
-        String playlistId = getArguments() != null ? getArguments().getString("id") : null;
+        popup.setOnMenuItemClickListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.action_remove_from_playlist) {
+                removeSongFromPlaylist(song);
+                return true;
+            } else if (itemId == R.id.action_add_to_playlist) {
+                Toast.makeText(getContext(), "Fitur 'Tambah ke playlist' belum diimplementasikan.", Toast.LENGTH_SHORT).show();
+                return true;
+            } else if (itemId == R.id.action_create_playlist) {
+                Toast.makeText(getContext(), "Fitur 'Buat playlist' belum diimplementasikan.", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            return false;
+        });
+        popup.show();
+    }
+
+    private void removeSongFromPlaylist(Song song) {
+        if (playlistId == null || song.getId() == null) {
+            Toast.makeText(getContext(), "Error: Gagal mendapatkan ID", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        DocumentReference playlistRef = db.collection("Playlist").document(playlistId);
+        playlistRef.update("songId", FieldValue.arrayRemove(song.getId()))
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(getContext(), song.getTitle() + " dihapus dari playlist.", Toast.LENGTH_SHORT).show();
+                    int position = playlistSong.indexOf(song);
+                    if (position != -1) {
+                        playlistSong.remove(position);
+                        songAdapter.notifyItemRemoved(position);
+                        songAdapter.notifyItemRangeChanged(position, playlistSong.size());
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Gagal menghapus lagu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void loadPlaylistData() {
+        this.playlistId = getArguments() != null ? getArguments().getString("id") : null;
         String imagePlaylistUrl = getArguments() != null ? getArguments().getString("imageUrl") : null;
+
         if (imagePlaylistUrl != null) {
             Glide.with(this).load(imagePlaylistUrl).into(imagePlaylistContent);
         }
-        if (playlistId == null) return view;
+        if (this.playlistId == null) return;
 
         db.collection("Playlist").document(playlistId)
                 .get()
@@ -137,8 +214,6 @@ public class PlaylistContent extends Fragment {
                 songSelectedListener.onSongSelected(playlistSong, position, singerList);
             }
         });
-
-        return view;
     }
 
     @Override

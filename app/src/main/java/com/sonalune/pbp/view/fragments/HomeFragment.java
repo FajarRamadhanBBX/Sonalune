@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,11 +29,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerViewPlaylist, recyclerViewPickForYou;
     private FirebaseFirestore db;
     private String currentUserId;
     private MainActivity mainActivity;
+    private String photoProfile;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -55,8 +59,35 @@ public class HomeFragment extends Fragment {
 
         setupPlaylistRecyclerView(view);
         setupPickForYouRecyclerView(view);
+        loadUserProfilePhoto(view);
 
         return view;
+    }
+
+    private void loadUserProfilePhoto(View view) {
+        CircleImageView profileImageView = view.findViewById(R.id.photoProfile);
+        if (currentUserId != null && !currentUserId.isEmpty()) {
+            db.collection("User").document(currentUserId).get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (isAdded() && documentSnapshot.exists()) {
+                            String photoUrl = documentSnapshot.getString("photo");
+
+                            if (photoUrl != null && !photoUrl.isEmpty()) {
+                                Glide.with(getContext())
+                                        .load(photoUrl)
+                                        .placeholder(R.drawable.im_antony) // Gambar default saat loading
+                                        .error(R.drawable.im_antony) // Gambar default jika ada error
+                                        .into(profileImageView);
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Jika gagal mengambil data, tampilkan gambar default
+                        if(isAdded()) {
+                            profileImageView.setImageResource(R.drawable.im_antony);
+                        }
+                    });
+        }
     }
 
     private void setupPlaylistRecyclerView(View view) {

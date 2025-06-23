@@ -20,7 +20,7 @@
             android:gravity="center_vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imgProfile"
+                android:id="@+id/photoProfile"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:src="@drawable/im_antony"

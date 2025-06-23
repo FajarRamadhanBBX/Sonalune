@@ -20,6 +20,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     private List<Singer> singers;
     private OnItemClickListener listener;
 
+    private OnMoreOptionsClickListener moreOptionsListener;
+
     public SongAdapter(List<Song> songs) {
         this.songs = songs;
     }
@@ -28,35 +30,47 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
 
     }
 
+    public interface OnMoreOptionsClickListener {
+        void onMoreOptionsClick(View view, Song song);
+    }
+
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
-
+    public void setOnMoreOptionsClickListener(OnMoreOptionsClickListener listener) {
+        this.moreOptionsListener = listener;
+    }
     public SongAdapter(List<Song> songs, List<Singer> singers) {
         this.songs = songs;
         this.singers = singers;
     }
 
-    // ViewHolder = class untuk mengelola tampilan 1 item
     public class SongViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle, tvArtist;
-        ImageView imageSong;
+        ImageView imageSong, imageMore;
 
         public SongViewHolder(View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.txt_title);
             tvArtist = itemView.findViewById(R.id.txt_artist);
             imageSong = itemView.findViewById(R.id.img_song);
+            imageMore = itemView.findViewById(R.id.imageMore);
 
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {
                     listener.onItemClick(position);
-            }
-        });
+                }
+            });
+            imageMore.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (moreOptionsListener != null && position != RecyclerView.NO_POSITION) {
+                    moreOptionsListener.onMoreOptionsClick(v, songs.get(position));
+                }
+            });
         }
 
-        
 
         public void bind(Song song, Singer singer) {
             tvTitle.setText(song.getTitle());

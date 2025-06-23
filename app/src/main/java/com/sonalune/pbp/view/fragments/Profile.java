@@ -87,13 +87,12 @@ public class Profile extends Fragment {
                 editUserName.setText(user.getFullname());
                 editUserEmail.setText(user.getEmail());
 
-
-//                if (user.getPhotoUrl() != null && !user.getPhotoUrl().isEmpty()) {
-//                    Glide.with(getContext()).load(user.getPhotoUrl()).into(imgProfile);
-//                } else {
-//                    // Tampilkan gambar default jika tidak ada foto profil
-//                    imgProfile.setImageResource(R.drawable.im_antony);
-//                }
+                if (user.getPhoto() != null && !user.getPhoto().isEmpty()) {
+                    Glide.with(getContext()).load(user.getPhoto()).into(imgProfile);
+                } else {
+                    // Tampilkan gambar default jika tidak ada foto profil
+                    imgProfile.setImageResource(R.drawable.im_antony);
+                }
             }
 
             @Override
@@ -138,9 +137,7 @@ public class Profile extends Fragment {
             headerProfile.setText("Profile");
             btnBack.setVisibility(View.GONE);
 
-            // Kembalikan field ke mode tidak bisa diedit
             setEditable(editUserName, false);
-            // Kembalikan teks ke data semula jika ada perubahan yang tidak disimpan
             if (currentUser != null) {
                 editUserName.setText(currentUser.getFullname());
             }
