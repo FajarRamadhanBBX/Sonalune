@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/item_song"
+    android:layout_marginBottom="8dp"
+    >
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageTopSong"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/RoundedImageView"
+        tools:src="@tools:sample/avatars" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:paddingStart="8dp">
+
+        <TextView
+            android:id="@+id/titleTopSong"
+            android:text="Kata mereka aku berlebihan"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            />
+
+        <TextView
+            android:id="@+id/singerTopSong"
+            android:textColor="@color/white"
+            android:layout_marginTop="4dp"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="Bernadya"
+            android:textSize="12sp"/>
+    </LinearLayout>
+</LinearLayout>
