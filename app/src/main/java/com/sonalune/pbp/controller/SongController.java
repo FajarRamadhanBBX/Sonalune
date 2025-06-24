@@ -72,7 +72,7 @@ public class SongController {
 
         Song songToPlay = playlistSong.get(currentSongIndex);
         if (songToPlay != null && songToPlay.getId() != null){
-            incrementListenCount(songToPlay.getId());
+            incrementListenCount(songToPlay);
         }
         String songUrl = songToPlay.getSongUrl();
 
@@ -168,16 +168,20 @@ public class SongController {
         }
     }
 
-    public void incrementListenCount(String songId) {
-        if (songId == null || songId.isEmpty()) {
+    public void incrementListenCount(Song song) {
+        if (song.getId() == null || song.getId().isEmpty()) {
             Log.w(TAG, "Cannot increment listen count: song ID is null or empty.");
             return;
         }
 
-        db.collection("Song").document(songId)
+        db.collection("Song").document(song.getId())
                 .update("listenCount", FieldValue.increment(1))
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "Listen count incremented successfully for song: " + songId))
-                .addOnFailureListener(e -> Log.w(TAG, "Error incrementing listen count for song: " + songId, e));
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "Listen count incremented successfully for song: " + song.getId()))
+                .addOnFailureListener(e -> Log.w(TAG, "Error incrementing listen count for song: " + song.getId()));
+        db.collection("Singer").document(song.getSingerId())
+                .update("monthlyListener", FieldValue.increment(1))
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "Listen count incremented successfully for singer: " + song.getId()))
+                .addOnFailureListener(e -> Log.w(TAG, "Error incrementing listen count for song: " + song.getId()));
     }
 
     public void stopSong() {
