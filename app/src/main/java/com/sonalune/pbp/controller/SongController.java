@@ -7,12 +7,15 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.sonalune.pbp.model.Song;
 
 import java.util.List;
 
 public class SongController {
     private MediaPlayer mediaPlayer;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Context context;
     private static final String TAG = "SongController";
     private List<Song> playlistSong;
@@ -68,6 +71,9 @@ public class SongController {
         progressHandler.removeCallbacks(progressUpdater);
 
         Song songToPlay = playlistSong.get(currentSongIndex);
+        if (songToPlay != null && songToPlay.getId() != null){
+            incrementListenCount(songToPlay.getId());
+        }
         String songUrl = songToPlay.getSongUrl();
 
         try {
@@ -160,6 +166,18 @@ public class SongController {
                 stateListener.onProgressUpdate(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration());
             }
         }
+    }
+
+    public void incrementListenCount(String songId) {
+        if (songId == null || songId.isEmpty()) {
+            Log.w(TAG, "Cannot increment listen count: song ID is null or empty.");
+            return;
+        }
+
+        db.collection("Song").document(songId)
+                .update("listenCount", FieldValue.increment(1))
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "Listen count incremented successfully for song: " + songId))
+                .addOnFailureListener(e -> Log.w(TAG, "Error incrementing listen count for song: " + songId, e));
     }
 
     public void stopSong() {
