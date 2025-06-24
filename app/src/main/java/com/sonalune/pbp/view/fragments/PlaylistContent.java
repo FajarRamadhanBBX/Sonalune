@@ -3,11 +3,13 @@ package com.sonalune.pbp.view.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -38,16 +40,18 @@ public class PlaylistContent extends Fragment implements CreatePlaylistDialogFra
     private String playlistId;
     private String imagePlaylistUrl;
     private PlaylistController playlistController;
+    private boolean isCurrentPlaylistPublic;
 
     public interface OnSongSelectedListener {
         void onSongSelected(List<Song> songList, int position, List<Singer> singerList);
     }
 
-    public static PlaylistContent newInstance(String playlistId, String imageUrl) {
+    public static PlaylistContent newInstance(String playlistId, String imageUrl, boolean isPublic) {
         PlaylistContent fragment = new PlaylistContent();
         Bundle args = new Bundle();
         args.putString("id", playlistId);
         args.putString("imageUrl", imageUrl);
+        args.putBoolean("isPublic", isPublic);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,15 +70,28 @@ public class PlaylistContent extends Fragment implements CreatePlaylistDialogFra
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_playlist_content, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_playlist_content, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (getArguments() != null) {
+            this.playlistId = getArguments().getString("id");
+            this.isCurrentPlaylistPublic = getArguments().getBoolean("isPublic", false);
+            String imagePlaylistUrl = getArguments().getString("imageUrl");
+            if (imagePlaylistUrl != null) {
+                Glide.with(this).load(imagePlaylistUrl).into((ImageView) view.findViewById(R.id.img_playlist_content));
+            }
+        }
+
         playlistController = new PlaylistController();
         initViews(view);
         initAdapter();
         setupListeners();
         loadPlaylistData();
-        return view;
     }
 
     private void initViews(View view) {
@@ -90,7 +107,7 @@ public class PlaylistContent extends Fragment implements CreatePlaylistDialogFra
     }
 
     private void initAdapter() {
-        songAdapter = new SongAdapter(playlistSong, singerList);
+        songAdapter = new SongAdapter(playlistSong, singerList, isCurrentPlaylistPublic);
         recyclerViewSong.setAdapter(songAdapter);
     }
 
@@ -112,6 +129,10 @@ public class PlaylistContent extends Fragment implements CreatePlaylistDialogFra
         this.songForAction = song;
         PopupMenu popup = new PopupMenu(getContext(), view);
         popup.getMenuInflater().inflate(R.menu.song_option_menu, popup.getMenu());
+        MenuItem removeItem = popup.getMenu().findItem(R.id.action_remove_from_playlist);
+        if (removeItem != null) {
+            removeItem.setVisible(!isCurrentPlaylistPublic);
+        }
 
         popup.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();

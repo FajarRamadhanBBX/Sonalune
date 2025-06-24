@@ -47,6 +47,7 @@ public class PlaylistController {
                                             synchronized (playlistSong) {
                                                 for (DocumentSnapshot doc : querySnapshot) {
                                                     Song song = doc.toObject(Song.class);
+                                                    song.setId(doc.getId());
                                                     playlistSong.add(song);
                                                     if (song.getSingerId() != null) {
                                                         singerIds.add(song.getSingerId());

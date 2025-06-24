@@ -21,6 +21,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     private OnItemClickListener listener;
 
     private OnMoreOptionsClickListener moreOptionsListener;
+    private boolean isPublicPlaylist;
 
     public SongAdapter(List<Song> songs) {
         this.songs = songs;
@@ -41,9 +42,10 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     public void setOnMoreOptionsClickListener(OnMoreOptionsClickListener listener) {
         this.moreOptionsListener = listener;
     }
-    public SongAdapter(List<Song> songs, List<Singer> singers) {
+    public SongAdapter(List<Song> songs, List<Singer> singers, boolean isPublic) {
         this.songs = songs;
         this.singers = singers;
+        this.isPublicPlaylist = isPublic;
     }
 
     public class SongViewHolder extends RecyclerView.ViewHolder {
@@ -89,7 +91,6 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     public void onBindViewHolder(SongViewHolder holder, int position) {
         Song song = songs.get(position);
         Singer singer = null;
-        // Cari singer yang id-nya sama dengan singerId di song
         if (singers != null) {
             for (Singer s : singers) {
                 if (s.getId() != null && s.getId().equals(song.getSingerId())) {

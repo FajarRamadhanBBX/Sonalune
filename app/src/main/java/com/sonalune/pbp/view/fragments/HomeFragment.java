@@ -105,7 +105,7 @@ public class HomeFragment extends Fragment {
         });
 
         adapterPlaylist.setOnItemClickListener(playlist -> {
-            PlaylistContent fragment = PlaylistContent.newInstance(playlist.getId(), playlist.getImageUrl());
+            PlaylistContent fragment = PlaylistContent.newInstance(playlist.getId(), playlist.getImageUrl(), playlist.getIsPublic());
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
