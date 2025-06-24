@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.sonalune.pbp.R;
+import com.sonalune.pbp.controller.HomeController;
 import com.sonalune.pbp.model.Playlist;
 import com.sonalune.pbp.model.Singer;
 import com.sonalune.pbp.model.Song;
@@ -24,19 +24,17 @@ import com.sonalune.pbp.view.adapters.PlaylistAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerViewPlaylist, recyclerViewPickForYou;
-    private FirebaseFirestore db;
     private String currentUserId;
     private MainActivity mainActivity;
+    private HomeController homeController;
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+    public HomeFragment() {}
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -50,13 +48,39 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        db = FirebaseFirestore.getInstance();
-        currentUserId = FirebaseAuth.getInstance().getCurrentUser() != null ? FirebaseAuth.getInstance().getCurrentUser().getUid() : "";
+        currentUserId = FirebaseAuth.getInstance().getCurrentUser() != null
+                ? FirebaseAuth.getInstance().getCurrentUser().getUid() : "";
+        homeController = new HomeController();
 
         setupPlaylistRecyclerView(view);
         setupPickForYouRecyclerView(view);
+        loadUserProfilePhoto(view);
 
         return view;
+    }
+
+    private void loadUserProfilePhoto(View view) {
+        CircleImageView profileImageView = view.findViewById(R.id.photoProfile);
+        if (currentUserId != null && !currentUserId.isEmpty()) {
+            homeController.loadUserPhoto(currentUserId, new HomeController.UserPhotoListener() {
+                @Override
+                public void onPhotoLoaded(String photoUrl) {
+                    if (isAdded() && photoUrl != null && !photoUrl.isEmpty()) {
+                        Glide.with(getContext())
+                                .load(photoUrl)
+                                .placeholder(R.drawable.im_antony)
+                                .error(R.drawable.im_antony)
+                                .into(profileImageView);
+                    }
+                }
+                @Override
+                public void onError() {
+                    if (isAdded()) {
+                        profileImageView.setImageResource(R.drawable.im_antony);
+                    }
+                }
+            });
+        }
     }
 
     private void setupPlaylistRecyclerView(View view) {
@@ -67,22 +91,21 @@ public class HomeFragment extends Fragment {
         PlaylistAdapter adapterPlaylist = new PlaylistAdapter(allPlaylist);
         recyclerViewPlaylist.setAdapter(adapterPlaylist);
 
-        db.collection("Playlist")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    allPlaylist.clear();
-                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                        Playlist playlist = doc.toObject(Playlist.class);
-                        playlist.setId(doc.getId());
-                        if (playlist.getIsPublic() || playlist.getUserId().equals(currentUserId)) {
-                            allPlaylist.add(playlist);
-                        }
-                    }
-                    adapterPlaylist.notifyDataSetChanged();
-                });
+        homeController.loadPlaylists(currentUserId, new HomeController.PlaylistListener() {
+            @Override
+            public void onPlaylistLoaded(List<Playlist> playlists) {
+                allPlaylist.clear();
+                allPlaylist.addAll(playlists);
+                adapterPlaylist.notifyDataSetChanged();
+            }
+            @Override
+            public void onError(String message) {
+                // Optional: tampilkan pesan error
+            }
+        });
 
         adapterPlaylist.setOnItemClickListener(playlist -> {
-            PlaylistContent fragment = PlaylistContent.newInstance(playlist.getId(), playlist.getImageUrl());
+            PlaylistContent fragment = PlaylistContent.newInstance(playlist.getId(), playlist.getImageUrl(), playlist.getIsPublic());
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
@@ -101,48 +124,20 @@ public class HomeFragment extends Fragment {
 
         String pickForYouPlaylistId = "DDApc9gdv0JRbBL4Qd97";
 
-        db.collection("Playlist").document(pickForYouPlaylistId)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        List<String> allSongIds = (List<String>) documentSnapshot.get("songId");
-                        if (allSongIds != null && !allSongIds.isEmpty()) {
-                            List<String> top6SongIds = allSongIds.subList(0, Math.min(allSongIds.size(), 6));
-                            if (top6SongIds.isEmpty()) return;
-
-                            db.collection("Song").whereIn("__name__", top6SongIds)
-                                    .get()
-                                    .addOnSuccessListener(songQuerySnapshot -> {
-                                        pickForYouSongs.clear();
-                                        Set<String> singerIds = new HashSet<>();
-                                        for (DocumentSnapshot songDoc : songQuerySnapshot) {
-                                            Song song = songDoc.toObject(Song.class);
-                                            song.setId(songDoc.getId());
-                                            pickForYouSongs.add(song);
-                                            if (song.getSingerId() != null && !song.getSingerId().isEmpty()) {
-                                                singerIds.add(song.getSingerId());
-                                            }
-                                        }
-
-                                        if (!singerIds.isEmpty()) {
-                                            db.collection("Singer").whereIn("__name__", new ArrayList<>(singerIds))
-                                                    .get()
-                                                    .addOnSuccessListener(singerQuerySnapshot -> {
-                                                        pickForYouSingers.clear();
-                                                        for(DocumentSnapshot singerDoc : singerQuerySnapshot) {
-                                                            Singer singer = singerDoc.toObject(Singer.class);
-                                                            singer.setId(singerDoc.getId());
-                                                            pickForYouSingers.add(singer);
-                                                        }
-                                                       adapterPickForYou.notifyDataSetChanged();
-                                                    });
-                                        } else {
-                                            adapterPickForYou.notifyDataSetChanged();
-                                        }
-                                    });
-                        }
-                    }
-                });
+        homeController.loadPickForYou(pickForYouPlaylistId, new HomeController.PickForYouListener() {
+            @Override
+            public void onPickForYouLoaded(List<Song> songs, List<Singer> singers) {
+                pickForYouSongs.clear();
+                pickForYouSongs.addAll(songs);
+                pickForYouSingers.clear();
+                pickForYouSingers.addAll(singers);
+                adapterPickForYou.notifyDataSetChanged();
+            }
+            @Override
+            public void onError(String message) {
+                // Optional: tampilkan pesan error
+            }
+        });
 
         adapterPickForYou.setOnItemClickListener(song -> {
             if (mainActivity != null) {

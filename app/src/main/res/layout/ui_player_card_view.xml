@@ -23,8 +23,8 @@
             <!-- Album Cover -->
             <ImageView
                 android:id="@+id/songImage"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/avatars"
                 />
@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:text="Song name"
                     android:textColor="@color/primary1"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:text="Singer name"
                     android:textColor="@color/primary1"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <!-- Controls -->
@@ -65,8 +65,8 @@
 
                 <ImageButton
                     android:id="@+id/btnPauseCardView"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
                     android:scaleType="fitXY"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_pause"
@@ -75,8 +75,8 @@
 
                 <ImageButton
                     android:id="@+id/btnPlayCardView"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
                     android:scaleType="fitXY"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_play_pink"
@@ -88,8 +88,8 @@
 
                 <ImageButton
                     android:id="@+id/btnNextCardView"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
                     android:scaleType="fitXY"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_next"
