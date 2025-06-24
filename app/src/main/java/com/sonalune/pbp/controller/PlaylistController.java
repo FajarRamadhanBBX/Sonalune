@@ -33,34 +33,45 @@ public class PlaylistController {
                             List<Song> playlistSong = new ArrayList<>();
                             Set<String> singerIds = new HashSet<>();
                             List<String> songIdsCopy = new ArrayList<>(songIds);
+
+                            // Tambahkan counter untuk batch
+                            int totalBatch = (int) Math.ceil(songIdsCopy.size() / (double) batchSize);
+                            final int[] finishedBatch = {0};
+
                             for (int i = 0; i < songIdsCopy.size(); i += batchSize) {
                                 List<String> batch = songIdsCopy.subList(i, Math.min(i + batchSize, songIdsCopy.size()));
                                 db.collection("Song")
                                         .whereIn("__name__", batch)
                                         .get()
                                         .addOnSuccessListener(querySnapshot -> {
-                                            for (DocumentSnapshot doc : querySnapshot) {
-                                                Song song = doc.toObject(Song.class);
-                                                playlistSong.add(song);
-                                                if (song.getSingerId() != null) {
-                                                    singerIds.add(song.getSingerId());
+                                            synchronized (playlistSong) {
+                                                for (DocumentSnapshot doc : querySnapshot) {
+                                                    Song song = doc.toObject(Song.class);
+                                                    playlistSong.add(song);
+                                                    if (song.getSingerId() != null) {
+                                                        singerIds.add(song.getSingerId());
+                                                    }
                                                 }
-                                            }
-                                            if (!singerIds.isEmpty()) {
-                                                db.collection("Singer")
-                                                        .whereIn("__name__", new ArrayList<>(singerIds))
-                                                        .get()
-                                                        .addOnSuccessListener(singerSnapshot -> {
-                                                            List<Singer> singerList = new ArrayList<>();
-                                                            for (DocumentSnapshot singerDoc : singerSnapshot) {
-                                                                Singer singer = singerDoc.toObject(Singer.class);
-                                                                singer.setId(singerDoc.getId());
-                                                                singerList.add(singer);
-                                                            }
-                                                            listener.onPlaylistLoaded(playlistSong, singerList, imageUrl);
-                                                        });
-                                            } else {
-                                                listener.onPlaylistLoaded(playlistSong, new ArrayList<>(), imageUrl);
+                                                finishedBatch[0]++;
+                                                // Jika semua batch selesai, lanjutkan
+                                                if (finishedBatch[0] == totalBatch) {
+                                                    if (!singerIds.isEmpty()) {
+                                                        db.collection("Singer")
+                                                                .whereIn("__name__", new ArrayList<>(singerIds))
+                                                                .get()
+                                                                .addOnSuccessListener(singerSnapshot -> {
+                                                                    List<Singer> singerList = new ArrayList<>();
+                                                                    for (DocumentSnapshot singerDoc : singerSnapshot) {
+                                                                        Singer singer = singerDoc.toObject(Singer.class);
+                                                                        singer.setId(singerDoc.getId());
+                                                                        singerList.add(singer);
+                                                                    }
+                                                                    listener.onPlaylistLoaded(playlistSong, singerList, imageUrl);
+                                                                });
+                                                    } else {
+                                                        listener.onPlaylistLoaded(playlistSong, new ArrayList<>(), imageUrl);
+                                                    }
+                                                }
                                             }
                                         });
                             }

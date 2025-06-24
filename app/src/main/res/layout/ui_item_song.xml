@@ -11,8 +11,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/img_song"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/RoundedImageView"
         tools:src="@tools:sample/avatars" />
