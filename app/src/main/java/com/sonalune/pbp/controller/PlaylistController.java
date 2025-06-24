@@ -111,4 +111,15 @@ public class PlaylistController {
                 .addOnSuccessListener(documentReference -> listener.onSuccess("Playlist '" + playlistName + "' berhasil dibuat."))
                 .addOnFailureListener(e -> listener.onFailure("Gagal membuat playlist."));
     }
+
+    public void deletePlaylist(String playlistId, SimpleListener listener) {
+        if (playlistId == null || playlistId.isEmpty()) {
+            listener.onFailure("Playlist ID tidak valid.");
+            return;
+        }
+
+        db.collection("Playlist").document(playlistId).delete()
+                .addOnSuccessListener(aVoid -> listener.onSuccess("Playlist berhasil dihapus."))
+                .addOnFailureListener(e -> listener.onFailure("Gagal menghapus playlist: " + e.getMessage()));
+    }
 }

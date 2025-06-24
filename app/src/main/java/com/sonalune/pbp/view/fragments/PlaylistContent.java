@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +33,7 @@ public class PlaylistContent extends Fragment implements CreatePlaylistDialogFra
 
     private RecyclerView recyclerViewSong;
     private Song songForAction;
-    private ImageView imagePlaylistContent, backButton;
+    private ImageView imagePlaylistContent, backButton, imageTrash;
     private OnSongSelectedListener songSelectedListener;
     private List<Song> playlistSong = new ArrayList<>();
     private List<Singer> singerList = new ArrayList<>();
@@ -92,17 +93,28 @@ public class PlaylistContent extends Fragment implements CreatePlaylistDialogFra
         initAdapter();
         setupListeners();
         loadPlaylistData();
+
+        if (isCurrentPlaylistPublic) {
+            imageTrash.setVisibility(View.GONE); // Sembunyikan jika publik
+        } else {
+            imageTrash.setVisibility(View.VISIBLE); // Tampilkan jika milik user
+        }
     }
 
     private void initViews(View view) {
         recyclerViewSong = view.findViewById(R.id.recyclerViewSong);
         imagePlaylistContent = view.findViewById(R.id.img_playlist_content);
         backButton = view.findViewById(R.id.backButtonPlaylist);
+        imageTrash = view.findViewById(R.id.imgTrash);
 
         recyclerViewSong.setLayoutManager(new LinearLayoutManager(getContext()));
 
         backButton.setOnClickListener(v -> {
             if (isAdded()) requireActivity().getSupportFragmentManager().popBackStack();
+        });
+
+        imageTrash.setOnClickListener(v -> {
+            showDeleteConfirmationDialog();
         });
     }
 
@@ -241,6 +253,40 @@ public class PlaylistContent extends Fragment implements CreatePlaylistDialogFra
 
             @Override
             public void onError(String message) {
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showDeleteConfirmationDialog() {
+        if (getContext() == null) return;
+
+        new AlertDialog.Builder(getContext())
+                .setTitle("Hapus Playlist")
+                .setMessage("Apakah Anda yakin ingin menghapus playlist ini secara permanen?")
+                .setPositiveButton("Hapus", (dialog, which) -> {
+                    // Panggil metode untuk menghapus jika pengguna menekan "Hapus"
+                    deleteCurrentPlaylist();
+                })
+                .setNegativeButton("Batal", null) // Tidak melakukan apa-apa jika "Batal"
+                .setIcon(R.drawable.ic_trash) // Opsional: menambahkan ikon
+                .show();
+    }
+
+    // DITAMBAHKAN: Metode untuk memanggil controller dan menangani hasilnya
+    private void deleteCurrentPlaylist() {
+        playlistController.deletePlaylist(playlistId, new PlaylistController.SimpleListener() {
+            @Override
+            public void onSuccess(String message) {
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                // Kembali ke layar sebelumnya setelah berhasil menghapus
+                if (isAdded()) {
+                    requireActivity().getSupportFragmentManager().popBackStack();
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
                 Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
             }
         });
