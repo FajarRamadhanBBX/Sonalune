@@ -19,6 +19,8 @@ import com.sonalune.pbp.model.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,7 +35,7 @@ public class HistoryController {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
 
     public interface CapsuleDataListener {
-        void onDataLoaded(User user, List<Song> topSongs, List<Singer> topArtists);
+        void onDataLoaded(User user, List<Song> topSongsAllTime, List<Singer> topArtistsAllTime, List<Song> topSongsMonthly, List<Singer> topArtistsMonthly);
         void onError(String message);
     }
 
@@ -46,157 +48,152 @@ public class HistoryController {
 
         checkAndResetMonthlyData(userId).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                fetchAndCalculateUserCapsuleData(userId, listener);
+                fetchAndProcessData(userId, listener);
             } else {
                 listener.onError(task.getException() != null ? task.getException().getMessage() : "Failed to check monthly data.");
             }
         });
     }
 
-    private void fetchAndCalculateUserCapsuleData(String userId, CapsuleDataListener listener) {
+    private void fetchAndProcessData(String userId, CapsuleDataListener listener) {
+        // LANGKAH 1: Ambil semua data mentah yang diperlukan secara paralel
         Task<DocumentSnapshot> userTask = db.collection("User").document(userId).get();
-        Task<QuerySnapshot> historyTask = db.collection("History").whereEqualTo("userId", userId).get();
+        Task<QuerySnapshot> allHistoryTask = db.collection("History").whereEqualTo("userId", userId).get();
+        Task<QuerySnapshot> monthlyHistoryTask = getMonthlyHistoryTask(userId);
 
-        Tasks.whenAllSuccess(userTask, historyTask).addOnSuccessListener(results -> {
+        Tasks.whenAllSuccess(userTask, allHistoryTask, monthlyHistoryTask).addOnSuccessListener(results -> {
             DocumentSnapshot userDoc = (DocumentSnapshot) results.get(0);
+            QuerySnapshot allHistorySnap = (QuerySnapshot) results.get(1);
+            QuerySnapshot monthlyHistorySnap = (QuerySnapshot) results.get(2);
+
             User user = userDoc.exists() ? userDoc.toObject(User.class) : new User();
             if(user != null) user.setId(userDoc.getId());
 
-            QuerySnapshot historySnap = (QuerySnapshot) results.get(1);
+            List<String> topSongIdsAllTime = calculateTopIdsFromHistory(allHistorySnap, "songId");
+            List<String> topSongIdsMonthly = calculateTopIdsFromHistory(monthlyHistorySnap, "songId");
 
-            List<String> topSongIds = calculateTopIdsFromHistory(historySnap, "songId");
+            Set<String> allUniqueSongIds = new HashSet<>();
+            for (DocumentSnapshot doc : allHistorySnap) { allUniqueSongIds.add(doc.getString("songId")); }
+            for (DocumentSnapshot doc : monthlyHistorySnap) { allUniqueSongIds.add(doc.getString("songId")); }
 
-            calculateAndFetchTopArtists(historySnap, topArtists -> {
-                fetchSongDetailsByIds(topSongIds, topSongs -> {
-                    listener.onDataLoaded(user, topSongs, topArtists);
-                });
-            });
+            if(allUniqueSongIds.isEmpty()) {
+                listener.onDataLoaded(user, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+                return;
+            }
+
+            db.collection("Song").whereIn(FieldPath.documentId(), new ArrayList<>(allUniqueSongIds)).get().addOnSuccessListener(songDetailsSnap -> {
+                Map<String, String> songToSingerMap = new HashMap<>();
+                for(DocumentSnapshot doc : songDetailsSnap) { songToSingerMap.put(doc.getId(), doc.getString("singerId")); }
+
+                List<String> topArtistIdsAllTime = calculateTopArtistIds(allHistorySnap, songToSingerMap);
+                List<String> topArtistIdsMonthly = calculateTopArtistIds(monthlyHistorySnap, songToSingerMap);
+
+                finalizeAndSendData(user, topSongIdsAllTime, topArtistIdsAllTime, topSongIdsMonthly, topArtistIdsMonthly, listener);
+            }).addOnFailureListener(e -> listener.onError(e.getMessage()));
 
         }).addOnFailureListener(e -> listener.onError(e.getMessage()));
     }
 
+    private void finalizeAndSendData(User user, List<String> topSongIdsAllTime, List<String> topArtistIdsAllTime, List<String> topSongIdsMonthly, List<String> topArtistIdsMonthly, CapsuleDataListener listener) {
+        Set<String> allSongIds = new HashSet<>(topSongIdsAllTime);
+        allSongIds.addAll(topSongIdsMonthly);
+        Set<String> allArtistIds = new HashSet<>(topArtistIdsAllTime);
+        allArtistIds.addAll(topArtistIdsMonthly);
+
+        Task<QuerySnapshot> songsTask = allSongIds.isEmpty() ? Tasks.forResult(null) : db.collection("Song").whereIn(FieldPath.documentId(), new ArrayList<>(allSongIds)).get();
+        Task<QuerySnapshot> artistsTask = allArtistIds.isEmpty() ? Tasks.forResult(null) : db.collection("Singer").whereIn(FieldPath.documentId(), new ArrayList<>(allArtistIds)).get();
+
+        Tasks.whenAllSuccess(songsTask, artistsTask).addOnSuccessListener(details -> {
+            Map<String, Song> songMap = buildSongMap((QuerySnapshot) details.get(0));
+            Map<String, Singer> artistMap = buildSingerMap((QuerySnapshot) details.get(1));
+
+            List<Song> finalTopSongsAllTime = sortByIds(songMap, topSongIdsAllTime);
+            List<Singer> finalTopArtistsAllTime = sortByIds(artistMap, topArtistIdsAllTime);
+            List<Song> finalTopSongsMonthly = sortByIds(songMap, topSongIdsMonthly);
+            List<Singer> finalTopArtistsMonthly = sortByIds(artistMap, topArtistIdsMonthly);
+
+            listener.onDataLoaded(user, finalTopSongsAllTime, finalTopArtistsAllTime, finalTopSongsMonthly, finalTopArtistsMonthly);
+        }).addOnFailureListener(e -> listener.onError(e.getMessage()));
+    }
+
     private List<String> calculateTopIdsFromHistory(QuerySnapshot historySnapshot, String fieldNameToCount) {
+        if (historySnapshot == null || historySnapshot.isEmpty()) return new ArrayList<>();
         Map<String, Integer> counts = new HashMap<>();
         for (DocumentSnapshot doc : historySnapshot) {
             String id = doc.getString(fieldNameToCount);
-            if (id != null) {
-                counts.put(id, counts.getOrDefault(id, 0) + 1);
-            }
+            if (id != null) counts.put(id, counts.getOrDefault(id, 0) + 1);
         }
-
         List<Map.Entry<String, Integer>> sortedList = new ArrayList<>(counts.entrySet());
-        sortedList.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
-
+        Collections.sort(sortedList, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
         List<String> topIds = new ArrayList<>();
-        for (int i = 0; i < Math.min(5, sortedList.size()); i++) {
-            topIds.add(sortedList.get(i).getKey());
-        }
+        for (int i = 0; i < Math.min(5, sortedList.size()); i++) topIds.add(sortedList.get(i).getKey());
         return topIds;
     }
 
-    private void calculateAndFetchTopArtists(QuerySnapshot historySnapshot, TopDetailsListener<Singer> listener) {
-        if (historySnapshot.isEmpty()) {
-            listener.onDetailsLoaded(new ArrayList<>());
-            return;
-        }
-
-        Set<String> uniqueSongIds = new HashSet<>();
-        List<String> allSongListenEvents = new ArrayList<>();
+    private List<String> calculateTopArtistIds(QuerySnapshot historySnapshot, Map<String, String> songToSingerMap) {
+        if (historySnapshot == null || historySnapshot.isEmpty()) return new ArrayList<>();
+        Map<String, Integer> singerCounts = new HashMap<>();
         for (DocumentSnapshot doc : historySnapshot) {
             String songId = doc.getString("songId");
-            if (songId != null) {
-                uniqueSongIds.add(songId);
-                allSongListenEvents.add(songId);
+            String singerId = songToSingerMap.get(songId);
+            if (singerId != null) {
+                singerCounts.put(singerId, singerCounts.getOrDefault(singerId, 0) + 1);
             }
         }
+        // Lakukan sorting dan ambil 5 teratas (sama seperti di calculateTopIdsFromHistory)
+        List<Map.Entry<String, Integer>> sortedList = new ArrayList<>(singerCounts.entrySet());
+        Collections.sort(sortedList, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
+        List<String> topIds = new ArrayList<>();
+        for (int i = 0; i < Math.min(5, sortedList.size()); i++) topIds.add(sortedList.get(i).getKey());
+        return topIds;
+    }
 
-        if (uniqueSongIds.isEmpty()){
-            listener.onDetailsLoaded(new ArrayList<>());
-            return;
+    private Task<QuerySnapshot> getMonthlyHistoryTask(String userId) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        Date startOfMonth = calendar.getTime();
+        return db.collection("History")
+                .whereEqualTo("userId", userId)
+                .whereGreaterThanOrEqualTo("playTime", startOfMonth)
+                .get();
+    }
+
+    private Map<String, Song> buildSongMap(QuerySnapshot songSnap) {
+        Map<String, Song> map = new HashMap<>();
+        if (songSnap != null) {
+            for (DocumentSnapshot doc : songSnap) {
+                Song item = doc.toObject(Song.class);
+                if (item != null) { item.setId(doc.getId()); map.put(doc.getId(), item); }
+            }
         }
-
-        db.collection("Song").whereIn(FieldPath.documentId(), new ArrayList<>(uniqueSongIds)).get()
-                .addOnSuccessListener(songDetailsSnap -> {
-                    Map<String, String> songToSingerMap = new HashMap<>();
-                    for (DocumentSnapshot songDoc : songDetailsSnap) {
-                        songToSingerMap.put(songDoc.getId(), songDoc.getString("singerId"));
-                    }
-
-                    Map<String, Integer> singerCounts = new HashMap<>();
-                    for (String songId : allSongListenEvents) {
-                        String singerId = songToSingerMap.get(songId);
-                        if (singerId != null) {
-                            singerCounts.put(singerId, singerCounts.getOrDefault(singerId, 0) + 1);
-                        }
-                    }
-
-                    List<Map.Entry<String, Integer>> sortedArtists = new ArrayList<>(singerCounts.entrySet());
-                    sortedArtists.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
-                    List<String> topArtistIds = new ArrayList<>();
-                    for (int i = 0; i < Math.min(5, sortedArtists.size()); i++) {
-                        topArtistIds.add(sortedArtists.get(i).getKey());
-                    }
-
-                    if (topArtistIds.isEmpty()) {
-                        listener.onDetailsLoaded(new ArrayList<>());
-                        return;
-                    }
-
-                    db.collection("Singer").whereIn(FieldPath.documentId(), topArtistIds).get()
-                            .addOnSuccessListener(singerDetailsSnap -> {
-                                List<Singer> unsortedArtists = new ArrayList<>();
-                                for(DocumentSnapshot doc : singerDetailsSnap) {
-                                    Singer singer = doc.toObject(Singer.class);
-                                    if (singer != null) {
-                                        singer.setId(doc.getId());
-                                        unsortedArtists.add(singer);
-                                    }
-                                }
-                                List<Singer> sortedArtist = new ArrayList<>();
-                                for (String id : topArtistIds) {
-                                    for (Singer singer : unsortedArtists) {
-                                        if (id.equals(singer.getId())) {
-                                            sortedArtist.add(singer);
-                                            break;
-                                        }
-                                    }
-                                }
-                                listener.onDetailsLoaded(sortedArtist);
-                            });
-                });
+        return map;
     }
 
-    private void fetchSongDetailsByIds(List<String> topSongIds, TopDetailsListener<Song> listener) {
-        if (topSongIds.isEmpty()) {
-            listener.onDetailsLoaded(new ArrayList<>());
-            return;
+    private Map<String, Singer> buildSingerMap(QuerySnapshot artistSnap) {
+        Map<String, Singer> map = new HashMap<>();
+        if (artistSnap != null) {
+            for (DocumentSnapshot doc : artistSnap) {
+                Singer item = doc.toObject(Singer.class);
+                if (item != null) { item.setId(doc.getId()); map.put(doc.getId(), item); }
+            }
         }
-        db.collection("Song").whereIn(FieldPath.documentId(), topSongIds).get()
-                .addOnSuccessListener(songSnap -> {
-                    List<Song> unsortedSongs = new ArrayList<>();
-                    for(DocumentSnapshot doc : songSnap) {
-                        Song song = doc.toObject(Song.class);
-                        if(song != null) {
-                            song.setId(doc.getId());
-                            unsortedSongs.add(song);
-                        }
-                    }
-                    List<Song> sortedSongs = new ArrayList<>();
-                    for (String id : topSongIds) {
-                        for (Song song : unsortedSongs) {
-                            if (id.equals(song.getId())) {
-                                sortedSongs.add(song);
-                                break;
-                            }
-                        }
-                    }
-                    listener.onDetailsLoaded(sortedSongs);
-                });
+        return map;
     }
 
-    private interface TopDetailsListener<T> {
-        void onDetailsLoaded(List<T> items);
+    private <T> List<T> sortByIds(Map<String, T> map, List<String> sortedIds) {
+        List<T> sortedList = new ArrayList<>();
+        if (map == null || sortedIds == null) return sortedList;
+        for (String id : sortedIds) {
+            if (map.containsKey(id)) {
+                sortedList.add(map.get(id));
+            }
+        }
+        return sortedList;
     }
+
+    private interface TopIdsListener { void onIdsCalculated(List<String> topIds); }
 
     private Task<Void> checkAndResetMonthlyData(String userId) {
         DocumentReference userRef = db.collection("User").document(userId);

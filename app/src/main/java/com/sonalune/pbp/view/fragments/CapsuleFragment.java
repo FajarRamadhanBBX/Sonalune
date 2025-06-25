@@ -23,7 +23,6 @@ import java.util.List;
 
 public class CapsuleFragment extends Fragment {
 
-    // Deklarasi untuk komponen UI dan Controller
     private RecyclerView rvCapsuleMain;
     private CapsuleSectionAdapter adapter;
     private HistoryController historyController;
@@ -35,7 +34,6 @@ public class CapsuleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate layout baru yang sudah kita perbaiki
         return inflater.inflate(R.layout.fragment_capsule, container, false);
     }
 
@@ -43,42 +41,26 @@ public class CapsuleFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Inisialisasi controller
         historyController = new HistoryController();
-        // Temukan RecyclerView dari layout
         rvCapsuleMain = view.findViewById(R.id.rv_capsule_main);
 
-        // Panggil metode untuk setup RecyclerView dan memuat data
         setupRecyclerView();
         loadCapsuleData();
     }
 
-    /**
-     * Metode untuk menyiapkan RecyclerView dan Adapternya.
-     */
     private void setupRecyclerView() {
-        // Buat instance dari adapter utama kita
         adapter = new CapsuleSectionAdapter(getContext());
-        // Atur layout manager
         rvCapsuleMain.setLayoutManager(new LinearLayoutManager(getContext()));
-        // Pasang adapter ke RecyclerView
         rvCapsuleMain.setAdapter(adapter);
     }
 
-    /**
-     * Metode untuk memanggil HistoryController dan memuat data dari Firestore.
-     */
     private void loadCapsuleData() {
-        // Tampilkan loading indicator jika ada
-
         historyController.getCapsuleData(new HistoryController.CapsuleDataListener() {
             @Override
-            public void onDataLoaded(User user, List<Song> topSongs, List<Singer> topArtists) {
-                // Pastikan fragment masih ada sebelum update UI
-                if (!isAdded()) return;
+            public void onDataLoaded(User user, List<Song> topSongsAllTime, List<Singer> topArtistsAllTime, List<Song> topSongsMonthly, List<Singer> topArtistsMonthly) {
+                if (!isAdded()) return; // Pastikan fragment masih aktif
 
-                // Kirim semua data yang didapat dari controller ke adapter
-                adapter.setData(user, topSongs, topArtists);
+                adapter.setData(user, topSongsAllTime, topArtistsAllTime, topSongsMonthly, topArtistsMonthly);
             }
 
             @Override

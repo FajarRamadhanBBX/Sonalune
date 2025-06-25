@@ -29,9 +29,8 @@ public class AddToPlaylistDialogFragment extends DialogFragment {
     private List<Playlist> userPlaylists = new ArrayList<>();
     private FirebaseFirestore db;
     private String currentUserId;
-    private String excludePlaylistId; // ID playlist saat ini untuk dikecualikan dari daftar
+    private String excludePlaylistId;
 
-    // Interface untuk berkomunikasi kembali ke PlaylistContent
     public interface OnPlaylistSelectedListener {
         void onPlaylistSelected(String playlistId);
     }
@@ -48,16 +47,13 @@ public class AddToPlaylistDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflate layout untuk dialog ini
         View view = inflater.inflate(R.layout.fragment_add_to_playlist_dialog, container, false);
 
-        // Inisialisasi Firebase
         db = FirebaseFirestore.getInstance();
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
 
-        // Hubungkan view dari layout
         rvPlaylists = view.findViewById(R.id.rvPlaylists);
         btnCancelDialog = view.findViewById(R.id.btnCancelDialog);
 
@@ -70,7 +66,6 @@ public class AddToPlaylistDialogFragment extends DialogFragment {
     }
 
     private void setupRecyclerView() {
-        // Buat adapter baru. Saat sebuah playlist di adapter diklik, panggil listener dan tutup dialog.
         adapter = new PlaylistSelectionAdapter(userPlaylists, playlist -> {
             if (listener != null) {
                 listener.onPlaylistSelected(playlist.getId());
@@ -88,7 +83,6 @@ public class AddToPlaylistDialogFragment extends DialogFragment {
             return;
         }
 
-        // Query ke Firestore untuk mengambil semua playlist milik pengguna saat ini
         db.collection("Playlist")
                 .whereEqualTo("userId", currentUserId)
                 .get()
@@ -96,7 +90,6 @@ public class AddToPlaylistDialogFragment extends DialogFragment {
                     if (!isAdded()) return; // Pastikan fragment masih ter-attach
                     userPlaylists.clear();
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                        // Logika untuk mengecualikan playlist yang sedang dibuka
                         if (!doc.getId().equals(excludePlaylistId)) {
                             Playlist playlist = doc.toObject(Playlist.class);
                             playlist.setId(doc.getId());

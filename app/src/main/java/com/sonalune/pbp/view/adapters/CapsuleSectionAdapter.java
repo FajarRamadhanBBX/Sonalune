@@ -22,8 +22,10 @@ public class CapsuleSectionAdapter extends RecyclerView.Adapter<CapsuleSectionAd
 
     private final Context context;
     private User user;
-    private List<Song> topSongs = new ArrayList<>();
-    private List<Singer> topArtists = new ArrayList<>();
+    private List<Song> topSongsAllTime = new ArrayList<>();
+    private List<Singer> topArtistsAllTime = new ArrayList<>();
+    private List<Song> topSongsMonthly = new ArrayList<>();
+    private List<Singer> topArtistsMonthly = new ArrayList<>();
 
     private static final int VIEW_TYPE_ALL_TIME = 0;
     private static final int VIEW_TYPE_LAST_MONTH = 1;
@@ -32,10 +34,12 @@ public class CapsuleSectionAdapter extends RecyclerView.Adapter<CapsuleSectionAd
         this.context = context;
     }
 
-    public void setData(User user, List<Song> topSongs, List<Singer> topArtists) {
+    public void setData(User user, List<Song> topSongsAllTime, List<Singer> topArtistsAllTime, List<Song> topSongsMonthly, List<Singer> topArtistsMonthly) {
         this.user = user;
-        this.topSongs = topSongs != null ? topSongs : new ArrayList<>();
-        this.topArtists = topArtists != null ? topArtists : new ArrayList<>();
+        this.topSongsAllTime = topSongsAllTime != null ? topSongsAllTime : new ArrayList<>();
+        this.topArtistsAllTime = topArtistsAllTime != null ? topArtistsAllTime : new ArrayList<>();
+        this.topSongsMonthly = topSongsMonthly != null ? topSongsMonthly : new ArrayList<>();
+        this.topArtistsMonthly = topArtistsMonthly != null ? topArtistsMonthly : new ArrayList<>();
         notifyDataSetChanged();
     }
 
@@ -49,9 +53,9 @@ public class CapsuleSectionAdapter extends RecyclerView.Adapter<CapsuleSectionAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (getItemViewType(position) == VIEW_TYPE_ALL_TIME) {
-            holder.bindAllTime(user, topSongs, topArtists);
+            holder.bindAllTime(user, topSongsAllTime, topArtistsAllTime);
         } else if (getItemViewType(position) == VIEW_TYPE_LAST_MONTH) {
-            holder.bindLastMonth(user, topSongs, topArtists);
+            holder.bindThisMonth(user, topSongsMonthly, topArtistsMonthly);
         }
     }
 
@@ -86,9 +90,9 @@ public class CapsuleSectionAdapter extends RecyclerView.Adapter<CapsuleSectionAd
             setupAdapters(songs, artists);
         }
 
-        void bindLastMonth(User userData, List<Song> songs, List<Singer> artists) {
+        void bindThisMonth(User userData, List<Song> songs, List<Singer> artists) {
             if (userData == null) return;
-            periodTitle.setText("LAST MONTH");
+            periodTitle.setText("THIS MONTH");
             long monthlyMinutes = (userData.getMonthlyListenSeconds() > 0) ? userData.getMonthlyListenSeconds() / 60 : 0;
             String formattedMinutes = NumberFormat.getInstance(Locale.US).format(monthlyMinutes) + " Minutes";
             musicMinutes.setText(formattedMinutes);
