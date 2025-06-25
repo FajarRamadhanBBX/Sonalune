@@ -1,5 +1,6 @@
 package com.sonalune.pbp.model;
 
+import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
@@ -27,6 +28,11 @@ public class User {
         this.password = password;
         this.totalListenSeconds = 0;
         this.monthlyListenSeconds = 0;
+    }
+
+    @Exclude
+    public String getId() {
+        return id;
     }
 
     public void setId(String id) {

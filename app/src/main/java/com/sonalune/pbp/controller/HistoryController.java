@@ -56,7 +56,6 @@ public class HistoryController {
     }
 
     private void fetchAndProcessData(String userId, CapsuleDataListener listener) {
-        // LANGKAH 1: Ambil semua data mentah yang diperlukan secara paralel
         Task<DocumentSnapshot> userTask = db.collection("User").document(userId).get();
         Task<QuerySnapshot> allHistoryTask = db.collection("History").whereEqualTo("userId", userId).get();
         Task<QuerySnapshot> monthlyHistoryTask = getMonthlyHistoryTask(userId);
@@ -140,7 +139,7 @@ public class HistoryController {
                 singerCounts.put(singerId, singerCounts.getOrDefault(singerId, 0) + 1);
             }
         }
-        // Lakukan sorting dan ambil 5 teratas (sama seperti di calculateTopIdsFromHistory)
+
         List<Map.Entry<String, Integer>> sortedList = new ArrayList<>(singerCounts.entrySet());
         Collections.sort(sortedList, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
         List<String> topIds = new ArrayList<>();
@@ -192,8 +191,6 @@ public class HistoryController {
         }
         return sortedList;
     }
-
-    private interface TopIdsListener { void onIdsCalculated(List<String> topIds); }
 
     private Task<Void> checkAndResetMonthlyData(String userId) {
         DocumentReference userRef = db.collection("User").document(userId);

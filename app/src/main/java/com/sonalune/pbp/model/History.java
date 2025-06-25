@@ -1,5 +1,6 @@
 package com.sonalune.pbp.model;
 
+import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
@@ -22,20 +23,9 @@ public class History {
         this.userId = userId;
     }
 
-    // --- Method Stubs ---
-    public void addHistory() {
-        // TODO: Implementasi logika method
-    }
-
-    public void getCapsule() {
-        // TODO: Implementasi logika method
-    }
-
-    public void deleteHistory() {
-        // TODO: Implementasi logika method
-    }
 
     // --- Getters and Setters ---
+    @Exclude
     public String getId() {
         return id;
     }

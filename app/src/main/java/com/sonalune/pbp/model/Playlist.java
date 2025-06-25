@@ -1,5 +1,6 @@
 package com.sonalune.pbp.model;
 
+import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
@@ -26,29 +27,16 @@ public class Playlist {
         this.imageUrl = imageUrl;
     }
 
-    // --- Method Stubs ---
-    public void addPlaylist() {
-        // TODO: Implementasi logika method
-    }
-
-    public void updatePlaylist() {
-        // TODO: Implementasi logika method
-    }
-
-    public void deletePlaylist() {
-        // TODO: Implementasi logika method
-    }
-
-    public void addSongToPlaylist() {
-        // TODO: Implementasi logika method
-    }
-
-    public void deleteSongFromPlaylist() {
-        // TODO: Implementasi logika method
-    }
-
-
     // --- Getters and Setters ---
+
+    @Exclude
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Boolean getIsPublic() {
         return isPublic;
@@ -56,14 +44,6 @@ public class Playlist {
 
     public void setIsPublic(Boolean aPublic) {
         isPublic = aPublic;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getUserId() {

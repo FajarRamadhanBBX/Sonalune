@@ -87,7 +87,7 @@ public class AddToPlaylistDialogFragment extends DialogFragment {
                 .whereEqualTo("userId", currentUserId)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if (!isAdded()) return; // Pastikan fragment masih ter-attach
+                    if (!isAdded()) return;
                     userPlaylists.clear();
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         if (!doc.getId().equals(excludePlaylistId)) {

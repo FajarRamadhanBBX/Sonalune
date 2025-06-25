@@ -153,11 +153,9 @@ public class PlaylistContent extends Fragment implements CreatePlaylistDialogFra
                 return true;
             } else if (itemId == R.id.action_add_to_playlist) {
                 showAddToPlaylistDialog();
-                Toast.makeText(getContext(), "Fitur 'Tambah ke playlist' belum diimplementasikan.", Toast.LENGTH_SHORT).show();
                 return true;
             } else if (itemId == R.id.action_create_playlist) {
                 showCreatePlaylistDialog();
-                Toast.makeText(getContext(), "Fitur 'Buat playlist' belum diimplementasikan.", Toast.LENGTH_SHORT).show();
                 return true;
             }
             return false;

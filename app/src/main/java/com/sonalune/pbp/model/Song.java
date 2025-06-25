@@ -1,5 +1,6 @@
 package com.sonalune.pbp.model;
 
+import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
@@ -30,25 +31,16 @@ public class Song {
         this.updatedAt = new Date();
     }
 
-    // --- Method Stubs ---
-    public void playSong() {
-        // TODO: Implementasi logika method
-    }
-
-    public void pauseSong() {
-        // TODO: Implementasi logika method
-    }
-
-    public void skipSong() {
-        // TODO: Implementasi logika method
-    }
-
-    public void getDetails() {
-        // TODO: Implementasi logika method
-    }
-
-
     // --- Getters and Setters ---
+
+    @Exclude
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getSingerId() {
         return singerId;
@@ -56,14 +48,6 @@ public class Song {
 
     public void setSingerId(String singerId) {
         this.singerId = singerId;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getTitle() {

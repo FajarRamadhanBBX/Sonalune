@@ -1,5 +1,6 @@
 package com.sonalune.pbp.model;
 
+import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
@@ -23,6 +24,7 @@ public class Singer {
     }
 
     // --- Getters and Setters ---
+    @Exclude
     public String getId() {
         return id;
     }
