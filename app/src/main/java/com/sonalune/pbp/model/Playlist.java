@@ -19,8 +19,7 @@ public class Playlist {
 
     public Playlist() {}
 
-    public Playlist(String id, String userId, String name, Boolean isPublic, String imageUrl) {
-        this.id = id;
+    public Playlist(String userId, String name, Boolean isPublic, String imageUrl) {
         this.userId = userId;
         this.isPublic = isPublic;
         this.name = name;

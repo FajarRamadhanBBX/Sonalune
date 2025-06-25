@@ -16,8 +16,7 @@ public class Singer {
 
     public Singer() {}
 
-    public Singer(String id, String name, int monthlyListener, String imageUrl) {
-        this.id = id;
+    public Singer(String name, int monthlyListener, String imageUrl) {
         this.name = name;
         this.monthlyListener = monthlyListener;
         this.imageUrl = imageUrl;

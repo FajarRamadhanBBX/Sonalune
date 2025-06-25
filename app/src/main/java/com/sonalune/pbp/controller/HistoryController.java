@@ -232,7 +232,7 @@ public class HistoryController {
             return;
         }
 
-        History history = new History(null, song.getId(), userId);
+        History history = new History(song.getId(), userId);
         db.collection("History").add(history)
                 .addOnSuccessListener(documentReference -> Log.d(TAG, "History event created successfully."))
                 .addOnFailureListener(e -> Log.w(TAG, "Error creating history event.", e));

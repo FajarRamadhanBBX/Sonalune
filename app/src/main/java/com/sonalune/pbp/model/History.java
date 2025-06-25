@@ -17,8 +17,7 @@ public class History {
 
     public History() {}
 
-    public History(String id, String songId, String userId) {
-        this.id = id;
+    public History(String songId, String userId) {
         this.songId = songId;
         this.userId = userId;
     }
