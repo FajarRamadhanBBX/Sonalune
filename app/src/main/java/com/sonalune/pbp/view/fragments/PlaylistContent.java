@@ -22,7 +22,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.sonalune.pbp.R;
 import com.sonalune.pbp.model.Singer;
 import com.sonalune.pbp.model.Song;
-import com.sonalune.pbp.view.adapters.AddToPlaylistDialogFragment;
 import com.sonalune.pbp.view.adapters.SongAdapter;
 
 import java.util.ArrayList;
