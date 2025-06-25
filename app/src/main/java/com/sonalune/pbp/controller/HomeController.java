@@ -38,7 +38,7 @@ public class HomeController {
         String searchQuery = query.toLowerCase();
 
         db.collection("Song")
-                .orderBy("title")
+                .orderBy("title_lowercase")
                 .startAt(searchQuery)
                 .endAt(searchQuery + '\uf8ff')
                 .get()

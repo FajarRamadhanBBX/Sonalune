@@ -25,14 +25,11 @@ import com.sonalune.pbp.model.Singer;
 import com.sonalune.pbp.model.Song;
 import com.sonalune.pbp.view.activities.MainActivity;
 import com.sonalune.pbp.view.adapters.SongAdapter;
-import com.sonalune.pbp.view.fragments.AddToPlaylistDialogFragment;
-import com.sonalune.pbp.view.fragments.CreatePlaylistDialogFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-// DIUBAH: Implementasikan listener dari dialog
 public class SearchResultFragment extends Fragment implements CreatePlaylistDialogFragment.OnPlaylistCreatedListener {
 
     private static final String ARG_QUERY = "search_query";
