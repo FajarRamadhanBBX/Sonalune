@@ -10,7 +10,7 @@ public class User {
     private String fullname;
     private String email;
     private String password;
-    private String photo;
+    private String photoUrl;
     private int totalListenSeconds;
     private int monthlyListenSeconds;
     private String lastListenMonth;
@@ -21,11 +21,10 @@ public class User {
 
     public User(){}
 
-    public User(String fullname, String email, String password) {
+    public User(String fullname, String email) {
         this.fullname = fullname;
         this.email = email;
-        this.photo = "https://bzvdoaouvekmijrdgmbz.supabase.co/storage/v1/object/sign/uasplatform/avatar/avatar-photo-profile.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYTNiMGUwZS0wZTMxLTQyOTEtOWJmYS0zNjk5MmQ0ZGM5ZDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1YXNwbGF0Zm9ybS9hdmF0YXIvYXZhdGFyLXBob3RvLXByb2ZpbGUucG5nIiwiaWF0IjoxNzUwNzQ4ODc0LCJleHAiOjE3ODIyODQ4NzR9.3Ss8E9ZWmGcPeBSnmH3B_tm0kwiv3sFU0Cii2jeA_Q0";
-        this.password = password;
+        this.photoUrl = "https://bzvdoaouvekmijrdgmbz.supabase.co/storage/v1/object/sign/uasplatform/avatar/avatar-photo-profile.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mYTNiMGUwZS0wZTMxLTQyOTEtOWJmYS0zNjk5MmQ0ZGM5ZDMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1YXNwbGF0Zm9ybS9hdmF0YXIvYXZhdGFyLXBob3RvLXByb2ZpbGUucG5nIiwiaWF0IjoxNzUwNzQ4ODc0LCJleHAiOjE3ODIyODQ4NzR9.3Ss8E9ZWmGcPeBSnmH3B_tm0kwiv3sFU0Cii2jeA_Q0";
         this.totalListenSeconds = 0;
         this.monthlyListenSeconds = 0;
     }
@@ -67,13 +66,14 @@ public class User {
         return email;
     }
 
+    @Exclude
     public String getPassword() {
         return password;
     }
 
-    public String getPhoto() { return photo; }
+    public String getPhoto() { return photoUrl; }
 
-    public void setPhoto(String photo) { this.photo = photo; }
+    public void setPhoto(String photo) { this.photoUrl = photo; }
 
     public int getTotalListenSeconds() {
         return totalListenSeconds;

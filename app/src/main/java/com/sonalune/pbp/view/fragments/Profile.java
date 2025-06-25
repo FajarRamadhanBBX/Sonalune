@@ -107,10 +107,9 @@ public class Profile extends Fragment {
         btnSaveProfile.setOnClickListener(v -> saveProfileChanges());
         btnBack.setOnClickListener(v -> setEditMode(false));
 
-        // Listener untuk ikon pensil agar bisa mengedit field tertentu
         icEditName.setOnClickListener(v -> {
             setEditable(editUserName, true);
-            editUserName.requestFocus(); // Langsung fokus ke field
+            editUserName.requestFocus();
         });
 
         btnLogout.setOnClickListener(v -> {

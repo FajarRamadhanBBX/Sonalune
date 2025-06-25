@@ -79,7 +79,7 @@ public class ManagementUser {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "FirebaseAuth: User created successfully.");
                         String uid = auth.getCurrentUser().getUid();
-                        User user = new User(fullname, email, password);
+                        User user = new User(fullname, email);
 
                         db.collection("User").document(uid).set(user)
                                 .addOnSuccessListener(aVoid -> {
@@ -108,9 +108,5 @@ public class ManagementUser {
                         listener.onFailure("Authentication failed. Email atau Password Salah."); // Panggil callback gagal
                     }
                 });
-    }
-
-    public void singOut() {
-        FirebaseAuth.getInstance().signOut();
     }
 }
