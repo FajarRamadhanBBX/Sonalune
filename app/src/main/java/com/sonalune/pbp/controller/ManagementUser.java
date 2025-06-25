@@ -102,10 +102,10 @@ public class ManagementUser {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "FirebaseAuth: signInWithEmail:success");
-                        listener.onSuccess("Success"); // Panggil callback sukses
+                        listener.onSuccess("Success");
                     } else {
                         Log.w(TAG, "FirebaseAuth: signInWithEmail:failure", task.getException());
-                        listener.onFailure("Authentication failed. Email atau Password Salah."); // Panggil callback gagal
+                        listener.onFailure("Authentication failed. Email atau Password Salah.");
                     }
                 });
     }

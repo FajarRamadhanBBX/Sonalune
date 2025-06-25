@@ -12,7 +12,7 @@
 
     <!-- Home -->
     <LinearLayout
-        android:id="@+id/nav_home"
+        android:id="@+id/navHome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -29,7 +29,7 @@
             android:focusable="false">
 
             <View
-                android:id="@+id/nav_home_icon"
+                android:id="@+id/navHomeIcon"
                 android:layout_width="64dp"
                 android:layout_height="32dp"
                 android:background="@null" />
@@ -52,7 +52,7 @@
 
     <!-- Capsuled -->
     <LinearLayout
-        android:id="@+id/nav_capsuled"
+        android:id="@+id/navCapsuled"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -69,7 +69,7 @@
             android:focusable="false">
 
             <View
-                android:id="@+id/nav_capsuled_icon"
+                android:id="@+id/navCapsuledIcon"
                 android:layout_width="64dp"
                 android:layout_height="32dp"
                 android:background="@null" />
@@ -92,7 +92,7 @@
 
     <!-- Profile -->
     <LinearLayout
-        android:id="@+id/nav_profile"
+        android:id="@+id/navProfile"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -109,7 +109,7 @@
             android:focusable="false">
 
             <View
-                android:id="@+id/nav_profile_icon"
+                android:id="@+id/navProfileIcon"
                 android:layout_width="64dp"
                 android:layout_height="32dp"
                 android:background="@null" />

@@ -47,13 +47,8 @@ public class Profile extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         managementUser = new ManagementUser(getContext());
 
-        // Inisialisasi semua view
         initViews(view);
-
-        // Muat data pengguna
         loadUserProfile();
-
-        // Atur semua listener
         setupListeners();
     }
 
@@ -65,17 +60,17 @@ public class Profile extends Fragment {
     private void initViews(View view) {
         btnEditProfile = view.findViewById(R.id.btnEditProfile);
         btnLogout = view.findViewById(R.id.btnLogout);
-        btnBack = view.findViewById(R.id.btn_back);
+        btnBack = view.findViewById(R.id.btnBackProfile);
         btnSaveProfile = view.findViewById(R.id.btnSaveProfile);
         btnEditAndLogout = view.findViewById(R.id.btnEditAndLogout);
-        icEditName = view.findViewById(R.id.ic_edit_name);
-        headerProfile = view.findViewById(R.id.header_profile);
-        icEditPhotoProfile = view.findViewById(R.id.ic_edit_photo_profile);
+        icEditName = view.findViewById(R.id.icEditName);
+        headerProfile = view.findViewById(R.id.headerProfile);
+        icEditPhotoProfile = view.findViewById(R.id.icEditPhotoProfile);
 
         imgProfile = view.findViewById(R.id.imgProfile);
         profileNameHeader = view.findViewById(R.id.profileNameHeader);
-        editUserName = view.findViewById(R.id.user_name);
-        editUserEmail = view.findViewById(R.id.user_email);
+        editUserName = view.findViewById(R.id.usernameProfile);
+        editUserEmail = view.findViewById(R.id.userEmailProfile);
     }
 
     private void loadUserProfile() {
@@ -90,7 +85,6 @@ public class Profile extends Fragment {
                 if (user.getPhoto() != null && !user.getPhoto().isEmpty()) {
                     Glide.with(getContext()).load(user.getPhoto()).into(imgProfile);
                 } else {
-                    // Tampilkan gambar default jika tidak ada foto profil
                     imgProfile.setImageResource(R.drawable.im_antony);
                 }
             }

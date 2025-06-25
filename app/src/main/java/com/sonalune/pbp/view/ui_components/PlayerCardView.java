@@ -77,7 +77,6 @@ public class PlayerCardView extends CardView {
         }
     }
 
-    // ====== Public Methods untuk Mengatur UI dan Listener ======
     public void setAlbumImage(String imageUrl) {
         Glide.with(songImage).load(imageUrl).into(songImage);
     }

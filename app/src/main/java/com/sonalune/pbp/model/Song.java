@@ -31,8 +31,6 @@ public class Song {
         this.updatedAt = new Date();
     }
 
-    // --- Getters and Setters ---
-
     @Exclude
     public String getId() {
         return id;

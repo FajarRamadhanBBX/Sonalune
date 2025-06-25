@@ -263,21 +263,18 @@ public class PlaylistContent extends Fragment implements CreatePlaylistDialogFra
                 .setTitle("Hapus Playlist")
                 .setMessage("Apakah Anda yakin ingin menghapus playlist ini secara permanen?")
                 .setPositiveButton("Hapus", (dialog, which) -> {
-                    // Panggil metode untuk menghapus jika pengguna menekan "Hapus"
                     deleteCurrentPlaylist();
                 })
-                .setNegativeButton("Batal", null) // Tidak melakukan apa-apa jika "Batal"
-                .setIcon(R.drawable.ic_trash) // Opsional: menambahkan ikon
+                .setNegativeButton("Batal", null)
+                .setIcon(R.drawable.ic_trash)
                 .show();
     }
 
-    // DITAMBAHKAN: Metode untuk memanggil controller dan menangani hasilnya
     private void deleteCurrentPlaylist() {
         playlistController.deletePlaylist(playlistId, new PlaylistController.SimpleListener() {
             @Override
             public void onSuccess(String message) {
                 Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-                // Kembali ke layar sebelumnya setelah berhasil menghapus
                 if (isAdded()) {
                     requireActivity().getSupportFragmentManager().popBackStack();
                 }

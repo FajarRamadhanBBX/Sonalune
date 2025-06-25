@@ -23,7 +23,6 @@ public class Singer {
         this.imageUrl = imageUrl;
     }
 
-    // --- Getters and Setters ---
     @Exclude
     public String getId() {
         return id;

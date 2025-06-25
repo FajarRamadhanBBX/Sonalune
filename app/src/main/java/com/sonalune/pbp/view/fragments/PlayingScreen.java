@@ -38,7 +38,6 @@ public class PlayingScreen extends Fragment implements SongController.SongStateL
         super.onAttach(context);
         if (context instanceof MainActivity) {
             mainActivity = (MainActivity) context;
-            // Dapatkan controller dari activity
             songController = mainActivity.getSongController();
         }
     }
@@ -53,7 +52,7 @@ public class PlayingScreen extends Fragment implements SongController.SongStateL
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        btnBack = view.findViewById(R.id.btn_back);
+        btnBack = view.findViewById(R.id.btnBack);
         imageAlbumArt = view.findViewById(R.id.largeImagePlayingScreen);
         imageSmallAlbumArt = view.findViewById(R.id.smallImagePlayingScreen);
         textSongTitle = view.findViewById(R.id.songTitlePlayingScreem);

@@ -7,14 +7,14 @@
     android:background="@color/secondary1">
 
     <ImageView
-        android:id="@+id/btn_back_search"
+        android:id="@+id/btnBackSearch"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/ic_back"
         android:layout_marginBottom="16dp"/>
 
     <TextView
-        android:id="@+id/tv_search_query"
+        android:id="@+id/textResultSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hasil untuk: ..."
@@ -24,7 +24,7 @@
         android:layout_marginBottom="16dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_search_results"
+        android:id="@+id/rvResultSearch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

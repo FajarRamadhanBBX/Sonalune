@@ -73,11 +73,10 @@ public class SearchResultFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        rvSearchResults = view.findViewById(R.id.rv_search_results);
-        tvSearchQuery = view.findViewById(R.id.tv_search_query);
-        btnBack = view.findViewById(R.id.btn_back_search);
+        rvSearchResults = view.findViewById(R.id.rvResultSearch);
+        tvSearchQuery = view.findViewById(R.id.textResultSearch);
+        btnBack = view.findViewById(R.id.btnBackSearch);
         homeController = new HomeController();
-        PlaylistController playlistController = new PlaylistController();
 
         tvSearchQuery.setText("Hasil untuk: \"" + searchQuery + "\"");
         btnBack.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
@@ -87,9 +86,6 @@ public class SearchResultFragment extends Fragment {
     }
 
     private void setupRecyclerView() {
-        // Kita perlu semua data penyanyi untuk ditampilkan di adapter
-        // Untuk sementara kita buat list kosong, akan diisi saat data didapat
-        songAdapter = new SongAdapter(songResults, new ArrayList<>(), false);
         rvSearchResults.setLayoutManager(new LinearLayoutManager(getContext()));
         rvSearchResults.setAdapter(songAdapter);
 
@@ -109,7 +105,6 @@ public class SearchResultFragment extends Fragment {
                 if (!isAdded()) return;
                 songResults.clear();
                 songResults.addAll(songs);
-                // Buat adapter baru dengan data penyanyi yang relevan
                 songAdapter = new SongAdapter(songResults, singers, false);
                 rvSearchResults.setAdapter(songAdapter);
                 songAdapter.notifyDataSetChanged();

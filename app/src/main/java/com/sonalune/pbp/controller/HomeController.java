@@ -1,20 +1,15 @@
 package com.sonalune.pbp.controller;
 
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.sonalune.pbp.model.Playlist;
 import com.sonalune.pbp.model.Singer;
 import com.sonalune.pbp.model.Song;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class HomeController {
@@ -42,9 +37,8 @@ public class HomeController {
     public void searchSongs(String query, SearchResultListener listener) {
         String searchQuery = query.toLowerCase();
 
-        // Langkah 1: Cari lagu yang judulnya cocok (prefix search)
         db.collection("Song")
-                .orderBy("title") // Pastikan Anda punya field ini dan sudah membuat index
+                .orderBy("title")
                 .startAt(searchQuery)
                 .endAt(searchQuery + '\uf8ff')
                 .get()
@@ -68,7 +62,6 @@ public class HomeController {
                         return;
                     }
 
-                    // Langkah 2: Ambil detail penyanyi dari lagu-lagu yang ditemukan
                     db.collection("Singer").whereIn(FieldPath.documentId(), new ArrayList<>(singerIds))
                             .get()
                             .addOnSuccessListener(singerQuerySnapshot -> {

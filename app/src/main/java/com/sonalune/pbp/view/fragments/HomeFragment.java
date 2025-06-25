@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment {
         setupPlaylistRecyclerView(view);
         setupPickForYouRecyclerView(view);
         loadUserProfilePhoto(view);
-        etSearch = view.findViewById(R.id.etSearch); // Inisialisasi EditText
+        etSearch = view.findViewById(R.id.etSearch);
         setupSearch();
 
         return view;
@@ -69,7 +69,6 @@ public class HomeFragment extends Fragment {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 String query = etSearch.getText().toString().trim();
                 if (!query.isEmpty()) {
-                    // Pindah ke SearchResultFragment
                     SearchResultFragment fragment = SearchResultFragment.newInstance(query);
                     getParentFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, fragment)
@@ -123,7 +122,7 @@ public class HomeFragment extends Fragment {
             }
             @Override
             public void onError(String message) {
-                // Optional: tampilkan pesan error
+
             }
         });
 
@@ -158,7 +157,7 @@ public class HomeFragment extends Fragment {
             }
             @Override
             public void onError(String message) {
-                // Optional: tampilkan pesan error
+
             }
         });
 

@@ -42,7 +42,7 @@ public class CapsuleFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         historyController = new HistoryController();
-        rvCapsuleMain = view.findViewById(R.id.rv_capsule_main);
+        rvCapsuleMain = view.findViewById(R.id.rvCapsuleMain);
 
         setupRecyclerView();
         loadCapsuleData();
@@ -58,7 +58,7 @@ public class CapsuleFragment extends Fragment {
         historyController.getCapsuleData(new HistoryController.CapsuleDataListener() {
             @Override
             public void onDataLoaded(User user, List<Song> topSongsAllTime, List<Singer> topArtistsAllTime, List<Song> topSongsMonthly, List<Singer> topArtistsMonthly) {
-                if (!isAdded()) return; // Pastikan fragment masih aktif
+                if (!isAdded()) return;
 
                 adapter.setData(user, topSongsAllTime, topArtistsAllTime, topSongsMonthly, topArtistsMonthly);
             }

@@ -17,7 +17,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.sonalune.pbp.R;
 import com.sonalune.pbp.model.Playlist;
-import com.sonalune.pbp.view.adapters.PlaylistSelectionAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
