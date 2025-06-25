@@ -1,66 +1,134 @@
 package com.sonalune.pbp.view.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.sonalune.pbp.R;
+import com.sonalune.pbp.controller.HomeController;
+import com.sonalune.pbp.controller.PlaylistController;
+import com.sonalune.pbp.model.Singer;
+import com.sonalune.pbp.model.Song;
+import com.sonalune.pbp.view.activities.MainActivity;
+import com.sonalune.pbp.view.adapters.SongAdapter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SearchResultFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SearchResultFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_QUERY = "search_query";
+    private String searchQuery;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private RecyclerView rvSearchResults;
+    private TextView tvSearchQuery;
+    private ImageView btnBack;
+    private SongAdapter songAdapter;
+    private List<Song> songResults = new ArrayList<>();
+    private HomeController homeController;
+    private PlaylistController playlistController;
+    private MainActivity mainActivity;
 
-    public SearchResultFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchResultFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SearchResultFragment newInstance(String param1, String param2) {
+    public static SearchResultFragment newInstance(String query) {
         SearchResultFragment fragment = new SearchResultFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_QUERY, query);
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof MainActivity) {
+            mainActivity = (MainActivity) context;
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            searchQuery = getArguments().getString(ARG_QUERY);
+        }
+        homeController = new HomeController();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_search_result, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        rvSearchResults = view.findViewById(R.id.rv_search_results);
+        tvSearchQuery = view.findViewById(R.id.tv_search_query);
+        btnBack = view.findViewById(R.id.btn_back_search);
+        homeController = new HomeController();
+        PlaylistController playlistController = new PlaylistController();
+
+        tvSearchQuery.setText("Hasil untuk: \"" + searchQuery + "\"");
+        btnBack.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
+
+        setupRecyclerView();
+        executeSearch();
+    }
+
+    private void setupRecyclerView() {
+        // Kita perlu semua data penyanyi untuk ditampilkan di adapter
+        // Untuk sementara kita buat list kosong, akan diisi saat data didapat
+        songAdapter = new SongAdapter(songResults, new ArrayList<>(), false);
+        rvSearchResults.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvSearchResults.setAdapter(songAdapter);
+
+        songAdapter.setOnItemClickListener(position -> {
+            if(mainActivity != null) {
+                mainActivity.getSongController().setPlaylist(new ArrayList<>(Collections.singletonList(songResults.get(position))), 0);
+            }
+        });
+    }
+
+    private void executeSearch() {
+        if (searchQuery == null || searchQuery.trim().isEmpty()) return;
+
+        homeController.searchSongs(searchQuery.toLowerCase(), new HomeController.SearchResultListener() {
+            @Override
+            public void onSearchResult(List<Song> songs, List<Singer> singers) {
+                if (!isAdded()) return;
+                songResults.clear();
+                songResults.addAll(songs);
+                // Buat adapter baru dengan data penyanyi yang relevan
+                songAdapter = new SongAdapter(songResults, singers, false);
+                rvSearchResults.setAdapter(songAdapter);
+                songAdapter.notifyDataSetChanged();
+                if (songs.isEmpty()){
+                    Toast.makeText(getContext(), "Tidak ada hasil ditemukan", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+                if (!isAdded()) return;
+                Toast.makeText(getContext(), "Error: " + message, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mainActivity = null;
     }
 }

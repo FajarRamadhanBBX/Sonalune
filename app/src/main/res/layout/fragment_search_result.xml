@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragments.SearchResultFragment">
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/secondary1">
 
-    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:id="@+id/btn_back_search"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_back"
+        android:layout_marginBottom="16dp"/>
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/tv_search_query"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hasil untuk: ..."
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary1"
+        android:layout_marginBottom="16dp"/>
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_search_results"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
