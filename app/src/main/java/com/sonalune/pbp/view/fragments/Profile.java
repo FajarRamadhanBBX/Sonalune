@@ -85,7 +85,7 @@ public class Profile extends Fragment {
                 if (user.getPhoto() != null && !user.getPhoto().isEmpty()) {
                     Glide.with(getContext()).load(user.getPhoto()).into(imgProfile);
                 } else {
-                    imgProfile.setImageResource(R.drawable.im_antony);
+                    imgProfile.setImageResource(R.drawable.im_avatar_photo_profile);
                 }
             }
 

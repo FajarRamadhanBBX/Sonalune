@@ -90,15 +90,15 @@ public class HomeFragment extends Fragment {
                     if (isAdded() && photoUrl != null && !photoUrl.isEmpty()) {
                         Glide.with(getContext())
                                 .load(photoUrl)
-                                .placeholder(R.drawable.im_antony)
-                                .error(R.drawable.im_antony)
+                                .placeholder(R.drawable.im_avatar_photo_profile)
+                                .error(R.drawable.im_avatar_photo_profile)
                                 .into(profileImageView);
                     }
                 }
                 @Override
                 public void onError() {
                     if (isAdded()) {
-                        profileImageView.setImageResource(R.drawable.im_antony);
+                        profileImageView.setImageResource(R.drawable.im_avatar_photo_profile);
                     }
                 }
             });
