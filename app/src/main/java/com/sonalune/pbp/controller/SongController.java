@@ -7,19 +7,26 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.sonalune.pbp.model.Song;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SongController {
     private MediaPlayer mediaPlayer;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Context context;
     private static final String TAG = "SongController";
     private List<Song> playlistSong;
     private int currentSongIndex = -1;
-    private SongStateListener stateListener;
+    private List<SongStateListener> listeners = new ArrayList<>();
     private Handler progressHandler = new Handler(Looper.getMainLooper());
     private Runnable progressUpdater;
+    private SongStateListener stateListener;
+    private HistoryController historyController;
 
     public interface SongStateListener {
         void onSongChanged(Song newSong);
@@ -29,8 +36,8 @@ public class SongController {
     }
 
     public SongController(Context context) {
-
         this.context = context;
+        this.historyController = new HistoryController();
         initializeProgressUpdater();
     }
 
@@ -68,6 +75,10 @@ public class SongController {
         progressHandler.removeCallbacks(progressUpdater);
 
         Song songToPlay = playlistSong.get(currentSongIndex);
+        if (songToPlay != null && songToPlay.getId() != null){
+            incrementListenCount(songToPlay);
+            incrementSingerListenerCount(songToPlay);
+        }
         String songUrl = songToPlay.getSongUrl();
 
         try {
@@ -84,6 +95,9 @@ public class SongController {
                 progressHandler.post(progressUpdater);
             });
             mediaPlayer.setOnCompletionListener(mp -> {
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                    historyController.recordListenEvent(songToPlay, songToPlay.getDuration());
+                }
                 progressHandler.removeCallbacks(progressUpdater);
                 playNextSong();
             });
@@ -160,6 +174,28 @@ public class SongController {
                 stateListener.onProgressUpdate(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration());
             }
         }
+    }
+
+    public void incrementListenCount(Song song) {
+        if (song.getId() == null || song.getId().isEmpty()) {
+            Log.w(TAG, "Cannot increment song listen count: song ID is null or empty.");
+            return;
+        }
+        db.collection("Song").document(song.getId())
+                .update("listenCount", FieldValue.increment(1))
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "Listen count incremented successfully for song: " + song.getId()))
+                .addOnFailureListener(e -> Log.w(TAG, "Error incrementing listen count for song: " + song.getId()));
+    }
+
+    public void incrementSingerListenerCount(Song song) {
+        if (song.getSingerId() == null || song.getSingerId().isEmpty()) {
+            Log.w(TAG, "Cannot increment singer listener count: singer ID is null or empty.");
+            return;
+        }
+        db.collection("Singer").document(song.getSingerId())
+                .update("monthlyListener", FieldValue.increment(1))
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "Monthly listener count incremented successfully for singer: " + song.getSingerId()))
+                .addOnFailureListener(e -> Log.w(TAG, "Error incrementing listener count for singer: " + song.getSingerId()));
     }
 
     public void stopSong() {
