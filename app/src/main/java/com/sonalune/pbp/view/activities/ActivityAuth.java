@@ -4,40 +4,17 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.sonalune.pbp.R;
 import com.sonalune.pbp.controller.ManagementUser;
 
-//public class ActivityAuth extends AppCompatActivity {
-//    
-//    LinearLayout layoutSignUp
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        EdgeToEdge.enable(this);
-//        setContentView(R.layout.activity_auth);
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.auth), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
-//    }
-//}
 
 public class ActivityAuth extends AppCompatActivity implements ManagementUser.AuthListener {
     private ManagementUser managementUser;
@@ -123,9 +100,7 @@ public class ActivityAuth extends AppCompatActivity implements ManagementUser.Au
 
     @Override
     public void onSuccess(String message) {
-        // Jika sign up atau sign in berhasil
         Toast.makeText(this, "Proses berhasil!", Toast.LENGTH_SHORT).show();
-        // Pindah ke halaman utama
         Intent home = new Intent(ActivityAuth.this, MainActivity.class);
         home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(home);
@@ -134,7 +109,6 @@ public class ActivityAuth extends AppCompatActivity implements ManagementUser.Au
 
     @Override
     public void onFailure(String message) {
-        // Jika gagal, tampilkan pesan error dari controller
         Toast.makeText(this, "Error: " + message, Toast.LENGTH_LONG).show();
     }
 }

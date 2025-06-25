@@ -22,7 +22,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.sonalune.pbp.R;
 import com.sonalune.pbp.model.Singer;
 import com.sonalune.pbp.model.Song;
-import com.sonalune.pbp.view.adapters.AddToPlaylistDialogFragment;
 import com.sonalune.pbp.view.adapters.SongAdapter;
 
 import java.util.ArrayList;
@@ -153,11 +152,9 @@ public class PlaylistContent extends Fragment implements CreatePlaylistDialogFra
                 return true;
             } else if (itemId == R.id.action_add_to_playlist) {
                 showAddToPlaylistDialog();
-                Toast.makeText(getContext(), "Fitur 'Tambah ke playlist' belum diimplementasikan.", Toast.LENGTH_SHORT).show();
                 return true;
             } else if (itemId == R.id.action_create_playlist) {
                 showCreatePlaylistDialog();
-                Toast.makeText(getContext(), "Fitur 'Buat playlist' belum diimplementasikan.", Toast.LENGTH_SHORT).show();
                 return true;
             }
             return false;
@@ -265,21 +262,18 @@ public class PlaylistContent extends Fragment implements CreatePlaylistDialogFra
                 .setTitle("Hapus Playlist")
                 .setMessage("Apakah Anda yakin ingin menghapus playlist ini secara permanen?")
                 .setPositiveButton("Hapus", (dialog, which) -> {
-                    // Panggil metode untuk menghapus jika pengguna menekan "Hapus"
                     deleteCurrentPlaylist();
                 })
-                .setNegativeButton("Batal", null) // Tidak melakukan apa-apa jika "Batal"
-                .setIcon(R.drawable.ic_trash) // Opsional: menambahkan ikon
+                .setNegativeButton("Batal", null)
+                .setIcon(R.drawable.ic_trash)
                 .show();
     }
 
-    // DITAMBAHKAN: Metode untuk memanggil controller dan menangani hasilnya
     private void deleteCurrentPlaylist() {
         playlistController.deletePlaylist(playlistId, new PlaylistController.SimpleListener() {
             @Override
             public void onSuccess(String message) {
                 Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-                // Kembali ke layar sebelumnya setelah berhasil menghapus
                 if (isAdded()) {
                     requireActivity().getSupportFragmentManager().popBackStack();
                 }

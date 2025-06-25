@@ -1,4 +1,4 @@
-package com.sonalune.pbp.view.adapters;
+package com.sonalune.pbp.view.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,7 +17,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.sonalune.pbp.R;
 import com.sonalune.pbp.model.Playlist;
-import com.sonalune.pbp.view.adapters.dialog.PlaylistSelectionAdapter;
+import com.sonalune.pbp.view.adapters.PlaylistSelectionAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,7 +88,7 @@ public class AddToPlaylistDialogFragment extends DialogFragment {
                 .whereEqualTo("userId", currentUserId)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if (!isAdded()) return; // Pastikan fragment masih ter-attach
+                    if (!isAdded()) return;
                     userPlaylists.clear();
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         if (!doc.getId().equals(excludePlaylistId)) {

@@ -1,6 +1,7 @@
 package com.sonalune.pbp.controller;
 
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sonalune.pbp.model.Playlist;
 import com.sonalune.pbp.model.Singer;
@@ -27,6 +28,56 @@ public class HomeController {
     public interface UserPhotoListener {
         void onPhotoLoaded(String photoUrl);
         void onError();
+    }
+    public interface SearchResultListener {
+        void onSearchResult(List<Song> songs, List<Singer> singers);
+        void onError(String message);
+    }
+
+    public void searchSongs(String query, SearchResultListener listener) {
+        String searchQuery = query.toLowerCase();
+
+        db.collection("Song")
+                .orderBy("title_lowercase")
+                .startAt(searchQuery)
+                .endAt(searchQuery + '\uf8ff')
+                .get()
+                .addOnSuccessListener(songQuerySnapshot -> {
+                    List<Song> foundSongs = new ArrayList<>();
+                    Set<String> singerIds = new HashSet<>();
+
+                    for (DocumentSnapshot doc : songQuerySnapshot) {
+                        Song song = doc.toObject(Song.class);
+                        if (song != null) {
+                            song.setId(doc.getId());
+                            foundSongs.add(song);
+                            if (song.getSingerId() != null) {
+                                singerIds.add(song.getSingerId());
+                            }
+                        }
+                    }
+
+                    if (foundSongs.isEmpty()) {
+                        listener.onSearchResult(new ArrayList<>(), new ArrayList<>());
+                        return;
+                    }
+
+                    db.collection("Singer").whereIn(FieldPath.documentId(), new ArrayList<>(singerIds))
+                            .get()
+                            .addOnSuccessListener(singerQuerySnapshot -> {
+                                List<Singer> foundSingers = new ArrayList<>();
+                                for (DocumentSnapshot doc : singerQuerySnapshot) {
+                                    Singer singer = doc.toObject(Singer.class);
+                                    if (singer != null) {
+                                        singer.setId(doc.getId());
+                                        foundSingers.add(singer);
+                                    }
+                                }
+                                listener.onSearchResult(foundSongs, foundSingers);
+                            })
+                            .addOnFailureListener(e -> listener.onError(e.getMessage()));
+                })
+                .addOnFailureListener(e -> listener.onError(e.getMessage()));
     }
 
     public void loadPlaylists(String currentUserId, PlaylistListener listener) {

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -33,6 +35,7 @@ public class HomeFragment extends Fragment {
     private String currentUserId;
     private MainActivity mainActivity;
     private HomeController homeController;
+    private EditText etSearch;
 
     public HomeFragment() {}
 
@@ -55,8 +58,27 @@ public class HomeFragment extends Fragment {
         setupPlaylistRecyclerView(view);
         setupPickForYouRecyclerView(view);
         loadUserProfilePhoto(view);
+        etSearch = view.findViewById(R.id.etSearch);
+        setupSearch();
 
         return view;
+    }
+
+    private void setupSearch() {
+        etSearch.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                String query = etSearch.getText().toString().trim();
+                if (!query.isEmpty()) {
+                    SearchResultFragment fragment = SearchResultFragment.newInstance(query);
+                    getParentFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, fragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
+                return true;
+            }
+            return false;
+        });
     }
 
     private void loadUserProfilePhoto(View view) {
@@ -68,15 +90,15 @@ public class HomeFragment extends Fragment {
                     if (isAdded() && photoUrl != null && !photoUrl.isEmpty()) {
                         Glide.with(getContext())
                                 .load(photoUrl)
-                                .placeholder(R.drawable.im_antony)
-                                .error(R.drawable.im_antony)
+                                .placeholder(R.drawable.im_avatar_photo_profile)
+                                .error(R.drawable.im_avatar_photo_profile)
                                 .into(profileImageView);
                     }
                 }
                 @Override
                 public void onError() {
                     if (isAdded()) {
-                        profileImageView.setImageResource(R.drawable.im_antony);
+                        profileImageView.setImageResource(R.drawable.im_avatar_photo_profile);
                     }
                 }
             });
@@ -100,7 +122,7 @@ public class HomeFragment extends Fragment {
             }
             @Override
             public void onError(String message) {
-                // Optional: tampilkan pesan error
+
             }
         });
 
@@ -135,7 +157,7 @@ public class HomeFragment extends Fragment {
             }
             @Override
             public void onError(String message) {
-                // Optional: tampilkan pesan error
+
             }
         });
 

@@ -12,11 +12,10 @@ import com.sonalune.pbp.R;
 import com.sonalune.pbp.model.Singer;
 import com.sonalune.pbp.model.Song;
 import java.util.List;
-import java.util.Locale;
 
 public class TopSongAdapter extends RecyclerView.Adapter<TopSongAdapter.ViewHolder> {
     private List<Song> songs;
-    private List<Singer> allArtists; // Daftar semua artis untuk pencarian nama
+    private List<Singer> allArtists;
 
     public TopSongAdapter(List<Song> songs, List<Singer> allArtists) {
         this.songs = songs;

@@ -1,5 +1,6 @@
 package com.sonalune.pbp.model;
 
+import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
@@ -16,14 +17,13 @@ public class Singer {
 
     public Singer() {}
 
-    public Singer(String id, String name, int monthlyListener, String imageUrl) {
-        this.id = id;
+    public Singer(String name, int monthlyListener, String imageUrl) {
         this.name = name;
         this.monthlyListener = monthlyListener;
         this.imageUrl = imageUrl;
     }
 
-    // --- Getters and Setters ---
+    @Exclude
     public String getId() {
         return id;
     }

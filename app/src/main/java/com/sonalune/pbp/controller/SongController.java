@@ -198,14 +198,6 @@ public class SongController {
                 .addOnFailureListener(e -> Log.w(TAG, "Error incrementing listener count for singer: " + song.getSingerId()));
     }
 
-    public void stopSong() {
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-            Toast.makeText(context, "Stopped", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     public void release() {
         if (mediaPlayer != null) {
             progressHandler.removeCallbacks(progressUpdater);

@@ -135,8 +135,7 @@ public class MainActivity extends AppCompatActivity implements
             playerCardView.setVisibility(View.GONE);
         } else {
             navBar.setVisibility(View.VISIBLE);
-            // Player card hanya ditampilkan jika ada lagu yang sedang disiapkan
-            if (songController.isPlaylistSet()) { // Anda perlu menambahkan metode isPlaylistSet() di SongController
+            if (songController.isPlaylistSet()) {
                 playerCardView.setVisibility(View.VISIBLE);
             }
         }

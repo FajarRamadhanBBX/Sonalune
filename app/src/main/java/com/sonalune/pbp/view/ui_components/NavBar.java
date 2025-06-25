@@ -1,12 +1,6 @@
 package com.sonalune.pbp.view.ui_components;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -21,9 +15,9 @@ public class NavBar extends LinearLayout {
     }
 
     private void initViews() {
-        LinearLayout home = findViewById(R.id.nav_home);
-        LinearLayout caps = findViewById(R.id.nav_capsuled);
-        LinearLayout profile = findViewById(R.id.nav_profile);
+        LinearLayout home = findViewById(R.id.navHome);
+        LinearLayout caps = findViewById(R.id.navCapsuled);
+        LinearLayout profile = findViewById(R.id.navProfile);
 
         home.setOnClickListener(v -> selectTab("home"));
         caps.setOnClickListener(v -> selectTab("capsuled"));
@@ -37,16 +31,16 @@ public class NavBar extends LinearLayout {
         View bg_selected;
         switch (tab) {
             case "home":
-                selected = findViewById(R.id.nav_home);
-                bg_selected = findViewById(R.id.nav_home_icon);
+                selected = findViewById(R.id.navHome);
+                bg_selected = findViewById(R.id.navHomeIcon);
                 break;
             case "capsuled":
-                selected = findViewById(R.id.nav_capsuled);
-                bg_selected = findViewById(R.id.nav_capsuled_icon);
+                selected = findViewById(R.id.navCapsuled);
+                bg_selected = findViewById(R.id.navCapsuledIcon);
                 break;
             case "profile":
-                selected = findViewById(R.id.nav_profile);
-                bg_selected = findViewById(R.id.nav_profile_icon);
+                selected = findViewById(R.id.navProfile);
+                bg_selected = findViewById(R.id.navProfileIcon);
                 break;
             default:
                 return;
@@ -58,9 +52,9 @@ public class NavBar extends LinearLayout {
     }
 
     private void clearSelection() {
-        findViewById(R.id.nav_home_icon).setBackground(null);
-        findViewById(R.id.nav_capsuled_icon).setBackground(null);
-        findViewById(R.id.nav_profile_icon).setBackground(null);
+        findViewById(R.id.navHomeIcon).setBackground(null);
+        findViewById(R.id.navCapsuledIcon).setBackground(null);
+        findViewById(R.id.navProfileIcon).setBackground(null);
     }
 
     private NavBarListener listener;

@@ -50,8 +50,8 @@ public class TopSingerAdapter extends RecyclerView.Adapter<TopSingerAdapter.View
             artistName.setText(artist.getName());
             Glide.with(itemView.getContext())
                     .load(artist.getImageUrl())
-                    .placeholder(R.drawable.im_antony) // Gambar default
-                    .error(R.drawable.im_antony)
+                    .placeholder(R.drawable.im_avatar_photo_profile) // Gambar default
+                    .error(R.drawable.im_avatar_photo_profile)
                     .into(artistImage);
         }
     }

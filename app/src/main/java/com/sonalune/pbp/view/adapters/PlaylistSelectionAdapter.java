@@ -1,4 +1,4 @@
-package com.sonalune.pbp.view.adapters.dialog;
+package com.sonalune.pbp.view.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;

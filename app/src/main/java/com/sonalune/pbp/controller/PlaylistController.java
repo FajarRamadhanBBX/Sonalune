@@ -34,7 +34,6 @@ public class PlaylistController {
                             Set<String> singerIds = new HashSet<>();
                             List<String> songIdsCopy = new ArrayList<>(songIds);
 
-                            // Tambahkan counter untuk batch
                             int totalBatch = (int) Math.ceil(songIdsCopy.size() / (double) batchSize);
                             final int[] finishedBatch = {0};
 

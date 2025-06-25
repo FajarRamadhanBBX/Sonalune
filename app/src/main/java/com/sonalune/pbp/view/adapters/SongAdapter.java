@@ -22,10 +22,6 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
 
     private OnMoreOptionsClickListener moreOptionsListener;
     private boolean isPublicPlaylist;
-
-    public SongAdapter(List<Song> songs) {
-        this.songs = songs;
-    }
     public interface OnItemClickListener {
         void onItemClick(int position);
 
@@ -34,7 +30,6 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     public interface OnMoreOptionsClickListener {
         void onMoreOptionsClick(View view, Song song);
     }
-
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
@@ -49,14 +44,14 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     }
 
     public class SongViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitle, tvArtist;
+        TextView titleSong, singerName;
         ImageView imageSong, imageMore;
 
         public SongViewHolder(View itemView) {
             super(itemView);
-            tvTitle = itemView.findViewById(R.id.txt_title);
-            tvArtist = itemView.findViewById(R.id.txt_artist);
-            imageSong = itemView.findViewById(R.id.img_song);
+            titleSong = itemView.findViewById(R.id.titleSong);
+            singerName = itemView.findViewById(R.id.singerName);
+            imageSong = itemView.findViewById(R.id.imgSong);
             imageMore = itemView.findViewById(R.id.imageMore);
 
             itemView.setOnClickListener(v -> {
@@ -74,8 +69,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
         }
 
         public void bind(Song song, Singer singer) {
-            tvTitle.setText(song.getTitle());
-            tvArtist.setText(singer != null ? singer.getName() : "-");
+            titleSong.setText(song.getTitle());
+            singerName.setText(singer != null ? singer.getName() : "-");
             Glide.with(itemView.getContext()).load(song.getImageUrl()).into(imageSong);
         }
     }
